@@ -9,37 +9,42 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class AuthTextField: UITextField {
+final class AuthTextField: UITextField {
 
+    private let maskButton = UIButton()
     private let disposeBag = DisposeBag()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         controlTextField()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-       controlTextField()
+
+        controlTextField()
     }
     
-    func controlTextField() {
+    private func controlTextField() {
         endEditingTextField()
         font = UIFont(name: Font.nsM.rawValue, size: 16)
         rx.controlEvent(.allEditingEvents).subscribe(onNext: {[unowned self] _ in editingTextField() }).disposed(by: disposeBag)
         rx.controlEvent(.editingDidEnd).subscribe(onNext: {[unowned self] _ in endEditingTextField() }).disposed(by: disposeBag)
-        layer.cornerRadius = 8
+        
+        rightView = maskButton
+        rightViewMode = .always
+        translatesAutoresizingMaskIntoConstraints = false
+        rightView?.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    func editingTextField() {
+    private func editingTextField() {
         layer.borderColor = MainColor.secondaryGreen.cgColor
         layer.borderWidth = 1
         backgroundColor = .white
     }
     
-    func endEditingTextField() {
+    private func endEditingTextField() {
         backgroundColor = MainColor.gray01
         layer.borderColor = MainColor.gray02.cgColor
         layer.borderWidth = 1
