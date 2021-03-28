@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-    func checkTImer(_ timer: Int) -> String {
+    func checkTimer(_ timer: Int) -> String {
         let seconds: Int = timer % 60
         let minutes: Int = (timer / 60) % 60
         return String(format: "%0d:%02d", minutes, seconds)
