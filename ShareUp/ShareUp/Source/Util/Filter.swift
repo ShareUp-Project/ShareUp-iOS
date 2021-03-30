@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct ShareUpFilter {
+    static func checkPassword(_ pw: String) -> Bool {
+        return pw.range(of: "/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/", options: .regularExpression) != nil
+    }
+}
