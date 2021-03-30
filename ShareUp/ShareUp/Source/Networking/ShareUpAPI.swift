@@ -18,7 +18,7 @@ enum ShareUpAPI {
 
 extension ShareUpAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "")!
+        return URL(string: "http://13.209.98.119/api")!
     }
     
     var path: String {
