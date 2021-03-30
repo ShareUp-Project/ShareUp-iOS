@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
+        autoAuthButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle() }).disposed(by: disposeBag)
     }
     
     private func updateCurrentStatus() {
