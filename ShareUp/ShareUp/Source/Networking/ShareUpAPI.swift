@@ -14,6 +14,7 @@ enum ShareUpAPI {
     case nicknameCheck(_ nickname: String)
     case passwordReset(_ phoneNum: String, _ password: String)
     case signIn(_ phoneNum: String, _ password: String)
+    case checkCode(_ code: String)
 }
 
 extension ShareUpAPI: TargetType {
@@ -33,12 +34,14 @@ extension ShareUpAPI: TargetType {
             return "/user/password"
         case .signIn:
             return "/auth"
+        case .checkCode(let code):
+            return "/phone/check?phone=\(code)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .nicknameCheck, .signIn, .signUp, .phoneCertify:
+        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode:
             return .post
         case .passwordReset:
             return .put
@@ -61,6 +64,8 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["nickname": nickename], encoding: JSONEncoding.prettyPrinted)
         case .passwordReset(let phoneNum, let password):
             return .requestParameters(parameters: ["password": password, "phone": phoneNum], encoding: JSONEncoding.prettyPrinted)
+        default:
+            return .requestPlain
         }
     }
     

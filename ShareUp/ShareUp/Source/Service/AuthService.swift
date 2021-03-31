@@ -19,8 +19,9 @@ class AuthService {
             .asObservable()
             .map(Tokens.self)
             .map { token -> (StatusRules) in
+                print(token)
 //                if StoregaeManager.shared.create(token) { return (.ok) }
-                return (.fail)
+                return (.ok)
             }.catchError { [unowned self] in return .just(setNetworkError($0)) }
     }
     
@@ -53,6 +54,14 @@ class AuthService {
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map { _ -> StatusRules in return (.ok)}
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func checkCode(_ code: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.checkCode(code))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok) }
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
