@@ -18,4 +18,20 @@ extension UIViewController {
         let vc = storyboard?.instantiateViewController(withIdentifier: identifier)
         navigationController?.pushViewController(vc!, animated: true)
     }
+    
+    func navigationBarColor(_ color: UIColor) {
+        let backButton: UIBarButtonItem = UIBarButtonItem()
+        backButton.title = "뒤로"
+        backButton.tintColor = MainColor.primaryGreen
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.backgroundColor = color
+        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
+//        navigationController?.navigationBar.topItem?.title = title
+    }
+    
+    func navigationBarHidden() {
+        navigationController?.isNavigationBarHidden = true
+    }
 }
