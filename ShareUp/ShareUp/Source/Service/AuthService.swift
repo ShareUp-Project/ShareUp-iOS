@@ -57,8 +57,8 @@ class AuthService {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func checkCode(_ code: String) -> Observable<(StatusRules)> {
-        return provider.rx.request(.checkCode(code))
+    func checkCode(phone: String, _ code: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.checkCode(phone, code))
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map { _ -> StatusRules in return (.ok) }
@@ -66,6 +66,8 @@ class AuthService {
     }
     
     func setNetworkError(_ error: Error) -> StatusRules {
+        print(error)
+        print(error.localizedDescription)
         guard let status = (error as? MoyaError)?.response?.statusCode else { return (.fail) }
         return (StatusRules(rawValue: status) ?? .fail)
     }

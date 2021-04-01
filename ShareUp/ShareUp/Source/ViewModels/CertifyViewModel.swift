@@ -45,7 +45,7 @@ class CertifyViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
 
-        input.certifyButton.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] phone, code in
+        input.certifyButton.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] code, phone in
             guard let self = self else { return }
             api.checkCode(phone: phone, code).subscribe(onNext: { response in
                 print(response)

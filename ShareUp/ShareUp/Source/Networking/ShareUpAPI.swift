@@ -14,7 +14,7 @@ enum ShareUpAPI {
     case nicknameCheck(_ nickname: String)
     case passwordReset(_ phoneNum: String, _ password: String)
     case signIn(_ phoneNum: String, _ password: String)
-    case checkCode(_ code: String)
+    case checkCode(_ phone: String, _ code: String)
 }
 
 extension ShareUpAPI: TargetType {
@@ -34,8 +34,8 @@ extension ShareUpAPI: TargetType {
             return "/user/password"
         case .signIn:
             return "/auth"
-        case .checkCode(let code):
-            return "/phone/check?phone=\(code)"
+        case .checkCode:
+            return "/phone/check"
         }
     }
     
@@ -64,8 +64,8 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["nickname": nickename], encoding: JSONEncoding.prettyPrinted)
         case .passwordReset(let phoneNum, let password):
             return .requestParameters(parameters: ["password": password, "phone": phoneNum], encoding: JSONEncoding.prettyPrinted)
-        default:
-            return .requestPlain
+        case .checkCode(let phone , let code):
+            return .requestParameters(parameters: ["phone": phone, "code" : code], encoding: JSONEncoding.prettyPrinted)
         }
     }
     
