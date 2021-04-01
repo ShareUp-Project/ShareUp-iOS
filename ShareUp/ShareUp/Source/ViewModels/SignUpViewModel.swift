@@ -22,6 +22,7 @@ class SignUpViewModel: ViewModelType {
     struct Output {
         let duplicateCheck: Signal<String>
         let result: Signal<String>
+        let errorIsHidden: Driver<Bool>
     }
 
     func transform(_ input: Input) -> Output {
@@ -29,7 +30,8 @@ class SignUpViewModel: ViewModelType {
         let result = PublishSubject<String>()
         let duplicate = PublishSubject<String>()
         let info = Driver.combineLatest(input.phone, input.nickname, input.password)
-
+        let errorIsHidden = info.map { ShareUpFilter.checkPassword($0.2) }
+        
         input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: { [weak self] phone, nickname, password in
             guard let self = self else { return }
             api.nicknameCheck(nickname).subscribe(onNext: { response in
@@ -57,6 +59,6 @@ class SignUpViewModel: ViewModelType {
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(duplicateCheck: duplicate.asSignal(onErrorJustReturn: ""), result: result.asSignal(onErrorJustReturn: ""))
+        return Output(duplicateCheck: duplicate.asSignal(onErrorJustReturn: ""), result: result.asSignal(onErrorJustReturn: ""), errorIsHidden: errorIsHidden.asDriver())
     }
 }

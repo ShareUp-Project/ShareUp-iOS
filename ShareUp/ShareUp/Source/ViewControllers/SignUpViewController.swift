@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SPAlert
 
 class SignUpViewController: UIViewController {
 
@@ -24,6 +25,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         print(phoneNumber)
         managerTrait()
@@ -43,18 +45,20 @@ class SignUpViewController: UIViewController {
             duplicateLabel.isHidden = false
             duplicateLabel.text = error
         },onCompleted: { [unowned self] in
+            duplicateLabel.text = "가능"
+            duplicateLabel.textColor = MainColor.primaryGreen
             output.result.emit(onNext: { [unowned self] error in
                 errorLabel.isHidden = false
                 errorLabel.text = error
             }, onCompleted: {
-                let alert = UIAlertController(title: "알람", message: "회원가입이 완료되었습니다", preferredStyle: .alert)
-                let action = UIAlertAction(title: "확인", style: .default, handler: nil)
-                alert.addAction(action)
-                present(alert, animated: true, completion: {
-                    pushViewController("main")
-                })
+                let alertView = SPAlertView(title: "회원가입이 완료되었습니다.", preset: .done)
+                alertView.present(duration: 1.5, haptic: .success) {
+                    pushViewController("signin")
+                }
             }).disposed(by: disposeBag)
         }).disposed(by: disposeBag)
+        
+        output.errorIsHidden.drive(errorLabel.rx.isHidden).disposed(by: disposeBag)
         
     }
     
