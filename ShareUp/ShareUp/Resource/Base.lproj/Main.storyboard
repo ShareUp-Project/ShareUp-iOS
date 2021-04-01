@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="10D-vN-orz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qZH-Eg-hNf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
@@ -19,10 +19,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--View Controller-->
+        <!--Splash View Controller-->
         <scene sceneID="kyr-pD-laa">
             <objects>
-                <viewController id="nRm-nC-m5J" sceneMemberID="viewController">
+                <viewController id="nRm-nC-m5J" customClass="SplashViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PKE-0y-tDb">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,6 +40,9 @@
                                 <state key="normal" title="시작하기">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="ucX-X7-nn9"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="당신이 원하던 업사이클 서비스" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kuy-tr-jee">
                                 <rect key="frame" x="24" y="296" width="247" height="355.5"/>
@@ -63,12 +66,13 @@
                             <constraint firstItem="Kuy-tr-jee" firstAttribute="leading" secondItem="S9c-ZZ-CVP" secondAttribute="leading" constant="24" id="mkq-4Z-pev"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="dcY-p0-Q8r"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jjN-Nu-rLe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-36.231884057971016" y="-216.29464285714286"/>
+            <point key="canvasLocation" x="780" y="-216"/>
         </scene>
-        <!--Sign In View Controller-->
+        <!--로그인-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SignInViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
@@ -77,7 +81,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="전화번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PBH-fR-VKb" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
-                                <rect key="frame" x="24" y="76" width="366" height="51"/>
+                                <rect key="frame" x="24" y="120" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="E0v-ng-JWf"/>
                                 </constraints>
@@ -90,7 +94,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="비밀번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aSe-vZ-aGD" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
-                                <rect key="frame" x="24" y="143" width="366" height="51"/>
+                                <rect key="frame" x="24" y="187" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="knv-3N-V2M"/>
                                 </constraints>
@@ -103,7 +107,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CHN-3S-pdg">
-                                <rect key="frame" x="24" y="213" width="16" height="16"/>
+                                <rect key="frame" x="24" y="257" width="16" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="51F-MG-sbu"/>
                                     <constraint firstAttribute="width" constant="16" id="9Pe-Sc-6Ch"/>
@@ -114,27 +118,23 @@
                                 <state key="selected" image="checkmark.square.fill" catalog="system"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="자동 로그인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGa-xQ-8On">
-                                <rect key="frame" x="48" y="210.5" width="70.5" height="21"/>
+                                <rect key="frame" x="48" y="254.5" width="70.5" height="21"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jAq-84-8tc" customClass="GIDSignInButton">
-                                <rect key="frame" x="24" y="389.5" width="366" height="51"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="51" id="p7x-V6-hRU"/>
-                                </constraints>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jho-NV-zqU">
-                                <rect key="frame" x="250" y="204.5" width="140" height="33"/>
+                                <rect key="frame" x="250" y="248.5" width="140" height="33"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                 <state key="normal" title="비밀번호를 잊으셨나요?">
                                     <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="CIQ-bj-o2K" kind="show" id="mZC-6D-ZOQ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAR-F0-chJ">
-                                <rect key="frame" x="324" y="150.5" width="50" height="36"/>
+                                <rect key="frame" x="324" y="194.5" width="50" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="숨기기"/>
@@ -145,18 +145,21 @@
                                 <state key="normal" title="아직 계정이 없으신가요?">
                                     <color key="titleColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="10D-vN-orz" kind="show" id="5cq-5z-gOz"/>
+                                </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="VZF-EN-ijI">
-                                <rect key="frame" x="24" y="253.5" width="366" height="104"/>
+                                <rect key="frame" x="24" y="297.5" width="366" height="51"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6j-Tn-f7i">
-                                        <rect key="frame" x="0.0" y="0.0" width="366" height="21"/>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6j-Tn-f7i">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="0.0"/>
                                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                         <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OE5-zg-Vi8" customClass="HighlightedButton" customModule="ShareUp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="53" width="366" height="51"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="51"/>
                                         <color key="backgroundColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="51" id="dE0-md-Yil"/>
@@ -199,34 +202,32 @@
                             <constraint firstItem="ZAR-F0-chJ" firstAttribute="centerY" secondItem="aSe-vZ-aGD" secondAttribute="centerY" id="W4v-oN-qUd"/>
                             <constraint firstItem="VZF-EN-ijI" firstAttribute="top" secondItem="jho-NV-zqU" secondAttribute="bottom" constant="16" id="Xob-Xf-fOp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aSe-vZ-aGD" secondAttribute="trailing" constant="24" id="b4u-yf-WIU"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jAq-84-8tc" secondAttribute="trailing" constant="24" id="dzX-BY-pxg"/>
                             <constraint firstItem="VZF-EN-ijI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="eQp-5i-5UE"/>
                             <constraint firstItem="CHN-3S-pdg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="fxx-z1-mUk"/>
                             <constraint firstItem="PBH-fR-VKb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="hht-dr-aP6"/>
                             <constraint firstItem="jho-NV-zqU" firstAttribute="trailing" secondItem="aSe-vZ-aGD" secondAttribute="trailing" id="hpU-Co-vUY"/>
                             <constraint firstItem="jho-NV-zqU" firstAttribute="centerY" secondItem="PGa-xQ-8On" secondAttribute="centerY" id="jfA-7T-Nl2"/>
-                            <constraint firstItem="jAq-84-8tc" firstAttribute="top" secondItem="VZF-EN-ijI" secondAttribute="bottom" constant="32" id="kXb-X4-sa8"/>
                             <constraint firstItem="jho-NV-zqU" firstAttribute="leading" relation="lessThanOrEqual" secondItem="PGa-xQ-8On" secondAttribute="trailing" constant="131.5" id="pqy-Ta-sOS"/>
                             <constraint firstItem="CTg-5E-VKg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qjO-7m-raa"/>
                             <constraint firstItem="PGa-xQ-8On" firstAttribute="centerY" secondItem="CHN-3S-pdg" secondAttribute="centerY" id="rUY-lS-JHg"/>
                             <constraint firstItem="VZF-EN-ijI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="24" id="vzW-so-kPJ"/>
-                            <constraint firstItem="jAq-84-8tc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wKA-rR-F3s"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="로그인" id="gAf-ew-2M5"/>
                     <connections>
                         <outlet property="authTextField" destination="PBH-fR-VKb" id="O4r-vs-re2"/>
                         <outlet property="autoAuthButton" destination="CHN-3S-pdg" id="8Xz-D7-BFd"/>
                         <outlet property="forgotPasswordButton" destination="jho-NV-zqU" id="QTk-Rw-DfS"/>
-                        <outlet property="googleAuthButton" destination="jAq-84-8tc" id="c3w-3s-Ryb"/>
                         <outlet property="passwordTextField" destination="aSe-vZ-aGD" id="fxf-vN-dnf"/>
                         <outlet property="securityOnOffButton" destination="ZAR-F0-chJ" id="4nT-Ho-eaU"/>
+                        <outlet property="signInButton" destination="OE5-zg-Vi8" id="uej-9y-IEa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="780" y="-216"/>
+            <point key="canvasLocation" x="1614" y="-216"/>
         </scene>
-        <!--Certify View Controller-->
+        <!--회원가입-->
         <scene sceneID="9iw-hj-Kqd">
             <objects>
                 <viewController id="10D-vN-orz" customClass="CertifyViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
@@ -235,7 +236,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="전화번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ave-YV-mpF" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
-                                <rect key="frame" x="24" y="76" width="366" height="51"/>
+                                <rect key="frame" x="24" y="120" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="KVh-RI-nn0"/>
                                 </constraints>
@@ -248,12 +249,12 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="인증번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SEY-wv-weE" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
-                                <rect key="frame" x="24" y="143" width="366" height="51"/>
+                                <rect key="frame" x="24" y="187" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="OIR-bU-FNr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES" textContentType="one-time-code"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="8"/>
@@ -261,16 +262,16 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="upC-x8-iAl">
-                                <rect key="frame" x="24" y="210" width="366" height="104"/>
+                                <rect key="frame" x="24" y="254" width="366" height="51"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZl-aL-cfG">
-                                        <rect key="frame" x="0.0" y="0.0" width="366" height="21"/>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JZl-aL-cfG">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="0.0"/>
                                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                         <color key="textColor" red="0.92156862745098034" green="0.3411764705882353" blue="0.3411764705882353" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WKM-vu-GuH" customClass="HighlightedButton" customModule="ShareUp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="53" width="366" height="51"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="51"/>
                                         <color key="backgroundColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="51" id="M3K-yW-od5"/>
@@ -297,7 +298,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFp-Xb-3cI">
-                                <rect key="frame" x="344" y="83.5" width="30" height="36"/>
+                                <rect key="frame" x="344" y="127.5" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="요청"/>
@@ -310,7 +311,7 @@
                                 </state>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SnH-QQ-gQF">
-                                <rect key="frame" x="341.5" y="156.5" width="32.5" height="24"/>
+                                <rect key="frame" x="341.5" y="200.5" width="32.5" height="24"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -338,6 +339,7 @@
                             <constraint firstItem="upC-x8-iAl" firstAttribute="centerX" secondItem="mtY-uX-du7" secondAttribute="centerX" id="y7G-4k-rvA"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="회원가입" id="uug-FB-EeE"/>
                     <connections>
                         <outlet property="authNumberTextField" destination="SEY-wv-weE" id="3bK-Yh-Dh9"/>
                         <outlet property="certifyButton" destination="WKM-vu-GuH" id="Iz0-GB-iag"/>
@@ -351,15 +353,15 @@
             </objects>
             <point key="canvasLocation" x="-36.231884057971016" y="467.41071428571428"/>
         </scene>
-        <!--View Controller-->
+        <!--Sign Up View Controller-->
         <scene sceneID="TH1-nH-KU1">
             <objects>
-                <viewController storyboardIdentifier="signup" id="val-na-QjH" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="signup" id="val-na-QjH" customClass="SignUpViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x4A-5H-yRC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="닉네임" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VOM-14-m66" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="닉네임(2~10자)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VOM-14-m66" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
                                 <rect key="frame" x="24" y="76" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="NcS-VY-SC4"/>
@@ -388,7 +390,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="omd-nC-XOG">
                                 <rect key="frame" x="24" y="210" width="366" height="104"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oHa-K2-yYa">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대문자, 소문자, 숫자, 특수문자 각 1개 이상 / 8글자 이상" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oHa-K2-yYa">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="21"/>
                                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                         <color key="textColor" red="0.92156862745098034" green="0.3411764705882353" blue="0.3411764705882353" alpha="1" colorSpace="calibratedRGB"/>
@@ -421,25 +423,25 @@
                                     <constraint firstAttribute="trailing" secondItem="oHa-K2-yYa" secondAttribute="trailing" id="cZN-6D-YQH"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mqx-n1-xwB">
-                                <rect key="frame" x="344" y="83.5" width="30" height="36"/>
-                                <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
-                                <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="중복"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bgT-12-xDI">
                                 <rect key="frame" x="324" y="150.5" width="50" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="숨기기"/>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="중복" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="at6-b3-m05">
+                                <rect key="frame" x="344" y="89.5" width="30" height="24"/>
+                                <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
+                                <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dLc-xd-1uP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bgT-12-xDI" firstAttribute="centerY" secondItem="t7e-ur-RYQ" secondAttribute="centerY" id="0YT-79-bBM"/>
-                            <constraint firstItem="Mqx-n1-xwB" firstAttribute="trailing" secondItem="VOM-14-m66" secondAttribute="trailing" constant="-16" id="3Hf-eg-BLD"/>
                             <constraint firstItem="dLc-xd-1uP" firstAttribute="trailing" secondItem="t7e-ur-RYQ" secondAttribute="trailing" constant="24" id="3Wf-g5-GP2"/>
+                            <constraint firstItem="at6-b3-m05" firstAttribute="centerY" secondItem="VOM-14-m66" secondAttribute="centerY" id="61q-dY-etA"/>
                             <constraint firstItem="t7e-ur-RYQ" firstAttribute="top" secondItem="VOM-14-m66" secondAttribute="bottom" constant="16" id="Af6-a6-7xR"/>
                             <constraint firstItem="bgT-12-xDI" firstAttribute="trailing" secondItem="t7e-ur-RYQ" secondAttribute="trailing" constant="-16" id="NPE-jE-GAC"/>
                             <constraint firstItem="omd-nC-XOG" firstAttribute="centerX" secondItem="x4A-5H-yRC" secondAttribute="centerX" id="UpC-Su-R1B"/>
@@ -447,28 +449,36 @@
                             <constraint firstItem="omd-nC-XOG" firstAttribute="leading" secondItem="dLc-xd-1uP" secondAttribute="leading" constant="24" id="aFS-dD-nas"/>
                             <constraint firstItem="bgT-12-xDI" firstAttribute="leading" relation="lessThanOrEqual" secondItem="t7e-ur-RYQ" secondAttribute="leading" constant="300" id="fhI-Ln-jS2"/>
                             <constraint firstItem="VOM-14-m66" firstAttribute="centerX" secondItem="x4A-5H-yRC" secondAttribute="centerX" id="hUC-fW-Tmr"/>
-                            <constraint firstItem="Mqx-n1-xwB" firstAttribute="centerY" secondItem="VOM-14-m66" secondAttribute="centerY" id="jFh-qG-Vgv"/>
+                            <constraint firstItem="at6-b3-m05" firstAttribute="leading" relation="lessThanOrEqual" secondItem="VOM-14-m66" secondAttribute="leading" constant="320" id="kgp-or-eY5"/>
                             <constraint firstItem="VOM-14-m66" firstAttribute="top" secondItem="dLc-xd-1uP" secondAttribute="top" constant="32" id="lVC-7b-8VH"/>
                             <constraint firstItem="dLc-xd-1uP" firstAttribute="trailing" secondItem="VOM-14-m66" secondAttribute="trailing" constant="24" id="tNJ-So-0Pn"/>
                             <constraint firstItem="t7e-ur-RYQ" firstAttribute="centerX" secondItem="x4A-5H-yRC" secondAttribute="centerX" id="xHF-Hv-mdh"/>
-                            <constraint firstItem="Mqx-n1-xwB" firstAttribute="leading" relation="lessThanOrEqual" secondItem="VOM-14-m66" secondAttribute="leading" constant="330" id="xRj-Lk-GIE"/>
+                            <constraint firstItem="at6-b3-m05" firstAttribute="trailing" secondItem="VOM-14-m66" secondAttribute="trailing" constant="-16" id="ykj-jw-nrL"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="duplicateLabel" destination="at6-b3-m05" id="zln-J7-cHQ"/>
+                        <outlet property="errorLabel" destination="oHa-K2-yYa" id="hAB-OE-2sw"/>
+                        <outlet property="nicknameTextField" destination="VOM-14-m66" id="lm9-9H-jsj"/>
+                        <outlet property="passwordTextField" destination="t7e-ur-RYQ" id="d7E-El-lld"/>
+                        <outlet property="securityOnOffButton" destination="bgT-12-xDI" id="D2i-XM-nrl"/>
+                        <outlet property="signUpButton" destination="cLG-Ig-mj2" id="H2w-DT-MDS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPM-0e-Lm3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="781" y="468"/>
         </scene>
-        <!--View Controller-->
+        <!--비밀번호 초기화-->
         <scene sceneID="BuK-vA-oAl">
             <objects>
-                <viewController id="CIQ-bj-o2K" sceneMemberID="viewController">
+                <viewController id="CIQ-bj-o2K" customClass="FindAuthViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R2L-rR-gRa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="전화번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y13-WE-12K" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
-                                <rect key="frame" x="24" y="76" width="366" height="51"/>
+                                <rect key="frame" x="24" y="120" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="Mmp-aH-KUB"/>
                                 </constraints>
@@ -481,7 +491,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="인증번호" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IdG-5H-Nqj" customClass="AuthTextField" customModule="ShareUp" customModuleProvider="target">
-                                <rect key="frame" x="24" y="143" width="366" height="51"/>
+                                <rect key="frame" x="24" y="187" width="366" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="51" id="UEE-w8-my5"/>
                                 </constraints>
@@ -493,25 +503,17 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nlH-R0-KRp">
-                                <rect key="frame" x="334" y="150.5" width="40" height="36"/>
-                                <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
-                                <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="0:00">
-                                    <color key="titleColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="y0U-5C-fUs">
-                                <rect key="frame" x="24" y="210" width="366" height="104"/>
+                                <rect key="frame" x="24" y="254" width="366" height="51"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iv2-Jz-6Pu">
-                                        <rect key="frame" x="0.0" y="0.0" width="366" height="21"/>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iv2-Jz-6Pu">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="0.0"/>
                                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                         <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LjR-kq-TUV" customClass="HighlightedButton" customModule="ShareUp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="53" width="366" height="51"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="51"/>
                                         <color key="backgroundColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="51" id="Cbp-En-601"/>
@@ -538,11 +540,17 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Dy-pq-WC1">
-                                <rect key="frame" x="344" y="83.5" width="30" height="36"/>
+                                <rect key="frame" x="344" y="127.5" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="요청"/>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lqc-gH-cvi">
+                                <rect key="frame" x="341.5" y="200.5" width="32.5" height="24"/>
+                                <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
+                                <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pt5-K9-feb"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -552,27 +560,36 @@
                             <constraint firstItem="pt5-K9-feb" firstAttribute="trailing" secondItem="Y13-WE-12K" secondAttribute="trailing" constant="24" id="KfX-PE-LQo"/>
                             <constraint firstItem="y0U-5C-fUs" firstAttribute="leading" secondItem="pt5-K9-feb" secondAttribute="leading" constant="24" id="MIq-5V-WaS"/>
                             <constraint firstItem="pt5-K9-feb" firstAttribute="trailing" secondItem="IdG-5H-Nqj" secondAttribute="trailing" constant="24" id="Nkw-1q-UCl"/>
-                            <constraint firstItem="nlH-R0-KRp" firstAttribute="trailing" secondItem="IdG-5H-Nqj" secondAttribute="trailing" constant="-16" id="Nkx-in-H6r"/>
                             <constraint firstItem="5Dy-pq-WC1" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Y13-WE-12K" secondAttribute="leading" constant="330" id="SPC-3t-rZA"/>
+                            <constraint firstItem="Lqc-gH-cvi" firstAttribute="centerY" secondItem="IdG-5H-Nqj" secondAttribute="centerY" id="WCi-EC-cwT"/>
                             <constraint firstItem="y0U-5C-fUs" firstAttribute="centerX" secondItem="R2L-rR-gRa" secondAttribute="centerX" id="WHn-yi-Wnk"/>
+                            <constraint firstItem="Lqc-gH-cvi" firstAttribute="trailing" secondItem="IdG-5H-Nqj" secondAttribute="trailing" constant="-16" id="iFl-XK-Ny6"/>
                             <constraint firstItem="5Dy-pq-WC1" firstAttribute="centerY" secondItem="Y13-WE-12K" secondAttribute="centerY" id="p04-mF-PAe"/>
                             <constraint firstItem="IdG-5H-Nqj" firstAttribute="centerX" secondItem="R2L-rR-gRa" secondAttribute="centerX" id="utm-1e-Yna"/>
-                            <constraint firstItem="nlH-R0-KRp" firstAttribute="centerY" secondItem="IdG-5H-Nqj" secondAttribute="centerY" id="uw2-QP-kf3"/>
                             <constraint firstItem="5Dy-pq-WC1" firstAttribute="trailing" secondItem="Y13-WE-12K" secondAttribute="trailing" constant="-16" id="vu6-84-V5V"/>
-                            <constraint firstItem="nlH-R0-KRp" firstAttribute="leading" relation="lessThanOrEqual" secondItem="IdG-5H-Nqj" secondAttribute="leading" constant="310" id="w5j-Fa-BrY"/>
                             <constraint firstItem="Y13-WE-12K" firstAttribute="top" secondItem="pt5-K9-feb" secondAttribute="top" constant="32" id="xFI-6J-gMx"/>
                             <constraint firstItem="Y13-WE-12K" firstAttribute="centerX" secondItem="R2L-rR-gRa" secondAttribute="centerX" id="xSx-R9-NAX"/>
+                            <constraint firstItem="Lqc-gH-cvi" firstAttribute="leading" relation="lessThanOrEqual" secondItem="IdG-5H-Nqj" secondAttribute="leading" constant="320" id="zGC-5A-I0d"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="비밀번호 초기화" id="rf7-f8-R9d"/>
+                    <connections>
+                        <outlet property="authNumberTextField" destination="IdG-5H-Nqj" id="hpf-ce-l81"/>
+                        <outlet property="certifyButton" destination="LjR-kq-TUV" id="UAz-Fw-K3t"/>
+                        <outlet property="certifyRequestButton" destination="5Dy-pq-WC1" id="Dse-tE-PQA"/>
+                        <outlet property="countCertifyLabel" destination="Lqc-gH-cvi" id="LoV-AT-6M8"/>
+                        <outlet property="errorLabel" destination="Iv2-Jz-6Pu" id="zEW-yg-kcv"/>
+                        <outlet property="numberTextField" destination="Y13-WE-12K" id="pXR-S5-yCs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JTQ-0e-zhJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-36" y="1179"/>
+            <point key="canvasLocation" x="1614" y="467"/>
         </scene>
-        <!--View Controller-->
+        <!--New Auth View Controller-->
         <scene sceneID="0Ku-IL-9TC">
             <objects>
-                <viewController id="qZH-Eg-hNf" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newPassword" id="qZH-Eg-hNf" customClass="NewAuthViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6pO-0W-8xy">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -606,7 +623,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="6eH-Vj-8i9">
                                 <rect key="frame" x="24" y="210" width="366" height="104"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오류 메세지" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zv-BO-J2m">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="대문자, 소문자, 숫자, 특수문자 각 1개 이상 / 8글자 이상" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4zv-BO-J2m">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="21"/>
                                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                                         <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
@@ -645,37 +662,65 @@
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="숨기기"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qb4-Jb-R1D">
-                                <rect key="frame" x="344" y="150.5" width="30" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="불일치" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vIi-X3-l0e">
+                                <rect key="frame" x="329.5" y="156.5" width="44.5" height="24"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
-                                <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="일치"/>
-                            </button>
+                                <color key="textColor" red="0.92156862750000001" green="0.3411764706" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9PB-Cc-obW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="z1P-h0-rar" firstAttribute="top" secondItem="9PB-Cc-obW" secondAttribute="top" constant="32" id="0f4-lH-Hxl"/>
                             <constraint firstItem="Un4-uA-s5N" firstAttribute="leading" relation="lessThanOrEqual" secondItem="z1P-h0-rar" secondAttribute="leading" constant="300" id="2MR-UR-JkT"/>
-                            <constraint firstItem="Qb4-Jb-R1D" firstAttribute="leading" relation="lessThanOrEqual" secondItem="eRw-Go-es5" secondAttribute="leading" constant="320" id="2ku-GN-FGC"/>
-                            <constraint firstItem="Qb4-Jb-R1D" firstAttribute="centerY" secondItem="eRw-Go-es5" secondAttribute="centerY" id="8mE-o5-fsB"/>
-                            <constraint firstItem="Qb4-Jb-R1D" firstAttribute="trailing" secondItem="eRw-Go-es5" secondAttribute="trailing" constant="-16" id="CiY-po-dzu"/>
+                            <constraint firstItem="vIi-X3-l0e" firstAttribute="leading" relation="lessThanOrEqual" secondItem="eRw-Go-es5" secondAttribute="leading" constant="320" id="6ls-vz-LBq"/>
+                            <constraint firstItem="vIi-X3-l0e" firstAttribute="trailing" secondItem="eRw-Go-es5" secondAttribute="trailing" constant="-16" id="6yH-eb-QlR"/>
                             <constraint firstItem="6eH-Vj-8i9" firstAttribute="centerX" secondItem="6pO-0W-8xy" secondAttribute="centerX" id="DOZ-Np-0uI"/>
                             <constraint firstItem="Un4-uA-s5N" firstAttribute="trailing" secondItem="z1P-h0-rar" secondAttribute="trailing" constant="-16" id="G0o-bf-2Iz"/>
                             <constraint firstItem="eRw-Go-es5" firstAttribute="centerX" secondItem="6pO-0W-8xy" secondAttribute="centerX" id="Hzn-kx-3gr"/>
                             <constraint firstItem="6eH-Vj-8i9" firstAttribute="top" secondItem="eRw-Go-es5" secondAttribute="bottom" constant="16" id="LpL-FO-5bD"/>
                             <constraint firstItem="9PB-Cc-obW" firstAttribute="trailing" secondItem="eRw-Go-es5" secondAttribute="trailing" constant="24" id="Mob-DE-fGB"/>
                             <constraint firstItem="6eH-Vj-8i9" firstAttribute="leading" secondItem="9PB-Cc-obW" secondAttribute="leading" constant="24" id="VE1-ah-uM0"/>
+                            <constraint firstItem="vIi-X3-l0e" firstAttribute="centerY" secondItem="eRw-Go-es5" secondAttribute="centerY" id="cLD-sm-vRl"/>
                             <constraint firstItem="9PB-Cc-obW" firstAttribute="trailing" secondItem="z1P-h0-rar" secondAttribute="trailing" constant="24" id="let-ON-gle"/>
                             <constraint firstItem="z1P-h0-rar" firstAttribute="centerX" secondItem="6pO-0W-8xy" secondAttribute="centerX" id="mDh-g7-HNx"/>
                             <constraint firstItem="Un4-uA-s5N" firstAttribute="centerY" secondItem="z1P-h0-rar" secondAttribute="centerY" id="oRu-Lw-PiQ"/>
                             <constraint firstItem="eRw-Go-es5" firstAttribute="top" secondItem="z1P-h0-rar" secondAttribute="bottom" constant="16" id="ywO-Zj-Txi"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="checkTextField" destination="eRw-Go-es5" id="Pb6-4j-gvs"/>
+                        <outlet property="equalsButton" destination="vIi-X3-l0e" id="N0G-I4-hga"/>
+                        <outlet property="newTextField" destination="z1P-h0-rar" id="n56-cf-POZ"/>
+                        <outlet property="resetButton" destination="GUT-qT-vM8" id="gwY-Hp-PR1"/>
+                        <outlet property="securityOnOffButton" destination="Un4-uA-s5N" id="soL-vz-FKz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fhM-ri-mWP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="780" y="1179"/>
+            <point key="canvasLocation" x="2430" y="467"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="UgT-oo-KYO">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CRa-Ug-kKb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="k7q-kt-pvU">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EQX-4K-8qx">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="nRm-nC-m5J" kind="relationship" relationship="rootViewController" id="zXJ-RF-aC9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ccR-bx-omu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-36.231884057971016" y="-216.29464285714286"/>
         </scene>
     </scenes>
     <resources>
