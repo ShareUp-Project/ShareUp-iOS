@@ -38,6 +38,7 @@ class SignUpViewController: UIViewController {
                                           password: passwordTextField.rx.text.orEmpty.asDriver(),
                                           doneTap: signUpButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
+        
         output.duplicateCheck.emit(onNext: { [unowned self] error in
             duplicateLabel.isHidden = false
             duplicateLabel.text = error
@@ -45,8 +46,16 @@ class SignUpViewController: UIViewController {
             output.result.emit(onNext: { [unowned self] error in
                 errorLabel.isHidden = false
                 errorLabel.text = error
-            }, onCompleted: { pushViewController("main")}).disposed(by: disposeBag)
+            }, onCompleted: {
+                let alert = UIAlertController(title: "알람", message: "회원가입이 완료되었습니다", preferredStyle: .alert)
+                let action = UIAlertAction(title: "확인", style: .default, handler: nil)
+                alert.addAction(action)
+                present(alert, animated: true, completion: {
+                    pushViewController("main")
+                })
+            }).disposed(by: disposeBag)
         }).disposed(by: disposeBag)
+        
     }
     
     private func managerTrait() {
