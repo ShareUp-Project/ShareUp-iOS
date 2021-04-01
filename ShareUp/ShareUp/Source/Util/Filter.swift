@@ -9,10 +9,6 @@ import Foundation
 
 struct ShareUpFilter {
     static func checkPassword(_ pw: String) -> Bool {
-        return pw.range(of: "/^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/", options: .regularExpression) != nil
-    }
-    
-    static func checkPhoneCount(_ phone: String) -> Bool {
-        return phone.count >= 11
+        return pw.range(of: "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", options: .regularExpression) != nil
     }
 }
