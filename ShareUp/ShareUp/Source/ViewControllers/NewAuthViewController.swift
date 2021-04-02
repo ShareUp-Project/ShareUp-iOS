@@ -43,6 +43,17 @@ class NewAuthViewController: UIViewController {
             equalsButton.textColor = value ? MainColor.primaryGreen : MainColor.red
         }.disposed(by: disposeBag)
         
+        output.result.emit(onNext: {[unowned self] error in
+            errorLabel.isHidden = false
+            errorLabel.text = error
+        },onCompleted: { [unowned self] in
+            let alertView = SPAlertView(title: "성공", message: "초기화가 완료되었습니다.", preset: .done)
+            alertView.present(duration: 1.5, haptic: .success) {
+                pushViewController("signin")
+            }
+        }).disposed(by: disposeBag)
+        
+        output.errorIsHidden.drive(errorLabel.rx.isHidden).disposed(by: disposeBag)
     }
     
     private func managerTrait() {
