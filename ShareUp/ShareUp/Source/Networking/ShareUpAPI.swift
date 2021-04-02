@@ -15,6 +15,8 @@ enum ShareUpAPI {
     case passwordReset(_ phoneNum: String, _ password: String)
     case signIn(_ phoneNum: String, _ password: String)
     case checkCode(_ phone: String, _ code: String)
+    case certifyPassword(_ phoneNum: String)
+    case autoLogin
 }
 
 extension ShareUpAPI: TargetType {
@@ -36,15 +38,21 @@ extension ShareUpAPI: TargetType {
             return "/auth"
         case .checkCode:
             return "/phone/check"
+        case .certifyPassword:
+            return "/phone/password"
+        case .autoLogin:
+            return "/auth/refresh"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode:
+        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword:
             return .post
         case .passwordReset:
             return .put
+        case .autoLogin:
+            return .get
         }
     }
     
@@ -66,11 +74,18 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["password": password, "phone": phoneNum], encoding: JSONEncoding.prettyPrinted)
         case .checkCode(let phone , let code):
             return .requestParameters(parameters: ["phone": phone, "code" : code], encoding: JSONEncoding.prettyPrinted)
+        case .certifyPassword(let phone):
+            return .requestParameters(parameters: ["phone": phone], encoding: JSONEncoding.prettyPrinted)
+        default:
+            return .requestPlain
         }
     }
     
     var headers: [String : String]? {
         switch self {
+        case .autoLogin:
+            guard let refresh = TokenManager.currentToken?.refreshToken else { return nil }
+            return ["Authorization" : "Bearer " + refresh ]
         default:
             return nil
         }

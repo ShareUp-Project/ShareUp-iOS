@@ -11,6 +11,7 @@ import RxCocoa
 import Moya
 
 class AuthService {
+    
     let provider = MoyaProvider<ShareUpAPI>()
     
     func signIn(_ phone: String,_ password: String) -> Observable<(StatusRules)> {
@@ -20,8 +21,8 @@ class AuthService {
             .map(Tokens.self)
             .map { token -> (StatusRules) in
                 print(token)
-//                if StoregaeManager.shared.create(token) { return (.ok) }
-                return (.ok)
+                if StoregaeManager.shared.create(token) { return (.ok) }
+                return .fail
             }.catchError { [unowned self] in return .just(setNetworkError($0)) }
     }
     
@@ -59,6 +60,22 @@ class AuthService {
     
     func checkCode(phone: String, _ code: String) -> Observable<(StatusRules)> {
         return provider.rx.request(.checkCode(phone, code))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok) }
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func certifyPassword(_ phone: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.certifyPassword(phone))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok)}
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func autoLogin() -> Observable<(StatusRules)> {
+        return provider.rx.request(.autoLogin)
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map { _ -> StatusRules in return (.ok) }
