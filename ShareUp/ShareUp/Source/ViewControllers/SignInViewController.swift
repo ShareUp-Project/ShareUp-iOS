@@ -18,9 +18,12 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var signInButton: HighlightedButton!
     @IBOutlet weak var autoAuthButton: UIButton!
     @IBOutlet weak var securityOnOffButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     private let disposeBag = DisposeBag()
     private let viewModel = SignInViewModel()
+    private let setAutoLogin = BehaviorRelay<Void>(value: ())
+    private let autoIsSelect = PublishRelay<Bool>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +35,23 @@ class SignInViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let input = SignInViewModel.Input(phone: authTextField.rx.text.orEmpty.asDriver(),
+        let input = SignInViewModel.Input(setAutoLogin: setAutoLogin.asDriver(),
+                                          phone: authTextField.rx.text.orEmpty.asDriver(),
                                           password: passwordTextField.rx.text.orEmpty.asDriver(),
+                                          isAuto: autoIsSelect.asDriver(onErrorJustReturn: false),
                                           doneTap: signInButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
         
+        output.result.emit(onNext: {[unowned self] error in
+            errorLabel.isHidden = false
+            errorLabel.text = error
+        }, onCompleted: {[unowned self] in
+            print("complete")
+        }).disposed(by: disposeBag)
+        
+        output.auto.emit(onCompleted: { [unowned self] in
+            pushViewController("main")
+        }).disposed(by: disposeBag)
         
     }
     
@@ -44,6 +59,9 @@ class SignInViewController: UIViewController {
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
         autoAuthButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle() }).disposed(by: disposeBag)
         authTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in authTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
+        autoAuthButton.rx.tap.subscribe(onNext:{ [unowned self] in
+            autoIsSelect.accept(autoAuthButton.isSelected)
+        }).disposed(by: disposeBag)
     }
     
     private func updateCurrentStatus() {
