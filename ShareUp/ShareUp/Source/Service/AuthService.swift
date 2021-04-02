@@ -78,8 +78,12 @@ class AuthService {
         return provider.rx.request(.autoLogin)
             .filterSuccessfulStatusCodes()
             .asObservable()
-            .map { _ -> StatusRules in return (.ok) }
-            .catchError { [unowned self] in return .just(setNetworkError($0))}
+            .map(Tokens.self)
+            .map { token -> (StatusRules) in
+                print(token)
+                if StoregaeManager.shared.create(token) { return (.ok) }
+                return .fail
+            }.catchError { [unowned self] in return .just(setNetworkError($0)) }
     }
     
     func setNetworkError(_ error: Error) -> StatusRules {
