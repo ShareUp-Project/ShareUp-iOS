@@ -18,7 +18,7 @@ class FindAuthViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var certifyButton: HighlightedButton!
     
-    private let viewModel = CertifyViewModel()
+    private let viewModel = FindAuthViewModel()
     private var disposeBag = DisposeBag()
     private var countDown: Int = 180 {
         willSet {
@@ -36,7 +36,7 @@ class FindAuthViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let input = CertifyViewModel.Input(phoneNum: numberTextField.rx.text.orEmpty.asDriver(),
+        let input = FindAuthViewModel.Input(phoneNum: numberTextField.rx.text.orEmpty.asDriver(),
                                            phoneRequest: certifyRequestButton.rx.tap.asDriver(),
                                            phoneCertify: authNumberTextField.rx.text.orEmpty.asDriver(),
                                            certifyButton: certifyButton.rx.tap.asDriver())
@@ -56,7 +56,7 @@ class FindAuthViewController: UIViewController {
                             errorLabel.text = error
                             errorLabel.isHidden.toggle()},
                            onCompleted: {[unowned self] in
-                            let vc = storyboard?.instantiateViewController(withIdentifier: "newPassword") as! SignUpViewController
+                            let vc = storyboard?.instantiateViewController(withIdentifier: "newPassword") as! NewAuthViewController
                             vc.phoneNumber = numberTextField.text!
                             navigationController?.pushViewController(vc, animated: true)
                            }).disposed(by: disposeBag)
@@ -66,6 +66,7 @@ class FindAuthViewController: UIViewController {
         numberTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in numberTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
         certifyRequestButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             certifyRequestButton.setTitle("재요청", for: .normal)
+            countDown = 180
         }).disposed(by: disposeBag)
     }
 }

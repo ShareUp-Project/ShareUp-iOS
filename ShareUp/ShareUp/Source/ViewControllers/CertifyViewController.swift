@@ -67,6 +67,7 @@ class CertifyViewController: UIViewController {
         numberTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in numberTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
         certifyRequestButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             certifyRequestButton.setTitle("재요청", for: .normal)
+            countDown = 180
         }).disposed(by: disposeBag)
     }
 
