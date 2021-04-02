@@ -14,7 +14,6 @@ class SignInViewController: UIViewController {
 
     @IBOutlet weak var authTextField: AuthTextField!
     @IBOutlet weak var passwordTextField: AuthTextField!
-    @IBOutlet weak var googleAuthButton: GIDSignInButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     @IBOutlet weak var signInButton: HighlightedButton!
     @IBOutlet weak var autoAuthButton: UIButton!
@@ -26,6 +25,7 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         bindViewModel()
         navigationBarColor(.white)
         managerTrait()
@@ -36,6 +36,7 @@ class SignInViewController: UIViewController {
                                           password: passwordTextField.rx.text.orEmpty.asDriver(),
                                           doneTap: signInButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
+        
         
     }
     
@@ -48,6 +49,10 @@ class SignInViewController: UIViewController {
     private func updateCurrentStatus() {
         passwordTextField.isSecureTextEntry.toggle()
         securityOnOffButton.setTitle(passwordTextField.isSecureTextEntry ? "보기" : "숨기기", for: .normal)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
 

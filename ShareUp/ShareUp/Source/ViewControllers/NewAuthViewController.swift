@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SPAlert
 
 class NewAuthViewController: UIViewController {
 
@@ -16,6 +17,7 @@ class NewAuthViewController: UIViewController {
     @IBOutlet weak var checkTextField: AuthTextField!
     @IBOutlet weak var equalsButton: UILabel!
     @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
     
     private let viewModel = NewAuthViewModel()
     private let disposeBag = DisposeBag()
@@ -25,6 +27,7 @@ class NewAuthViewController: UIViewController {
         super.viewDidLoad()
 
         managerTrait()
+        navigationBarColor(.white)
         bindViewModel()
     }
     
@@ -49,5 +52,9 @@ class NewAuthViewController: UIViewController {
     private func updateCurrentStatus() {
         newTextField.isSecureTextEntry.toggle()
         securityOnOffButton.setTitle(newTextField.isSecureTextEntry ? "보기" : "숨기기", for: .normal)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }

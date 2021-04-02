@@ -25,7 +25,6 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         print(phoneNumber)
         managerTrait()
@@ -51,7 +50,7 @@ class SignUpViewController: UIViewController {
                 errorLabel.isHidden = false
                 errorLabel.text = error
             }, onCompleted: {
-                let alertView = SPAlertView(title: "회원가입이 완료되었습니다.", preset: .done)
+                let alertView = SPAlertView(title: "성공", message: "회원가입이 완료되었습니다.", preset: .done)
                 alertView.present(duration: 1.5, haptic: .success) {
                     pushViewController("signin")
                 }
@@ -69,5 +68,9 @@ class SignUpViewController: UIViewController {
     private func updateCurrentStatus() {
         passwordTextField.isSecureTextEntry.toggle()
         securityOnOffButton.setTitle(passwordTextField.isSecureTextEntry ? "보기" : "숨기기", for: .normal)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }
