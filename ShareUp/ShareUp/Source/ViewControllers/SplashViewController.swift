@@ -8,9 +8,16 @@
 import UIKit
 
 class SplashViewController: UIViewController {
-
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationBarHidden()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
         navigationBarHidden()
     }
     
