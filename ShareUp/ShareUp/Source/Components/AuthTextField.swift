@@ -10,9 +10,10 @@ import RxSwift
 import RxCocoa
 
 final class AuthTextField: UITextField {
-
+    
     private let maskButton = UIButton()
     private let disposeBag = DisposeBag()
+    var rightViewSize = Int()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,20 +23,21 @@ final class AuthTextField: UITextField {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-
+        
         controlTextField()
     }
     
     private func controlTextField() {
+        clipsToBounds = true
         endEditingTextField()
         font = UIFont(name: Font.nsM.rawValue, size: 16)
         rx.controlEvent(.allEditingEvents).subscribe(onNext: {[unowned self] _ in editingTextField() }).disposed(by: disposeBag)
         rx.controlEvent(.editingDidEnd).subscribe(onNext: {[unowned self] _ in endEditingTextField() }).disposed(by: disposeBag)
-        
+
         rightView = maskButton
         rightViewMode = .always
         translatesAutoresizingMaskIntoConstraints = false
-        rightView?.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        rightView?.widthAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     private func editingTextField() {
