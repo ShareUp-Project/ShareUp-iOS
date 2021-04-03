@@ -94,7 +94,7 @@
                                     <constraint firstAttribute="height" constant="51" id="knv-3N-V2M"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="8"/>
@@ -132,7 +132,7 @@
                                 <rect key="frame" x="324" y="194.5" width="50" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="숨기기"/>
+                                <state key="normal" title="보기"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CTg-5E-VKg">
                                 <rect key="frame" x="135" y="813" width="144" height="33"/>
@@ -212,6 +212,7 @@
                     <connections>
                         <outlet property="authTextField" destination="PBH-fR-VKb" id="O4r-vs-re2"/>
                         <outlet property="autoAuthButton" destination="CHN-3S-pdg" id="8Xz-D7-BFd"/>
+                        <outlet property="errorLabel" destination="j6j-Tn-f7i" id="ncq-4M-2Pu"/>
                         <outlet property="forgotPasswordButton" destination="jho-NV-zqU" id="QTk-Rw-DfS"/>
                         <outlet property="passwordTextField" destination="aSe-vZ-aGD" id="fxf-vN-dnf"/>
                         <outlet property="securityOnOffButton" destination="ZAR-F0-chJ" id="4nT-Ho-eaU"/>
@@ -422,7 +423,7 @@
                                 <rect key="frame" x="324" y="150.5" width="50" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="숨기기"/>
+                                <state key="normal" title="보기"/>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="중복" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="at6-b3-m05">
                                 <rect key="frame" x="344" y="89.5" width="30" height="24"/>
@@ -595,7 +596,7 @@
                                     <constraint firstAttribute="height" constant="51" id="BBt-xs-esb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="17"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="8"/>
@@ -655,7 +656,7 @@
                                 <rect key="frame" x="324" y="83.5" width="50" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <color key="tintColor" red="0.36470588240000001" green="0.69019607839999997" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="숨기기"/>
+                                <state key="normal" title="보기"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="불일치" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vIi-X3-l0e">
                                 <rect key="frame" x="329.5" y="156.5" width="44.5" height="24"/>
