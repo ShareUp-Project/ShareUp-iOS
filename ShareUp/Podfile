@@ -16,6 +16,7 @@ pod 'SwiftyTimer'
 pod 'SnapKit', '~> 5.0.0'
 pod 'Then'
 pod 'SPAlert'
+pod 'lottie-ios'
 
   # Pods for ShareUp
 

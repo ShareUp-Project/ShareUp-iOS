@@ -20,6 +20,7 @@ PODS:
   - Kingfisher (5.15.8):
     - Kingfisher/Core (= 5.15.8)
   - Kingfisher/Core (5.15.8)
+  - lottie-ios (3.2.1)
   - Moya (14.0.0):
     - Moya/Core (= 14.0.0)
   - Moya/Core (14.0.0):
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - Alamofire (~> 5.2)
   - GoogleSignIn
   - Kingfisher (~> 5.0)
+  - lottie-ios
   - Moya (~> 14.0)
   - Moya/RxSwift (~> 14.0)
   - RxCocoa (~> 5)
@@ -59,6 +61,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - Kingfisher
+    - lottie-ios
     - Moya
     - RxCocoa
     - RxRelay
@@ -75,6 +78,7 @@ SPEC CHECKSUMS:
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
+  lottie-ios: 106e92eaf11fbed0a76590b4cdb9b5ec26123ff7
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
@@ -84,6 +88,6 @@ SPEC CHECKSUMS:
   SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 4985e8e1edab0f47fe0d94d5aac55826279b1561
+PODFILE CHECKSUM: 9bda5f84605b6c528099c1244b62174f072c9263
 
 COCOAPODS: 1.10.1
