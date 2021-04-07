@@ -17,6 +17,13 @@ enum ShareUpAPI {
     case checkCode(_ phone: String, _ code: String)
     case certifyPassword(_ phoneNum: String)
     case autoLogin
+    
+    case getPosts(_ page: Int)
+    case wirtePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data])
+    case scrapPost(_ id: String)
+    case detailPost(_ id: String)
+    case getScrapPost(_ page: Int)
+    case removePost(_ id: String)
 }
 
 extension ShareUpAPI: TargetType {
@@ -42,17 +49,31 @@ extension ShareUpAPI: TargetType {
             return "/phone/password"
         case .autoLogin:
             return "/auth/refresh"
+        case .getPosts(let page):
+            return "/posts"
+        case .wirtePost:
+            return "/posts"
+        case .scrapPost(let id):
+            return "/posts/scraps/\(id)"
+        case .detailPost(let id):
+            return "/posts/\(id)"
+        case .getScrapPost(let page):
+            return "/posts/scraps"
+        case .removePost(let id):
+            return "/posts/\(id)"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword:
+        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword, .wirtePost, .scrapPost:
             return .post
         case .passwordReset:
             return .put
-        case .autoLogin:
+        case .autoLogin, .getPosts, .getScrapPost, .detailPost:
             return .get
+        case .removePost:
+            return .delete
         }
     }
     
@@ -76,6 +97,21 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["phone": phone, "code" : code], encoding: JSONEncoding.prettyPrinted)
         case .certifyPassword(let phone):
             return .requestParameters(parameters: ["phone": phone], encoding: JSONEncoding.prettyPrinted)
+        case .wirtePost(let content, let category, let tags, let images):
+            var multipartFormData = [Moya.MultipartFormData]()
+            for index in images {
+                multipartFormData.append(Moya.MultipartFormData(provider: .data(index), name: "images", fileName: "image.jpg", mimeType: "image/png"))
+            }
+            for i in tags {
+                multipartFormData.append(Moya.MultipartFormData(provider: .data(i.data(using: .utf8)!), name: "tag", mimeType: "text/plain"))
+            }
+            multipartFormData.append(Moya.MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
+            multipartFormData.append(Moya.MultipartFormData(provider: .data(category.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
+            return .uploadMultipart(multipartFormData)
+        case .getPosts(let page):
+            return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
+        case .getScrapPost(let page):
+            return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
