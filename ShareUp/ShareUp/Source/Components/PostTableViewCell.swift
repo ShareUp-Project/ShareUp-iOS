@@ -8,7 +8,16 @@
 import UIKit
 
 class PostTableViewCell: UITableViewCell {
-
+    
+    @IBOutlet weak var badgeImageView: UIImageView!
+    @IBOutlet weak var nicknameButton: UIButton!
+    @IBOutlet weak var scrapButton: UIButton!
+    @IBOutlet weak var shareImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var hashtagLabel: UILabel!
+    @IBOutlet weak var viewsLabel: UILabel!
+    @IBOutlet weak var scrapsLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

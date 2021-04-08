@@ -112,6 +112,16 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="badgeImageView" destination="WQr-Tk-2L2" id="fmA-Hj-6ia"/>
+                <outlet property="hashtagLabel" destination="nDU-cV-g8L" id="EEN-zd-fxZ"/>
+                <outlet property="nicknameButton" destination="frw-cd-5SP" id="wIJ-pm-GWU"/>
+                <outlet property="scrapButton" destination="lL2-pj-h5c" id="bJZ-q4-uf4"/>
+                <outlet property="scrapsLabel" destination="uKm-UY-3D2" id="csh-UZ-h5j"/>
+                <outlet property="shareImageView" destination="AdW-RH-386" id="7zK-Jc-ejs"/>
+                <outlet property="titleLabel" destination="yoQ-NI-J06" id="z0T-cW-iMt"/>
+                <outlet property="viewsLabel" destination="2Qq-ES-XEM" id="tWZ-sm-Uyf"/>
+            </connections>
             <point key="canvasLocation" x="-146.37681159420291" y="93.75"/>
         </tableViewCell>
     </objects>
