@@ -29,4 +29,15 @@ class PostTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func configCell(_ data: Post) {
+        badgeImageView.kf.setImage(with: URL(string: "")!)
+        nicknameButton.setTitle(data.title, for: .normal)
+        scrapButton.isSelected = data.isScrap
+        shareImageView.kf.setImage(with: URL(string: "")!)
+        titleLabel.text = data.title
+        for i in data.hashtags { hashtagLabel.text = i + " " }
+        viewsLabel.text = String(data.views)
+        scrapsLabel.text = String(data.scraps)
+    }
+    
 }
