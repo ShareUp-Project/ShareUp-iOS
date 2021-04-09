@@ -14,4 +14,5 @@ class HighlightedButton: UIButton {
             backgroundColor = isHighlighted ? MainColor.secondaryGreen : MainColor.primaryGreen
         }
     }
+    
 }

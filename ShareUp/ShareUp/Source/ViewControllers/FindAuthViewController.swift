@@ -29,7 +29,6 @@ class FindAuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         bindViewModel()
         navigationBarColor(.white)
         managerTrait()

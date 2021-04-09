@@ -52,7 +52,6 @@ class SignInViewController: UIViewController {
         output.auto.emit(onCompleted: { [unowned self] in
             pushViewController("main")
         }).disposed(by: disposeBag)
-        
     }
     
     private func managerTrait() {
