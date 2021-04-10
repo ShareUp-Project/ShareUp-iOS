@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import Lottie
+import SnapKit
+import Then
 
 class PostTableViewCell: UITableViewCell {
     
@@ -17,10 +20,14 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
-    
+    private let animationView = AnimationView(name: "bookmark-animation").then {
+        $0.contentMode = .scaleAspectFit
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        addSubview(animationView)
+        
+        lottieGesture()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,6 +45,23 @@ class PostTableViewCell: UITableViewCell {
         for i in data.hashtags { hashtagLabel.text = i + " " }
         viewsLabel.text = String(data.views)
         scrapsLabel.text = String(data.scraps)
+    }
+    
+    func lottieGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        tap.numberOfTouchesRequired = 2
+        
+        shareImageView.addGestureRecognizer(tap)
+        
+        animationView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalTo(240)
+            make.height.equalTo(128)
+        }
+    }
+    
+    @objc func doubleTapped() {
+        animationView.play()
     }
     
 }
