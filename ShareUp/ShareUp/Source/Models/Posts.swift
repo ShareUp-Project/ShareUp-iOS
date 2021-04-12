@@ -17,7 +17,7 @@ struct Post: Codable {
     let views: Int
     let user: User
     let hashtags: [String]
-    let image: [Int]
+    let images: [String]
     let scraps: Int
     let isScrap: Bool
 }

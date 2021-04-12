@@ -33,7 +33,6 @@ class MainViewModel: ViewModelType {
         let scrapResult = PublishRelay<Void>()
         
         let scrapInfo = Signal.combineLatest(input.postScrap, getPostsData.asSignal(onErrorJustReturn: []))
-
         input.getPosts.asObservable()
             .flatMap { _ in api.getPosts(0) }
             .subscribe(onNext: { data, response in
@@ -51,23 +50,33 @@ class MainViewModel: ViewModelType {
             getDetailRow.onNext(String(value[indexPath.row].id))
         }).disposed(by: disposeBag)
         
-        input.postScrap.asObservable()
-            .flatMap{ _ in scrapInfo }
-            .subscribe(onNext: { row, data in
-                let postScarpId = data[row].id
-                print(data[row].id)
-                api.scrapPost(postScarpId).subscribe(onNext: { response in
-                    print(response)
+        input.postScrap.asObservable().withLatestFrom(scrapInfo).subscribe(onNext: {[weak self] row, data in
+            guard let self = self else { return }
+            let postId = data[row].id
+            if !data[row].isScrap {
+                api.scrapPost(postId).subscribe(onNext: { response in
                     switch response {
-                    case .ok:
+                     case .ok:
                         scrapResult.accept(())
-                    case .notFound:
+                    case .conflict:
                         result.onNext("")
                     default:
                         result.onNext("")
                     }
                 }).disposed(by: self.disposeBag)
-            }).disposed(by: disposeBag)
+            } else {
+                api.scrapDelete(postId).subscribe(onNext: { response in
+                    switch response {
+                    case .ok:
+                        scrapResult.accept(())
+                    case .conflict:
+                        result.onNext("")
+                    default:
+                        result.onNext("")
+                    }
+                }).disposed(by: self.disposeBag)
+            }
+        }).disposed(by: disposeBag)
         
         return Output(getPosts: getPostsData.asDriver(onErrorJustReturn: []),
                       detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""),
