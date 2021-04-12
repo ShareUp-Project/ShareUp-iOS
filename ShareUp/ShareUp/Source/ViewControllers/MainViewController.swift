@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Lottie
 
 class MainViewController: UIViewController {
 
@@ -17,30 +18,50 @@ class MainViewController: UIViewController {
     private let viewModel = MainViewModel()
     private let disposeBag = DisposeBag()
     private let getData = BehaviorRelay<Void>(value: ())
-    
+    private let selectScrap = PublishRelay<Int>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+        bindViewModel()
+        setTableView()
+        navigationSetTitle("ShareUp")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+
+        getData.accept(())
+        mainTableView.reloadData()
+    }
+
     private func bindViewModel() {
-        let input = MainViewModel.Input(getPosts: Completable.empty())
+        let input = MainViewModel.Input(getPosts: getData.asSignal(onErrorJustReturn: ()),
+                                        loadDetail: mainTableView.rx.itemSelected.asSignal(),
+                                        postScrap: selectScrap.asSignal())
         let output = viewModel.transform(input)
         
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
+            cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in selectScrap.accept(row) }).disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
+        
+        output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
+            guard let vc = storyboard?.instantiateViewController(identifier: "detail") as? DetailViewController else { return }
+            vc.detailId = detail
+            navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+        
+        output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
+            getData.accept(())
+            mainTableView.reloadData()
+        }).disposed(by: disposeBag)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setTableView() {
+        let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
+        mainTableView.register(nib, forCellReuseIdentifier: "mainCell")
+        mainTableView.rowHeight = 388
     }
-    */
-
+    
 }
