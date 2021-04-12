@@ -9,6 +9,7 @@ import UIKit
 import Lottie
 import SnapKit
 import Then
+import RxSwift
 
 class PostTableViewCell: UITableViewCell {
     
@@ -22,14 +23,24 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var scrapsLabel: UILabel!
     private let animationView = AnimationView(name: "bookmark-animation").then {
         $0.contentMode = .scaleAspectFit
+        $0.isHidden = true
     }
+    var disposeBag = DisposeBag()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        addSubview(animationView)
         
+        addSubview(animationView)
+        animationView.play()
+
         lottieGesture()
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -37,10 +48,10 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func configCell(_ data: Post) {
-        badgeImageView.kf.setImage(with: URL(string: "")!)
+//        badgeImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
         nicknameButton.setTitle(data.title, for: .normal)
         scrapButton.isSelected = data.isScrap
-        shareImageView.kf.setImage(with: URL(string: "")!)
+        shareImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
         titleLabel.text = data.title
         for i in data.hashtags { hashtagLabel.text = i + " " }
         viewsLabel.text = String(data.views)
@@ -49,7 +60,8 @@ class PostTableViewCell: UITableViewCell {
     
     func lottieGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        tap.numberOfTouchesRequired = 2
+        tap.numberOfTapsRequired = 2
+        tap.numberOfTouchesRequired = 1
         
         shareImageView.addGestureRecognizer(tap)
         
@@ -61,7 +73,9 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc func doubleTapped() {
+        animationView.isHidden = false
         animationView.play()
+        animationView.play { _ in self.animationView.isHidden = true }
     }
     
 }
