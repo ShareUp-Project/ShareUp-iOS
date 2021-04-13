@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+struct ScrapPost: Codable {
+    let id: String
+    let title: String
+    let category: String
+    let user: User
+    let hashtags: [String]
+    let images: [String]
+}
+
+struct Scrap: Codable {
+    let data: [ScrapPost]
+}
