@@ -24,11 +24,12 @@ enum ShareUpAPI {
     case detailPost(_ id: String)
     case getScrapPost(_ page: Int)
     case removePost(_ id: String)
+    case scrapDelete(_ id: String)
 }
 
 extension ShareUpAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "http://13.209.98.119/api")!
+        return URL(string: "http://15.164.231.135/api")!
     }
     
     var path: String {
@@ -53,7 +54,7 @@ extension ShareUpAPI: TargetType {
             return "/posts"
         case .wirtePost:
             return "/posts"
-        case .scrapPost(let id):
+        case .scrapPost(let id), .scrapDelete(let id):
             return "/posts/scraps/\(id)"
         case .detailPost(let id):
             return "/posts/\(id)"
@@ -72,7 +73,7 @@ extension ShareUpAPI: TargetType {
             return .put
         case .autoLogin, .getPosts, .getScrapPost, .detailPost:
             return .get
-        case .removePost:
+        case .removePost, .scrapDelete:
             return .delete
         }
     }
@@ -123,7 +124,8 @@ extension ShareUpAPI: TargetType {
             guard let refresh = TokenManager.currentToken?.refreshToken else { return nil }
             return ["Authorization" : "Bearer " + refresh ]
         default:
-            return nil
+            guard let token = TokenManager.currentToken?.accessToken else { return nil }
+            return ["Authorization" : "Bearer " + token ]
         }
     }
 }

@@ -86,6 +86,73 @@ class AuthService {
             }.catchError { [unowned self] in return .just(setNetworkError($0)) }
     }
     
+    func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data]) -> Observable<(StatusRules)> {
+        return provider.rx.request(.wirtePost(content, category, tags, images))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok) }
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func scrapPost(_ id: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.scrapPost(id))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok) }
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func scrapDelete(_ id: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.scrapDelete(id))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok) }
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func removePost(_ id: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.removePost(id))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok) }
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func getPosts(_ page: Int) -> Observable<(Posts?, StatusRules)> {
+        return provider.rx.request(.getPosts(page))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Posts.self)
+            .map { return ($0, .ok) }
+            .catchError { errer in
+                print(errer)
+               return .just((nil, .fail))
+            }
+    }
+    
+    func getScrapPosts(_ page: Int) -> Observable<(Scrap?, StatusRules)> {
+        return provider.rx.request(.getScrapPost(page))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Scrap.self)
+            .map { return ($0, .ok) }
+            .catchError { error in
+                print(error)
+                return .just((nil, .fail))}
+    }
+    
+    func detailPost(_ id: String) -> Observable<(Detail?, StatusRules)> {
+        return provider.rx.request(.detailPost(id))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Detail.self)
+            .map { return ($0, .ok) }
+            .catchError { errer in
+                print(errer)
+               return .just((nil, .fail))
+            }
+    }
+    
     func setNetworkError(_ error: Error) -> StatusRules {
         print(error)
         print(error.localizedDescription)
