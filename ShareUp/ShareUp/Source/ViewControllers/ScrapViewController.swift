@@ -6,24 +6,60 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ScrapViewController: UIViewController {
+
+    @IBOutlet weak var scrapTableView: UITableView!
+    
+    private let viewModel = ScarpViewModel()
+    private let disposeBag = DisposeBag()
+    private let getData = BehaviorRelay<Void>(value: ())
+    private let selectScrap = PublishRelay<Int>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        bindViewModel()
+        setTableView()
+        navigationSetTitle("ShareUp")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        getData.accept(())
+        scrapTableView.reloadData()
     }
-    */
 
+    private func bindViewModel() {
+        let input = ScarpViewModel.Input(getScarpPosts: getData.asSignal(onErrorJustReturn: ()),
+                                         loadDetail: scrapTableView.rx.itemSelected.asSignal(),
+                                         deleteScarp: selectScrap.asSignal())
+        let output = viewModel.transform(input)
+        
+        output.getScarpPosts.asObservable().bind(to: scrapTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
+            cell.scrapConfigCell(data)
+            cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in selectScrap.accept(row) }).disposed(by: cell.disposeBag)
+        }.disposed(by: disposeBag)
+        
+        output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
+            guard let vc = storyboard?.instantiateViewController(identifier: "detail") as? DetailViewController else { return }
+            vc.detailId = detail
+            navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+        
+        output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
+            getData.accept(())
+            scrapTableView.reloadData()
+        }).disposed(by: disposeBag)
+    }
+
+    private func setTableView() {
+        let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
+        scrapTableView.register(nib, forCellReuseIdentifier: "mainCell")
+        scrapTableView.rowHeight = 388
+    }
+    
 }

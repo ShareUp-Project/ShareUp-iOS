@@ -10,6 +10,7 @@ import Lottie
 import SnapKit
 import Then
 import RxSwift
+import RxCocoa
 
 class PostTableViewCell: UITableViewCell {
     
@@ -21,10 +22,14 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var hashtagLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
+    @IBOutlet weak var viewLabel: UILabel!
+    @IBOutlet weak var scrapLabel: UILabel!
     private let animationView = AnimationView(name: "bookmark-animation").then {
         $0.contentMode = .scaleAspectFit
         $0.isHidden = true
     }
+    let animationPost = PublishRelay<Void>()
+    
     var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
@@ -38,7 +43,9 @@ class PostTableViewCell: UITableViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         disposeBag = DisposeBag()
+        shareImageView.image = nil
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -58,6 +65,18 @@ class PostTableViewCell: UITableViewCell {
         scrapsLabel.text = String(data.scraps)
     }
     
+    func scrapConfigCell(_ data: ScrapPost) {
+        nicknameButton.setTitle(data.title, for: .normal)
+        scrapButton.isSelected = true
+        shareImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
+        titleLabel.text = data.title
+        for i in data.hashtags { hashtagLabel.text = i + " " }
+        viewsLabel.isHidden = true
+        scrapsLabel.isHidden = true
+        viewLabel.isHidden = true
+        scrapLabel.isHidden = true
+    }
+    
     func lottieGesture() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
         tap.numberOfTapsRequired = 2
@@ -73,9 +92,10 @@ class PostTableViewCell: UITableViewCell {
     }
     
     @objc func doubleTapped() {
+        animationPost.accept(())
         animationView.isHidden = false
         animationView.play()
         animationView.play { _ in self.animationView.isHidden = true }
     }
-    
 }
+
