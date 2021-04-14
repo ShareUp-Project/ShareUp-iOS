@@ -1,10 +1,12 @@
 PODS:
+  - ActiveLabel (1.1.0)
   - Alamofire (5.4.1)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
+  - BSImagePicker (3.3.1)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
@@ -40,7 +42,9 @@ PODS:
   - Then (2.7.0)
 
 DEPENDENCIES:
+  - ActiveLabel
   - Alamofire (~> 5.2)
+  - BSImagePicker (~> 3.1)
   - GoogleSignIn
   - Kingfisher (~> 5.0)
   - lottie-ios
@@ -55,8 +59,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ActiveLabel
     - Alamofire
     - AppAuth
+    - BSImagePicker
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
@@ -72,8 +78,10 @@ SPEC REPOS:
     - Then
 
 SPEC CHECKSUMS:
+  ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
@@ -88,6 +96,6 @@ SPEC CHECKSUMS:
   SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: 9bda5f84605b6c528099c1244b62174f072c9263
+PODFILE CHECKSUM: 8d8320226ed3ede16a9c5216d03f73c059198db3
 
 COCOAPODS: 1.10.1
