@@ -9,13 +9,28 @@ import UIKit
 
 class PostViewController: UIViewController {
 
+    @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var numOfPictureLabel: UILabel!
+    @IBOutlet weak var pickerCollectionView: UICollectionView!
+    @IBOutlet var categoryButton: [UIButton]!
+    @IBOutlet weak var titleTextView: UITextView!
+    @IBOutlet weak var contentTextView: UITextView!
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        titleTextView.delegate = self
+        
+        titleTextView.text = "이곳을 눌러 제목을 입력하세요."
+        titleTextView.textColor = UIColor.lightGray
+        contentTextView.delegate = self
+        
+        contentTextView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
+        contentTextView.textColor = UIColor.lightGray
     }
     
-
+    
     /*
     // MARK: - Navigation
 
@@ -26,4 +41,23 @@ class PostViewController: UIViewController {
     }
     */
 
+}
+
+extension PostViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty && textView == titleTextView{
+            textView.text = "이곳을 눌러 제목을 입력하세요."
+            textView.textColor = UIColor.lightGray
+        }else if textView.text.isEmpty && textView == contentTextView {
+            textView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
+            textView.textColor = UIColor.lightGray
+        }
+    }
 }
