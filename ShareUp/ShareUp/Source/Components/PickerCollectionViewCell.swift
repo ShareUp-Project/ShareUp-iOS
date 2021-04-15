@@ -9,4 +9,11 @@ import UIKit
 
 class PickerCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var pickerImageView: UIImageView!
+    @IBOutlet weak var removeButton: UIButton!
+    
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
 }
