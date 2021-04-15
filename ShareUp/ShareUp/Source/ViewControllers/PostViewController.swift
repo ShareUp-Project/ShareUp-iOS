@@ -61,3 +61,22 @@ extension PostViewController: UITextViewDelegate {
         }
     }
 }
+
+extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return selectAsset.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pickerCell", for: indexPath) as! PickerCollectionViewCell
+        
+        cell.pickerImageView.image = getUIImage(asset: selectAsset[indexPath.row])
+        cell.removeButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+            print(indexPath.row)
+            selectAsset.remove(at: indexPath.row)
+            pickerCollectionView.reloadData()
+        }).disposed(by: cell.disposeBag)
+        
+        return cell
+    }
+}

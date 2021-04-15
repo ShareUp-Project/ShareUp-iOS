@@ -6,14 +6,23 @@
 //
 
 import UIKit
+import RxSwift
 
 class PickerCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var pickerImageView: UIImageView!
     @IBOutlet weak var removeButton: UIButton!
     
+    var disposeBag = DisposeBag()
+    
     override class func awakeFromNib() {
         super.awakeFromNib()
         
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
 }
