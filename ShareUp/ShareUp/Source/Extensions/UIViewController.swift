@@ -19,6 +19,11 @@ extension UIViewController {
         navigationController?.pushViewController(vc!, animated: true)
     }
     
+    func presentViewController(_ identifier: String) {
+        let vc = storyboard?.instantiateViewController(identifier: identifier)
+        present(vc!, animated: true, completion: nil)
+    }
+    
     func navigationBarColor(_ color: UIColor) {
         let backButton: UIBarButtonItem = UIBarButtonItem()
         backButton.title = "뒤로"
