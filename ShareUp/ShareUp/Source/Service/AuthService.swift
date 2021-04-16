@@ -86,8 +86,8 @@ class AuthService {
             }.catchError { [unowned self] in return .just(setNetworkError($0)) }
     }
     
-    func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data]) -> Observable<(StatusRules)> {
-        return provider.rx.request(.wirtePost(content, category, tags, images))
+    func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.wirtePost(content, category, tags, images, title))
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map { _ -> StatusRules in return (.ok) }

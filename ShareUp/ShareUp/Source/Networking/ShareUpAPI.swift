@@ -19,7 +19,7 @@ enum ShareUpAPI {
     case autoLogin
     
     case getPosts(_ page: Int)
-    case wirtePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data])
+    case wirtePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String)
     case scrapPost(_ id: String)
     case detailPost(_ id: String)
     case getScrapPost(_ page: Int)
@@ -98,7 +98,7 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["phone": phone, "code" : code], encoding: JSONEncoding.prettyPrinted)
         case .certifyPassword(let phone):
             return .requestParameters(parameters: ["phone": phone], encoding: JSONEncoding.prettyPrinted)
-        case .wirtePost(let content, let category, let tags, let images):
+        case .wirtePost(let content, let category, let tags, let images, let title):
             var multipartFormData = [Moya.MultipartFormData]()
             for index in images {
                 multipartFormData.append(Moya.MultipartFormData(provider: .data(index), name: "images", fileName: "image.jpg", mimeType: "image/png"))
@@ -108,6 +108,7 @@ extension ShareUpAPI: TargetType {
             }
             multipartFormData.append(Moya.MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
             multipartFormData.append(Moya.MultipartFormData(provider: .data(category.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
+            multipartFormData.append(Moya.MultipartFormData(provider: .data(title.data(using: .utf8)!), name: "title", mimeType: "text/plain"))
             return .uploadMultipart(multipartFormData)
         case .getPosts(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
