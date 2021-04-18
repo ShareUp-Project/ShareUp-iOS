@@ -16,6 +16,7 @@ class DetailViewModel: ViewModelType {
         let getDetail: Signal<Void>
         let detailPostId: String
         let postScrap: Driver<Void>
+        let deletePost: Driver<Void>
     }
     
     struct Output {
@@ -65,6 +66,18 @@ class DetailViewModel: ViewModelType {
                     }
                 }).disposed(by: self.disposeBag)
             }
+        }).disposed(by: disposeBag)
+        
+        input.deletePost.asObservable().subscribe(onNext: {[weak self] _ in
+            guard let self = self else { return }
+            api.removePost(input.detailPostId).subscribe(onNext: { response in
+                switch response {
+                case .ok:
+                    result.onCompleted()
+                default:
+                    result.onNext("포스트 삭제 서버 오류")
+                }
+            }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
         return Output(getDetail: getDetailData, scrapResult: scrapResult.asDriver(onErrorJustReturn: ()), result: result.asSignal(onErrorJustReturn: ""))
