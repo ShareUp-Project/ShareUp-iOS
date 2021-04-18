@@ -22,28 +22,51 @@ class PostViewController: UIViewController {
     @IBOutlet weak var contentTextView: UITextView!
 
     private var selectAsset = [PHAsset]()
-    private var navigationButton = PublishRelay<Void>()
+    private var convertImageData = [Data]()
+    private var categoryTraking = BehaviorRelay<String>(value: "")
     private let viewModel = PostViewModel()
     private let disposeBag = DisposeBag()
+    private let selectImage = PublishRelay<[Data]>()
     
     lazy var rightButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Add", style: .plain, target: self, action: nil)
+        let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
+        button.tintColor = MainColor.primaryGreen
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = rightButton
-        title = "Asdf"
-        
-        titleTextView.text = "이곳을 눌러 제목을 입력하세요."
-        titleTextView.textColor = UIColor.lightGray
-        contentTextView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
-        contentTextView.textColor = UIColor.lightGray
-        
-        cameraBoxView.layer.borderColor = MainColor.gray02.cgColor
+    
         managerTrait()
+        bindViewModel()
         
+        contentTextView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: MainColor.primaryGreen]
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.topItem?.title = "글쓰기"
+        tabBarController?.navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    private func bindViewModel() {
+        let input = PostViewModel.Input(postTap: rightButton.rx.tap.asDriver(),
+                                        isImage: selectImage.asDriver(onErrorJustReturn: []),
+                                        isTitle: titleTextView.rx.text.orEmpty.asDriver(),
+                                        isContent: contentTextView.rx.text.orEmpty.asDriver(),
+                                        isCategory: categoryTraking.asDriver(onErrorJustReturn: ""))
+        let output = viewModel.transform(input)
+        
+        output.result.emit(onCompleted: {[unowned self] in
+            pushViewController("main")
+        }).disposed(by: disposeBag)
+        
+        output.isEnable.drive(rightButton.rx.isEnabled).disposed(by: disposeBag)
+        output.isEnable.drive(onNext: {[unowned self] send in
+            print(send)
+        }).disposed(by: disposeBag)
     }
     
     private func managerTrait() {
@@ -63,15 +86,22 @@ class PostViewController: UIViewController {
                     self.selectAsset.append(assets[i])
                 }
                 pickerCollectionView.reloadData()
+                selectImage.accept(getData(selectAsset))
                 numOfPictureLabel.text = String(selectAsset.count)
             }, completion: {
                 pickerCollectionView.reloadData()
             })
         }).disposed(by: disposeBag)
-    }
-    
-    @objc func postTapped() {
-        navigationButton.accept(())
+        
+        contentTextView.rx.text.subscribe(onNext: { [unowned self] text in
+            contentTextView.resolveHashTags()
+        }).disposed(by: disposeBag)
+        
+        titleTextView.text = "이곳을 눌러 제목을 입력하세요."
+        titleTextView.textColor = UIColor.lightGray
+        contentTextView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
+        contentTextView.textColor = UIColor.lightGray
+        cameraBoxView.layer.borderColor = MainColor.gray03.cgColor
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -80,7 +110,6 @@ class PostViewController: UIViewController {
             viewController.delegate = self
         }
     }
-
 }
 
 extension PostViewController: UITextViewDelegate {
@@ -100,6 +129,11 @@ extension PostViewController: UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        contentTextView.resolveHashTags()
+    }
+    
 }
 
 extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -110,12 +144,21 @@ extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pickerCell", for: indexPath) as! PickerCollectionViewCell
         
-        cell.pickerImageView.image = getUIImage(asset: selectAsset[indexPath.row])
+        cell.pickerImageView.image = selectAsset[indexPath.row].getUIImage()
         cell.removeButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             selectAsset.remove(at: indexPath.row)
             pickerCollectionView.reloadData()
+            numOfPictureLabel.text = String(selectAsset.count)
         }).disposed(by: cell.disposeBag)
         
         return cell
+    }
+}
+
+
+extension PostViewController: DismissSendData {
+    func dismissData(_ data: String) {
+        categoryButton[0].setTitle(data, for: .normal)
+        categoryTraking.accept(data)
     }
 }
