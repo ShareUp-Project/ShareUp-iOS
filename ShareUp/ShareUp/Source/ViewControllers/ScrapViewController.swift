@@ -31,6 +31,8 @@ class ScrapViewController: UIViewController {
 
         getData.accept(())
         scrapTableView.reloadData()
+        navigationController?.navigationBar.topItem?.title = "보관함"
+        tabBarController?.navigationItem.rightBarButtonItems = []
     }
 
     private func bindViewModel() {
@@ -59,7 +61,7 @@ class ScrapViewController: UIViewController {
     private func setTableView() {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         scrapTableView.register(nib, forCellReuseIdentifier: "mainCell")
-        scrapTableView.rowHeight = 388
+        scrapTableView.rowHeight = 367
     }
     
 }

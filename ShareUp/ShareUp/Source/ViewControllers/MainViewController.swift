@@ -19,13 +19,13 @@ class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let getData = BehaviorRelay<Void>(value: ())
     private let selectScrap = PublishRelay<Int>()
-
+    private let animationPost = PublishRelay<Int>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         bindViewModel()
         setTableView()
-        navigationSetTitle("ShareUp")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,17 +33,21 @@ class MainViewController: UIViewController {
 
         getData.accept(())
         mainTableView.reloadData()
+        navigationController?.navigationBar.topItem?.title = "ShareUp"
+        tabBarController?.navigationItem.rightBarButtonItems = []
     }
 
     private func bindViewModel() {
         let input = MainViewModel.Input(getPosts: getData.asSignal(onErrorJustReturn: ()),
                                         loadDetail: mainTableView.rx.itemSelected.asSignal(),
-                                        postScrap: selectScrap.asSignal())
+                                        postScrap: selectScrap.asSignal(),
+                                        animationPost: animationPost.asSignal())
         let output = viewModel.transform(input)
         
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in selectScrap.accept(row) }).disposed(by: cell.disposeBag)
+            cell.animationPost.subscribe(onNext: {[unowned self] _ in animationPost.accept(row) }).disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
         
         output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
