@@ -35,6 +35,8 @@ class MainViewController: UIViewController {
         mainTableView.reloadData()
         navigationController?.navigationBar.topItem?.title = "ShareUp"
         tabBarController?.navigationItem.rightBarButtonItems = []
+        
+        mainTableView.separatorInset = .zero
     }
 
     private func bindViewModel() {
@@ -46,8 +48,11 @@ class MainViewController: UIViewController {
         
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
+            
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in selectScrap.accept(row) }).disposed(by: cell.disposeBag)
+            
             cell.animationPost.subscribe(onNext: {[unowned self] _ in animationPost.accept(row) }).disposed(by: cell.disposeBag)
+            
         }.disposed(by: disposeBag)
         
         output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
@@ -67,5 +72,4 @@ class MainViewController: UIViewController {
         mainTableView.register(nib, forCellReuseIdentifier: "mainCell")
         mainTableView.rowHeight = 388
     }
-    
 }

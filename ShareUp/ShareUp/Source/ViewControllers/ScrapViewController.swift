@@ -33,6 +33,7 @@ class ScrapViewController: UIViewController {
         scrapTableView.reloadData()
         navigationController?.navigationBar.topItem?.title = "보관함"
         tabBarController?.navigationItem.rightBarButtonItems = []
+        scrapTableView.separatorInset = .zero
     }
 
     private func bindViewModel() {
