@@ -36,8 +36,7 @@ final class SignInViewModel: ViewModelType {
         
         input.setAutoLogin.asObservable().subscribe(onNext: {[weak self] in
             guard let self = self else { return }
-            print(UserDefaults.standard.bool(forKey: "isAutoLogin"))
-            if UserDefaults.standard.bool(forKey: "isAutoLogin") {
+            if UserDefaults.standard.bool(forKey: "isAutoLogin") && !(TokenManager.currentToken?.refreshToken.isEmpty ?? false){
                 api.autoLogin().subscribe(onNext: { response in
                     switch response {
                     case .ok:
@@ -52,7 +51,6 @@ final class SignInViewModel: ViewModelType {
         }).disposed(by: disposeBag)
         
         input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] phone, pw, isAuto in
-            print(isAuto)
             if isAuto { UserDefaults.standard.set(isAuto, forKey: "isAutoLogin" ) }
             guard let self = self else { return }
             api.signIn(phone, pw).subscribe(onNext: { response in
