@@ -42,7 +42,10 @@ class CertifyViewController: UIViewController {
                                            phoneCertify: authNumberTextField.rx.text.orEmpty.asDriver(),
                                            certifyButton: certifyButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
-        let timer = Timer.new(every: 1.second) {[unowned self] _ in countDown -= 1 }
+        let timer = Timer.new(every: 1.second) {[unowned self] time in
+            if countDown < 0 { time.invalidate() }
+            countDown -= 1
+        }
 
         output.wait.emit(onNext: { [unowned self] error in
                             errorLabel.text = error
