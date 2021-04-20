@@ -76,7 +76,7 @@ class PostViewController: UIViewController {
             imagePicker.settings.theme.selectionStyle = .numbered
             imagePicker.settings.fetch.assets.supportedMediaTypes = [.image]
             imagePicker.settings.selection.unselectOnReachingMax = true
-            
+            selectAsset.removeAll()
             presentImagePicker(imagePicker, select: { (asset) in
             }, deselect: { (asset) in
             }, cancel: { (assets) in
@@ -91,10 +91,6 @@ class PostViewController: UIViewController {
             }, completion: {
                 pickerCollectionView.reloadData()
             })
-        }).disposed(by: disposeBag)
-        
-        contentTextView.rx.text.subscribe(onNext: { [unowned self] text in
-            contentTextView.resolveHashTags()
         }).disposed(by: disposeBag)
         
         titleTextView.text = "이곳을 눌러 제목을 입력하세요."
@@ -129,11 +125,6 @@ extension PostViewController: UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        contentTextView.resolveHashTags()
-    }
-    
 }
 
 extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
