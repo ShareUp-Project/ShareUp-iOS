@@ -55,23 +55,24 @@ class PostTableViewCell: UITableViewCell {
     }
     
     func configCell(_ data: Post) {
-        print(data)
 //        badgeImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
         nicknameButton.setTitle(data.user.nickname, for: .normal)
         scrapButton.isSelected = data.isScrap
         shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + data.images[0]))
         titleLabel.text = data.title
-        for i in data.hashtags { hashtagLabel.text = i + " " }
+        hashtagLabel.text = ""
+        for i in 0..<data.hashtags.count { hashtagLabel.text! += "#\(data.hashtags[i]) " }
         viewsLabel.text = String(data.views)
         scrapsLabel.text = String(data.scraps)
     }
     
     func scrapConfigCell(_ data: ScrapPost) {
-        nicknameButton.setTitle(data.title, for: .normal)
+        nicknameButton.setTitle(data.user.nickname, for: .normal)
         scrapButton.isSelected = true
         shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
         titleLabel.text = data.title
-        for i in data.hashtags { hashtagLabel.text = i + " " }
+        hashtagLabel.text = ""
+        for i in 0..<data.hashtags.count { hashtagLabel.text! += "#\(data.hashtags[i]) " }
         viewsLabel.isHidden = true
         scrapsLabel.isHidden = true
         viewLabel.isHidden = true
