@@ -891,71 +891,95 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KYh-1Q-cud" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="753.62318840579712" y="1972.7678571428571"/>
+            <point key="canvasLocation" x="269.56521739130437" y="2676.5625"/>
         </scene>
-        <!--View Controller-->
+        <!--Category View Controller-->
         <scene sceneID="L8N-nG-Qf0">
             <objects>
-                <viewController id="G1a-1P-OLA" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="category" id="G1a-1P-OLA" customClass="CategoryViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tJg-9a-npx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MYi-IF-4Jz">
-                                <rect key="frame" x="24" y="68" width="30" height="36"/>
+                                <rect key="frame" x="24" y="24" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="종이">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="Vsq-Ju-k3I"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hud-Z8-LIs">
-                                <rect key="frame" x="24" y="128" width="30" height="36"/>
+                                <rect key="frame" x="24" y="84" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="비닐">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="YiR-Mf-852"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hN-b1-0CN">
-                                <rect key="frame" x="24" y="188" width="30" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hN-b1-0CN">
+                                <rect key="frame" x="24" y="144" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="캔">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="wmL-Gn-ekB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDR-7b-OXo">
-                                <rect key="frame" x="24" y="248" width="30" height="36"/>
+                                <rect key="frame" x="24" y="204" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="의류">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="brd-8b-XOj"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNv-iv-2bC">
-                                <rect key="frame" x="208" y="68" width="59" height="36"/>
+                                <rect key="frame" x="208" y="24" width="59" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="플라스틱">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="1sL-sg-YS9"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BEb-PL-aDh">
-                                <rect key="frame" x="208" y="128" width="30" height="36"/>
+                                <rect key="frame" x="208" y="84" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="유리">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="YQr-ab-hkG"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EfD-iC-uRz">
-                                <rect key="frame" x="208" y="188" width="59" height="36"/>
+                                <rect key="frame" x="208" y="144" width="59" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="스티로폼">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="EZl-3L-b22"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T3t-dO-fZw">
-                                <rect key="frame" x="208" y="248" width="30" height="36"/>
+                                <rect key="frame" x="208" y="204" width="30" height="36"/>
                                 <fontDescription key="fontDescription" name="NotoSansKR-Medium" family="Noto Sans KR" pointSize="16"/>
                                 <state key="normal" title="기타">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="clickCategory:" destination="G1a-1P-OLA" eventType="touchUpInside" id="PPI-rp-TCC"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6qc-gv-tow"/>
@@ -979,10 +1003,21 @@
                             <constraint firstItem="gDR-7b-OXo" firstAttribute="leading" secondItem="6qc-gv-tow" secondAttribute="leading" constant="24" id="t67-iP-0Ak"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="tnA-Jr-Vi0"/>
+                    <connections>
+                        <outletCollection property="categorys" destination="MYi-IF-4Jz" collectionClass="NSMutableArray" id="h60-0F-r9b"/>
+                        <outletCollection property="categorys" destination="JNv-iv-2bC" collectionClass="NSMutableArray" id="fu0-TL-KyB"/>
+                        <outletCollection property="categorys" destination="Hud-Z8-LIs" collectionClass="NSMutableArray" id="jIB-7F-QfE"/>
+                        <outletCollection property="categorys" destination="BEb-PL-aDh" collectionClass="NSMutableArray" id="tiQ-8e-8Ft"/>
+                        <outletCollection property="categorys" destination="6hN-b1-0CN" collectionClass="NSMutableArray" id="fug-cr-4An"/>
+                        <outletCollection property="categorys" destination="EfD-iC-uRz" collectionClass="NSMutableArray" id="mn8-J2-NFz"/>
+                        <outletCollection property="categorys" destination="gDR-7b-OXo" collectionClass="NSMutableArray" id="v77-U9-Jlh"/>
+                        <outletCollection property="categorys" destination="T3t-dO-fZw" collectionClass="NSMutableArray" id="hVK-oS-pgY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xra-Zn-T0f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1524.6376811594205" y="1972.7678571428571"/>
+            <point key="canvasLocation" x="1043" y="2677"/>
         </scene>
         <!--비밀번호 초기화-->
         <scene sceneID="BuK-vA-oAl">
