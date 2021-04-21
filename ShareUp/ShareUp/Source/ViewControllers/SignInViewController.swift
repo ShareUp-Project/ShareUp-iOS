@@ -28,7 +28,6 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         bindViewModel()
         navigationBarColor(.white)
         managerTrait()
@@ -46,7 +45,7 @@ class SignInViewController: UIViewController {
             errorLabel.isHidden = false
             errorLabel.text = error
         }, onCompleted: {[unowned self] in
-            print("complete")
+            pushViewController("main")
         }).disposed(by: disposeBag)
         
         output.auto.emit(onCompleted: { [unowned self] in
