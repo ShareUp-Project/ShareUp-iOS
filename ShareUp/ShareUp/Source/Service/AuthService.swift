@@ -83,7 +83,8 @@ class AuthService {
                 print(token)
                 if StoregaeManager.shared.create(token) { return (.ok) }
                 return .fail
-            }.catchError { [unowned self] in return .just(setNetworkError($0)) }
+            }.catchError { [unowned self] in return .just(setNetworkError($0))
+            }
     }
     
     func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String) -> Observable<(StatusRules)> {
@@ -157,6 +158,10 @@ class AuthService {
         print(error)
         print(error.localizedDescription)
         guard let status = (error as? MoyaError)?.response?.statusCode else { return (.fail) }
+        print((error as? MoyaError)?.response?.response)
+        print((error as? MoyaError)?.response?.description)
+        
+        print((error as? MoyaError)?.response.unsafelyUnwrapped.data.base64EncodedString())
         return (StatusRules(rawValue: status) ?? .fail)
     }
     

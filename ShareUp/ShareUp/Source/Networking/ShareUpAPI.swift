@@ -29,23 +29,23 @@ enum ShareUpAPI {
 
 extension ShareUpAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "http://15.164.231.135/api")!
+        return URL(string: "http://52.79.143.242/api")!
     }
     
     var path: String {
         switch self {
         case .signUp:
-            return "/user"
+            return "/users"
         case .phoneCertify:
-            return "/phone"
+            return "/phones"
         case .nicknameCheck:
-            return "/user/nickname"
+            return "/users/nickname"
         case .passwordReset:
-            return "/user/password"
+            return "/users/password"
         case .signIn:
             return "/auth"
         case .checkCode:
-            return "/phone/check"
+            return "/phones/check"
         case .certifyPassword:
             return "/phone/password"
         case .autoLogin:
@@ -99,16 +99,17 @@ extension ShareUpAPI: TargetType {
         case .certifyPassword(let phone):
             return .requestParameters(parameters: ["phone": phone], encoding: JSONEncoding.prettyPrinted)
         case .wirtePost(let content, let category, let tags, let images, let title):
-            var multipartFormData = [Moya.MultipartFormData]()
+            var multipartFormData = [MultipartFormData]()
             for index in images {
-                multipartFormData.append(Moya.MultipartFormData(provider: .data(index), name: "images", fileName: "image.jpg", mimeType: "image/png"))
+                multipartFormData.append(MultipartFormData(provider: .data(index), name: "images", fileName: "image.jpg", mimeType: "image/png"))
             }
             for i in tags {
-                multipartFormData.append(Moya.MultipartFormData(provider: .data(i.data(using: .utf8)!), name: "tag", mimeType: "text/plain"))
+                multipartFormData.append(MultipartFormData(provider: .data(i.data(using: .utf8)!), name: "tags", mimeType: "text/plain"))
             }
-            multipartFormData.append(Moya.MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
-            multipartFormData.append(Moya.MultipartFormData(provider: .data(category.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
-            multipartFormData.append(Moya.MultipartFormData(provider: .data(title.data(using: .utf8)!), name: "title", mimeType: "text/plain"))
+            multipartFormData.append(MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
+            multipartFormData.append(MultipartFormData(provider: .data(category.data(using: .utf8)!), name: "category", mimeType: "text/plain"))
+            multipartFormData.append(MultipartFormData(provider: .data(title.data(using: .utf8)!), name: "title", mimeType: "text/plain"))
+            print(multipartFormData)
             return .uploadMultipart(multipartFormData)
         case .getPosts(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
