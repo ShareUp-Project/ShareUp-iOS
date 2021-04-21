@@ -29,16 +29,18 @@ class PostTableViewCell: UITableViewCell {
         $0.isHidden = true
     }
     let animationPost = PublishRelay<Void>()
-    
     var disposeBag = DisposeBag()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         addSubview(animationView)
-        animationView.play()
-
-        lottieGesture()
+        
+        animationView.snp.makeConstraints { (make) in
+            make.center.equalTo(shareImageView)
+            make.width.equalTo(240)
+            make.height.equalTo(128)
+        }
     }
 
     override func prepareForReuse() {
@@ -51,7 +53,6 @@ class PostTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
     
     func configCell(_ data: Post) {
@@ -79,21 +80,7 @@ class PostTableViewCell: UITableViewCell {
         scrapLabel.isHidden = true
     }
     
-    func lottieGesture() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-        tap.numberOfTapsRequired = 2
-        tap.numberOfTouchesRequired = 1
-        
-        shareImageView.addGestureRecognizer(tap)
-        
-        animationView.snp.makeConstraints { (make) in
-            make.center.equalToSuperview()
-            make.width.equalTo(240)
-            make.height.equalTo(128)
-        }
-    }
-    
-    @objc func doubleTapped() {
+    func doubleTapped() {
         animationPost.accept(())
         animationView.isHidden = false
         animationView.play()
