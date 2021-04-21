@@ -1236,12 +1236,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ccR-bx-omu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-896" y="-244"/>
+            <point key="canvasLocation" x="-543" y="-212"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tab Bar View Controller-->
         <scene sceneID="dAo-yM-IMn">
             <objects>
-                <tabBarController storyboardIdentifier="main" automaticallyAdjustsScrollViewInsets="NO" id="9By-qx-UcT" customClass="TabBarController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="main" automaticallyAdjustsScrollViewInsets="NO" id="9By-qx-UcT" customClass="TabBarViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SI8-jR-YZD">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
