@@ -70,6 +70,8 @@ class MainViewController: UIViewController {
     private func setTableView() {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         mainTableView.register(nib, forCellReuseIdentifier: "mainCell")
-        mainTableView.rowHeight = 388
+        mainTableView.rowHeight = UITableView.automaticDimension
+        mainTableView.estimatedRowHeight = 350
+        
     }
 }

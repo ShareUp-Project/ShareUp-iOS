@@ -23,7 +23,6 @@ class ScrapViewController: UIViewController {
 
         bindViewModel()
         setTableView()
-        navigationSetTitle("ShareUp")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +61,8 @@ class ScrapViewController: UIViewController {
     private func setTableView() {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         scrapTableView.register(nib, forCellReuseIdentifier: "mainCell")
-        scrapTableView.rowHeight = 367
+        scrapTableView.rowHeight = UITableView.automaticDimension
+        scrapTableView.estimatedRowHeight = 350
     }
     
 }
