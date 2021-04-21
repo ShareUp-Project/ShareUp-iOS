@@ -39,9 +39,6 @@ class PostViewController: UIViewController {
     
         managerTrait()
         bindViewModel()
-        
-        contentTextView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: MainColor.primaryGreen]
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,9 +61,6 @@ class PostViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         output.isEnable.drive(rightButton.rx.isEnabled).disposed(by: disposeBag)
-        output.isEnable.drive(onNext: {[unowned self] send in
-            print(send)
-        }).disposed(by: disposeBag)
     }
     
     private func managerTrait() {
@@ -81,8 +75,7 @@ class PostViewController: UIViewController {
             }, deselect: { (asset) in
             }, cancel: { (assets) in
             }, finish: { (assets) in
-                for i in 0..<assets.count
-                {
+                for i in 0..<assets.count {
                     self.selectAsset.append(assets[i])
                 }
                 pickerCollectionView.reloadData()
@@ -98,6 +91,7 @@ class PostViewController: UIViewController {
         contentTextView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
         contentTextView.textColor = UIColor.lightGray
         cameraBoxView.layer.borderColor = MainColor.gray03.cgColor
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -141,6 +135,8 @@ extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSour
             pickerCollectionView.reloadData()
             numOfPictureLabel.text = String(selectAsset.count)
         }).disposed(by: cell.disposeBag)
+        
+        if selectAsset.count != 0 { numOfPictureLabel.textColor = MainColor.primaryGreen }
         
         return cell
     }
