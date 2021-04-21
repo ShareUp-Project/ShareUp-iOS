@@ -45,13 +45,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="조회수" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TuE-9K-1PD">
-                        <rect key="frame" x="16" y="357" width="33.5" height="18"/>
+                        <rect key="frame" x="16" y="336" width="33.5" height="18"/>
                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Qq-ES-XEM">
-                        <rect key="frame" x="49.5" y="357" width="20" height="18"/>
+                        <rect key="frame" x="51.5" y="336" width="20" height="18"/>
                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -63,13 +63,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKm-UY-3D2">
-                        <rect key="frame" x="115.5" y="357" width="27" height="18"/>
+                        <rect key="frame" x="117.5" y="336" width="27" height="18"/>
                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="·스크랩" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3q-2p-Jlf">
-                        <rect key="frame" x="73.5" y="357" width="40" height="18"/>
+                        <rect key="frame" x="75.5" y="336" width="40" height="18"/>
                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="12"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -79,8 +79,8 @@
                         <state key="normal" image="Vector"/>
                         <state key="selected" image="SelectVector"/>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="해시태그" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDU-cV-g8L">
-                        <rect key="frame" x="16" y="332" width="288" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDU-cV-g8L">
+                        <rect key="frame" x="16" y="332" width="288" height="0.0"/>
                         <fontDescription key="fontDescription" name="NotoSansKR-Regular" family="Noto Sans KR" pointSize="14"/>
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -101,7 +101,7 @@
                     <constraint firstItem="TuE-9K-1PD" firstAttribute="leading" secondItem="nDU-cV-g8L" secondAttribute="leading" id="aTY-nJ-tNY"/>
                     <constraint firstItem="yoQ-NI-J06" firstAttribute="top" secondItem="AdW-RH-386" secondAttribute="bottom" constant="8" id="cYC-FG-Wxa"/>
                     <constraint firstItem="lL2-pj-h5c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="19" id="mCx-0R-G5B"/>
-                    <constraint firstItem="2Qq-ES-XEM" firstAttribute="leading" secondItem="TuE-9K-1PD" secondAttribute="trailing" id="myi-hb-V71"/>
+                    <constraint firstItem="2Qq-ES-XEM" firstAttribute="leading" secondItem="TuE-9K-1PD" secondAttribute="trailing" constant="2" id="myi-hb-V71"/>
                     <constraint firstItem="s3q-2p-Jlf" firstAttribute="centerY" secondItem="TuE-9K-1PD" secondAttribute="centerY" id="n4C-N2-6L5"/>
                     <constraint firstAttribute="trailing" secondItem="lL2-pj-h5c" secondAttribute="trailing" constant="19" id="pB0-AH-P5C"/>
                     <constraint firstItem="AdW-RH-386" firstAttribute="top" secondItem="WQr-Tk-2L2" secondAttribute="bottom" constant="16" id="svz-vr-NzA"/>
