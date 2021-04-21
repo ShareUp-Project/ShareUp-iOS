@@ -9,18 +9,26 @@ import UIKit
 import RxSwift
 import RxCocoa
 import Kingfisher
+import Then
+import ActiveLabel
 
 class DetailViewController: UIViewController {
 
     @IBOutlet weak var shareImageView: UIImageView!
-    @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var nicknameButton: UIButton!
     @IBOutlet weak var scrapButton: UIButton!
-    @IBOutlet weak var contentTextView: UITextView!
+    @IBOutlet weak var contentTextView: ActiveLabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
+    @IBOutlet weak var detailScrollView: UIScrollView!
+    
+    lazy var deletePostButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: nil)
+        button.tintColor = MainColor.red
+        return button
+    }()
     
     var detailId = String()
     private let disposeBag = DisposeBag()
@@ -30,30 +38,33 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(detailId)
+        
+        contentTextView.numberOfLines = 0
+        contentTextView.enabledTypes = [.hashtag]
         bindViewModel()
+//        setPagingGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         loadData.accept(())
-    }
-    
-    @IBAction func setPaging(_ sender: Any) {
-        shareImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/\(image[pageControl.currentPage])")!)
+        
+        let backButton = UIBarButtonItem()
+        backButton.title = "뒤로"
+        backButton.tintColor = MainColor.primaryGreen
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        navigationController?.navigationBar.topItem?.title = "게시물"
     }
     
     private func bindViewModel() {
         let input = DetailViewModel.Input(getDetail: loadData.asSignal(onErrorJustReturn: ()),
-                                          detailPostId: detailId, postScrap: scrapButton.rx.tap.asDriver())
+                                          detailPostId: detailId, postScrap: scrapButton.rx.tap.asDriver(),
+                                          deletePost: deletePostButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
         
         output.getDetail.bind {[unowned self] data in
-            print(data.images[0])
-            pageControl.numberOfPages = data.images.count
-            shareImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/\(data.images[0])")!)
+            shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/\(data.images[0])")!)
             image = data.images
             titleLabel.text = data.title
             nicknameButton.setTitle(data.user.nickname, for: .normal)
