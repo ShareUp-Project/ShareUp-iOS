@@ -12,11 +12,10 @@ import RxCocoa
 import ActiveLabel
 import Kingfisher
 
-class TestViewController: UIViewController {
+class DetailViewController: UIViewController {
 
     @IBOutlet weak var pictureCollectionView: UICollectionView!
     @IBOutlet weak var pageController: AdvancedPageControlView!
-    @IBOutlet weak var shareImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var nicknameButton: UIButton!
@@ -30,32 +29,28 @@ class TestViewController: UIViewController {
         button.tintColor = MainColor.red
         return button
     }()
-    var imageFile = ["detail", "selectDetail", "SelectVector", "Vector"]
+    var detailImage = [String]()
     var detailId = String()
     private let disposeBag = DisposeBag()
     private let viewModel = DetailViewModel()
     private var loadData = BehaviorRelay<Void>(value: ())
-    private var image = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 10.0, indicatorColor: MainColor.primaryGreen, dotsColor: MainColor.gray02, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
-        
-        pictureCollectionView.dataSource = self
-        pictureCollectionView.delegate = self
+        pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 10.0, indicatorColor: MainColor.primaryGreen, dotsColor: .white, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
         
         contentTextView.numberOfLines = 0
         contentTextView.enabledTypes = [.hashtag]
         contentTextView.font = UIFont(name: "Noto Sans KR", size: 16)
-        bindViewModel()
         
-        pageController.numberOfPages = imageFile.count
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        self.title = "게시글"
         loadData.accept(())
         navigationBackCustom()
     }
@@ -67,8 +62,7 @@ class TestViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.getDetail.bind {[unowned self] data in
-            shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/\(data.images[0])")!)
-            image = data.images
+            detailImage = data.images
             titleLabel.text = data.title
             nicknameButton.setTitle(data.user.nickname, for: .normal)
             scrapButton.isSelected = data.isScrap
@@ -76,15 +70,13 @@ class TestViewController: UIViewController {
             viewsLabel.text = String(data.views)
             scrapsLabel.text = String(data.scraps)
             if data.isMine { navigationItem.rightBarButtonItem = deletePostButton }
+            pageController.numberOfPages = data.images.count
+            pictureCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
-            loadData.accept(())
-        }).disposed(by: disposeBag)
+        output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in loadData.accept(()) }).disposed(by: disposeBag)
         
-        output.result.emit(onCompleted : {
-            self.navigationController?.popViewController(animated: true)
-        }).disposed(by: disposeBag)
+        output.result.emit(onCompleted : { self.navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
     }
 
 }
@@ -95,15 +87,15 @@ class DetailCollectionViewCell: UICollectionViewCell {
     
 }
 
-extension TestViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageFile.count
+        return detailImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "scrollCell", for: indexPath) as! DetailCollectionViewCell
         
-        cell.detailImageView.image = UIImage(named: imageFile[indexPath.row])
+        cell.detailImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + detailImage[indexPath.row]))
         
         return cell
     }
