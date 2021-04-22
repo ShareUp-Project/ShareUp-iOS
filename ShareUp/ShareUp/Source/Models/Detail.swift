@@ -17,6 +17,7 @@ struct DetailPost: Codable {
     let images: [String]
     let scraps: Int
     let isScrap: Bool
+    let isMine: Bool
 }
 
 struct Detail: Codable {
