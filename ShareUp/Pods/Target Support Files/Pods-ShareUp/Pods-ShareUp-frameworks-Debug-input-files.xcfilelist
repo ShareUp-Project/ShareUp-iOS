@@ -1,5 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-ShareUp/Pods-ShareUp-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/ActiveLabel/ActiveLabel.framework
+${BUILT_PRODUCTS_DIR}/AdvancedPageControl/AdvancedPageControl.framework
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework
 ${BUILT_PRODUCTS_DIR}/BSImagePicker/BSImagePicker.framework
