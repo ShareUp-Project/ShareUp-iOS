@@ -32,4 +32,8 @@ struct TokenManager {
             return false
         }
     }
+    
+    static func removeToken() {
+        StoregaeManager.shared.delete()
+    }
 }
