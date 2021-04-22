@@ -37,7 +37,6 @@ class ScarpViewModel: ViewModelType {
         input.getScarpPosts.asObservable()
             .flatMap { _ in api.getScrapPosts(0) }
             .subscribe(onNext: { data, response in
-                print(response)
                 switch response {
                 case .ok:
                     getScarpData.accept(data!.data)

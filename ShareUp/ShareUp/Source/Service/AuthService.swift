@@ -20,7 +20,6 @@ class AuthService {
             .asObservable()
             .map(Tokens.self)
             .map { token -> (StatusRules) in
-                print(token)
                 if StoregaeManager.shared.create(token) { return (.ok) }
                 return .fail
             }.catchError { [unowned self] in return .just(setNetworkError($0)) }

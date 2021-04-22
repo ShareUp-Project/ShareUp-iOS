@@ -38,6 +38,7 @@ final class SignInViewModel: ViewModelType {
             guard let self = self else { return }
             if UserDefaults.standard.bool(forKey: "isAutoLogin") && !(TokenManager.currentToken?.refreshToken.isEmpty ?? false){
                 api.autoLogin().subscribe(onNext: { response in
+                    print(response)
                     switch response {
                     case .ok:
                         autoResult.onCompleted()

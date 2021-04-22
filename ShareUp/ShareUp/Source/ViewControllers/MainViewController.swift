@@ -72,6 +72,5 @@ class MainViewController: UIViewController {
         mainTableView.register(nib, forCellReuseIdentifier: "mainCell")
         mainTableView.rowHeight = UITableView.automaticDimension
         mainTableView.estimatedRowHeight = 350
-        
     }
 }

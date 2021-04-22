@@ -52,11 +52,9 @@ class PostTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
     
     func configCell(_ data: Post) {
-//        badgeImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
         nicknameButton.setTitle(data.user.nickname, for: .normal)
         scrapButton.isSelected = data.isScrap
         shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + data.images[0]))
