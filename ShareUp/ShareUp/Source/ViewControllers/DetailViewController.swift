@@ -1,19 +1,21 @@
 //
-//  DetailViewController.swift
+//  TestViewController.swift
 //  ShareUp
 //
-//  Created by 이가영 on 2021/04/11.
+//  Created by 이가영 on 2021/04/21.
 //
 
 import UIKit
+import AdvancedPageControl
 import RxSwift
 import RxCocoa
-import Kingfisher
-import Then
 import ActiveLabel
+import Kingfisher
 
-class DetailViewController: UIViewController {
+class TestViewController: UIViewController {
 
+    @IBOutlet weak var pictureCollectionView: UICollectionView!
+    @IBOutlet weak var pageController: AdvancedPageControlView!
     @IBOutlet weak var shareImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var badgeImageView: UIImageView!
@@ -22,14 +24,13 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var contentTextView: ActiveLabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
-    @IBOutlet weak var detailScrollView: UIScrollView!
     
     lazy var deletePostButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.red
         return button
     }()
-    
+    var imageFile = ["detail", "selectDetail", "SelectVector", "Vector"]
     var detailId = String()
     private let disposeBag = DisposeBag()
     private let viewModel = DetailViewModel()
@@ -39,22 +40,24 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 10.0, indicatorColor: MainColor.primaryGreen, dotsColor: MainColor.gray02, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
+        
+        pictureCollectionView.dataSource = self
+        pictureCollectionView.delegate = self
+        
         contentTextView.numberOfLines = 0
         contentTextView.enabledTypes = [.hashtag]
+        contentTextView.font = UIFont(name: "Noto Sans KR", size: 16)
         bindViewModel()
-//        setPagingGesture()
+        
+        pageController.numberOfPages = imageFile.count
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         loadData.accept(())
-        
-        let backButton = UIBarButtonItem()
-        backButton.title = "뒤로"
-        backButton.tintColor = MainColor.primaryGreen
-        navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        navigationController?.navigationBar.topItem?.title = "게시물"
+        navigationBackCustom()
     }
     
     private func bindViewModel() {
@@ -72,9 +75,7 @@ class DetailViewController: UIViewController {
             contentTextView.text = data.content
             viewsLabel.text = String(data.views)
             scrapsLabel.text = String(data.scraps)
-            if data.isMine {
-                navigationItem.rightBarButtonItem = deletePostButton
-            }
+            if data.isMine { navigationItem.rightBarButtonItem = deletePostButton }
         }.disposed(by: disposeBag)
         
         output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
@@ -85,30 +86,32 @@ class DetailViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }).disposed(by: disposeBag)
     }
-    
-    private func setPagingGesture() {
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
-        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
-        self.view.addGestureRecognizer(swipeLeft)
-        
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture(_:)))
-        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
-        self.view.addGestureRecognizer(swipeRight)
-    }
-    
-    @objc func respondToSwipeGesture(_ gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer{
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizer.Direction.left :
-                pageControl.currentPage += 1
-                shareImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/\(image[pageControl.currentPage])")!)
-            case UISwipeGestureRecognizer.Direction.right :
-                pageControl.currentPage -= 1
-                shareImageView.kf.setImage(with: URL(string: "https://shareup-s3.s3.ap-northeast-2.amazonaws.com/\(image[pageControl.currentPage])")!)
-            default:
-                break
-            }
-        }
-    }
 
+}
+
+class DetailCollectionViewCell: UICollectionViewCell {
+
+    @IBOutlet weak var detailImageView: UIImageView!
+    
+}
+
+extension TestViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return imageFile.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "scrollCell", for: indexPath) as! DetailCollectionViewCell
+        
+        cell.detailImageView.image = UIImage(named: imageFile[indexPath.row])
+        
+        return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offSet = scrollView.contentOffset.x
+        let width = scrollView.frame.width
+        
+        pageController.setPageOffset(offSet / width)
+    }
 }
