@@ -2,27 +2,11 @@ PODS:
   - ActiveLabel (1.1.0)
   - AdvancedPageControl (0.9.0)
   - Alamofire (5.4.1)
-  - AppAuth (1.4.0):
-    - AppAuth/Core (= 1.4.0)
-    - AppAuth/ExternalUserAgent (= 1.4.0)
-  - AppAuth/Core (1.4.0)
-  - AppAuth/ExternalUserAgent (1.4.0)
   - BSImagePicker (3.3.1)
-  - GoogleSignIn (5.0.2):
-    - AppAuth (~> 1.2)
-    - GTMAppAuth (~> 1.0)
-    - GTMSessionFetcher/Core (~> 1.1)
-  - GTMAppAuth (1.1.0):
-    - AppAuth/Core (~> 1.4)
-    - GTMSessionFetcher (~> 1.4)
-  - GTMSessionFetcher (1.5.0):
-    - GTMSessionFetcher/Full (= 1.5.0)
-  - GTMSessionFetcher/Core (1.5.0)
-  - GTMSessionFetcher/Full (1.5.0):
-    - GTMSessionFetcher/Core (= 1.5.0)
   - Kingfisher (5.15.8):
     - Kingfisher/Core (= 5.15.8)
   - Kingfisher/Core (5.15.8)
+  - KMPlaceholderTextView (1.4.0)
   - lottie-ios (3.2.1)
   - Moya (14.0.0):
     - Moya/Core (= 14.0.0)
@@ -47,8 +31,8 @@ DEPENDENCIES:
   - AdvancedPageControl
   - Alamofire (~> 5.2)
   - BSImagePicker (~> 3.1)
-  - GoogleSignIn
   - Kingfisher (~> 5.0)
+  - KMPlaceholderTextView (~> 1.4.0)
   - lottie-ios
   - Moya (~> 14.0)
   - Moya/RxSwift (~> 14.0)
@@ -64,12 +48,9 @@ SPEC REPOS:
     - ActiveLabel
     - AdvancedPageControl
     - Alamofire
-    - AppAuth
     - BSImagePicker
-    - GoogleSignIn
-    - GTMAppAuth
-    - GTMSessionFetcher
     - Kingfisher
+    - KMPlaceholderTextView
     - lottie-ios
     - Moya
     - RxCocoa
@@ -84,12 +65,9 @@ SPEC CHECKSUMS:
   ActiveLabel: 5e3f4de79a1952d4604b845a0610d4776e4b82b3
   AdvancedPageControl: 39e3b32b00b2d324c534f8e17cc6c5be9abe84b7
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
-  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
-  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
+  KMPlaceholderTextView: 2206c3df39979e9396e2d96fa9f427a8951121b0
   lottie-ios: 106e92eaf11fbed0a76590b4cdb9b5ec26123ff7
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
@@ -100,6 +78,6 @@ SPEC CHECKSUMS:
   SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: a0a024250f11a1e77a7be6b084302a9913b6b2e3
+PODFILE CHECKSUM: 242d0b4e544175a3bf3ca1dbe32a8be67641a2b6
 
 COCOAPODS: 1.10.1
