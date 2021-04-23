@@ -31,6 +31,7 @@ class PostViewController: UIViewController {
     lazy var rightButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.primaryGreen
+        button.isEnabled = false
         return button
     }()
     
@@ -87,10 +88,6 @@ class PostViewController: UIViewController {
             })
         }).disposed(by: disposeBag)
         
-        titleTextView.text = "이곳을 눌러 제목을 입력하세요."
-        titleTextView.textColor = UIColor.lightGray
-        contentTextView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
-        contentTextView.textColor = UIColor.lightGray
         cameraBoxView.layer.borderColor = MainColor.gray03.cgColor
         
     }
@@ -103,25 +100,6 @@ class PostViewController: UIViewController {
         if segue.identifier == "show" {
             let viewController : CategoryViewController = segue.destination as! CategoryViewController
             viewController.delegate = self
-        }
-    }
-}
-
-extension PostViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
-            textView.text = nil
-            textView.textColor = UIColor.black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty && textView == titleTextView{
-            textView.text = "이곳을 눌러 제목을 입력하세요."
-            textView.textColor = UIColor.lightGray
-        }else if textView.text.isEmpty && textView == contentTextView {
-            textView.text = "쉐어업에 공유할 업사이클 이야기를 작성해주세요. 태그는 본문에 원하는 #태그를 입력하면 자동으로 태그됩니다."
-            textView.textColor = UIColor.lightGray
         }
     }
 }

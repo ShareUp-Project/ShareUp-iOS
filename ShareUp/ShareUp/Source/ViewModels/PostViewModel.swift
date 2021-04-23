@@ -32,11 +32,10 @@ class PostViewModel: ViewModelType {
         let api = AuthService()
         let result = PublishSubject<String>()
         let info = Driver.combineLatest(input.isImage, filterCategory, input.isTitle, input.isContent, hashtag.asDriver())
-        let isEnable = info.map { !$0.1.isEmpty && !$0.2.isEmpty && !$0.3.isEmpty }
+        let isEnable = info.map { !$0.0.isEmpty && !$0.1.isEmpty && !$0.2.isEmpty && !$0.3.isEmpty }
     
         input.postTap.asObservable().withLatestFrom(info).subscribe(onNext: { [weak self] images, category, title, content, hashtag in
             guard let self = self else { return }
-            print(images)
             api.writePost(content, category, hashtag ?? [" "], images, title).subscribe(onNext: { response in
                 switch response {
                 case .ok:
