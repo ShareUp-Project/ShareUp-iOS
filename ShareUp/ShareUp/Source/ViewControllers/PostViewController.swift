@@ -46,6 +46,7 @@ class PostViewController: UIViewController {
         
         navigationController?.navigationBar.topItem?.title = "글쓰기"
         tabBarController?.navigationItem.rightBarButtonItem = rightButton
+        tabBarController?.navigationItem.leftBarButtonItems = []
     }
     
     private func bindViewModel() {

@@ -21,12 +21,18 @@ class MainViewController: UIViewController {
     private let selectScrap = PublishRelay<Int>()
     private let animationPost = PublishRelay<Int>()
     
+    lazy var ShareUp: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "ShareUp", style: .plain, target: self, action: nil)
+        button.isEnabled = false
+        button.tintColor = .black
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         bindViewModel()
         setTableView()
-        navigationController?.navigationBar.topItem?.title = "ShareUp"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +41,7 @@ class MainViewController: UIViewController {
         getData.accept(())
         mainTableView.reloadData()
         
-        navigationController?.navigationBar.topItem?.title = "ShareUp"
+        tabBarController?.navigationItem.leftBarButtonItem = ShareUp
         tabBarController?.navigationItem.rightBarButtonItems = []
         mainTableView.separatorInset = .zero
     }
@@ -49,6 +55,7 @@ class MainViewController: UIViewController {
         
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
+            print(data)
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in
                 cell.doubleTapped()
                 selectScrap.accept(row)
@@ -62,6 +69,12 @@ class MainViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
+            getData.accept(())
+            mainTableView.reloadData()
+        }).disposed(by: disposeBag)
+        
+        output.result.emit(onNext: { [unowned self] text in
+            print(text)
             getData.accept(())
             mainTableView.reloadData()
         }).disposed(by: disposeBag)
