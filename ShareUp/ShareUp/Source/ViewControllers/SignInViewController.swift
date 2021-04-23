@@ -23,7 +23,7 @@ class SignInViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = SignInViewModel()
     private let setAutoLogin = BehaviorRelay<Void>(value: ())
-    private let autoIsSelect = PublishRelay<Bool>()
+    private let autoIsSelect = BehaviorRelay<Bool>(value: false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
