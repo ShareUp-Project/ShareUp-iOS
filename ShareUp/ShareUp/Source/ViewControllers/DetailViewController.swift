@@ -106,4 +106,11 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         
         pageController.setPageOffset(offSet / width)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = storyboard?.instantiateViewController(identifier: "imageDetail") as! DetailImageViewController
+        vc.modalPresentationStyle = .overFullScreen
+        vc.sendImage = detailImage[indexPath.row]
+        present(vc, animated: true, completion: nil)
+    }
 }

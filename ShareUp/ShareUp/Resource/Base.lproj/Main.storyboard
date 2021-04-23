@@ -1418,29 +1418,41 @@
         <!--Detail Image View Controller-->
         <scene sceneID="oqz-ba-Fvh">
             <objects>
-                <viewController id="Ju7-WI-Ecp" customClass="DetailImageViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="imageDetail" id="Ju7-WI-Ecp" customClass="DetailImageViewController" customModule="ShareUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BQU-Mo-5RT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aw6-dD-W4R">
-                                <rect key="frame" x="0.0" y="318" width="414" height="260"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="260" id="kh0-jz-DuB"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aw6-dD-W4R">
+                                <rect key="frame" x="0.0" y="234" width="414" height="428"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1E-FM-W0V">
+                                <rect key="frame" x="355" y="44" width="43" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="43" id="PZe-FQ-TN8"/>
+                                    <constraint firstAttribute="height" constant="43" id="ukE-II-Axm"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="xmark" catalog="system" symbolScale="large"/>
+                                </state>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5ec-Er-116"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="aw6-dD-W4R" firstAttribute="leading" secondItem="5ec-Er-116" secondAttribute="leading" id="4oO-rl-3Ds"/>
+                            <constraint firstItem="d1E-FM-W0V" firstAttribute="top" secondItem="5ec-Er-116" secondAttribute="top" id="C3a-BO-JiW"/>
                             <constraint firstItem="aw6-dD-W4R" firstAttribute="centerY" secondItem="BQU-Mo-5RT" secondAttribute="centerY" id="FEm-9r-w3W"/>
                             <constraint firstItem="aw6-dD-W4R" firstAttribute="centerX" secondItem="BQU-Mo-5RT" secondAttribute="centerX" id="eWd-7P-yk0"/>
+                            <constraint firstItem="5ec-Er-116" firstAttribute="bottom" secondItem="aw6-dD-W4R" secondAttribute="bottom" constant="200" id="mkl-zj-j8T"/>
+                            <constraint firstItem="5ec-Er-116" firstAttribute="trailing" secondItem="d1E-FM-W0V" secondAttribute="trailing" constant="16" id="oLj-AE-eN0"/>
                             <constraint firstItem="aw6-dD-W4R" firstAttribute="trailing" secondItem="5ec-Er-116" secondAttribute="trailing" id="uKR-R3-bhj"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="detailImageView" destination="aw6-dD-W4R" id="7JR-qm-XFF"/>
+                        <outlet property="dismissButton" destination="d1E-FM-W0V" id="xqB-eu-nlI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BBx-Wk-mMM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1468,6 +1480,7 @@
         <image name="rectangle.portrait.fill" catalog="system" width="115" height="128"/>
         <image name="selectDetail" width="80" height="32"/>
         <image name="tray.fill" catalog="system" width="128" height="88"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
