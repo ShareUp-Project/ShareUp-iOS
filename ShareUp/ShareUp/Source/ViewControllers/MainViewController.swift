@@ -19,7 +19,6 @@ class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let getData = PublishRelay<Void>()
     private let selectScrap = PublishRelay<Int>()
-    private let animationPost = PublishRelay<Int>()
     
     lazy var ShareUp: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "ShareUp", style: .plain, target: self, action: nil)
@@ -49,8 +48,7 @@ class MainViewController: UIViewController {
     private func bindViewModel() {
         let input = MainViewModel.Input(getPosts: getData.asSignal(onErrorJustReturn: ()),
                                         loadDetail: mainTableView.rx.itemSelected.asSignal(),
-                                        postScrap: selectScrap.asSignal(),
-                                        animationPost: animationPost.asSignal())
+                                        postScrap: selectScrap.asSignal())
         let output = viewModel.transform(input)
         
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in

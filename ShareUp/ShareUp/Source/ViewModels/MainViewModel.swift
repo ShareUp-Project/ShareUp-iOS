@@ -16,7 +16,6 @@ class MainViewModel: ViewModelType {
         let getPosts: Signal<Void>
         let loadDetail: Signal<IndexPath>
         let postScrap: Signal<Int>
-        let animationPost: Signal<Int>
     }
     
     struct Output{
@@ -32,9 +31,7 @@ class MainViewModel: ViewModelType {
         let getPostsData = BehaviorRelay<[Post]>(value: [])
         let getDetailRow = PublishSubject<String>()
         let scrapResult = PublishRelay<Void>()
-        
         let scrapInfo = Signal.combineLatest(input.postScrap, getPostsData.asSignal(onErrorJustReturn: []))
-        let animationInfo = Signal.combineLatest(input.animationPost, getPostsData.asSignal(onErrorJustReturn: []))
         
         input.getPosts.asObservable()
             .flatMap { _ in api.getPosts(0) }
@@ -77,21 +74,6 @@ class MainViewModel: ViewModelType {
                     }
                 }).disposed(by: self.disposeBag)
             }
-        }).disposed(by: disposeBag)
-        
-        input.animationPost.asObservable().withLatestFrom(animationInfo).subscribe(onNext: {[weak self] row, data in
-            guard let self = self else { return }
-            let postId = data[row].id
-            api.scrapPost(postId).subscribe(onNext: { response in
-                switch response {
-                 case .ok:
-                    scrapResult.accept(())
-                case .conflict:
-                    result.onNext("이미 스크랩 된 글")
-                default:
-                    result.onNext("서버 오류")
-                }
-            }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
         return Output(getPosts: getPostsData.asDriver(onErrorJustReturn: []),
