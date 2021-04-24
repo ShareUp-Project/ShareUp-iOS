@@ -24,22 +24,23 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
     
+    var detailId = String()
+    private let disposeBag = DisposeBag()
+    private let viewModel = DetailViewModel()
+    private var loadData = BehaviorRelay<Void>(value: ())
+    private var showDetailImages = [String]()
+    
     lazy var deletePostButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.red
         return button
     }()
-    var detailImage = [String]()
-    var detailId = String()
-    private let disposeBag = DisposeBag()
-    private let viewModel = DetailViewModel()
-    private var loadData = BehaviorRelay<Void>(value: ())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 10.0, indicatorColor: MainColor.primaryGreen, dotsColor: .white, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
-        
+
         contentTextView.numberOfLines = 0
         contentTextView.enabledTypes = [.hashtag]
         contentTextView.font = UIFont(name: "Noto Sans KR", size: 16)
@@ -50,7 +51,7 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        self.title = "게시글"
+        title = "게시글"
         loadData.accept(())
         navigationBackCustom()
     }
@@ -62,7 +63,7 @@ class DetailViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.getDetail.bind {[unowned self] data in
-            detailImage = data.images
+            showDetailImages = data.images
             titleLabel.text = data.title
             nicknameButton.setTitle(data.user.nickname, for: .normal)
             scrapButton.isSelected = data.isScrap
@@ -82,20 +83,18 @@ class DetailViewController: UIViewController {
 }
 
 class DetailCollectionViewCell: UICollectionViewCell {
-
     @IBOutlet weak var detailImageView: UIImageView!
-    
 }
 
 extension DetailViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return detailImage.count
+        return showDetailImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "scrollCell", for: indexPath) as! DetailCollectionViewCell
         
-        cell.detailImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + detailImage[indexPath.row]))
+        cell.detailImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + showDetailImages[indexPath.row]))
         
         return cell
     }
@@ -109,8 +108,8 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(identifier: "imageDetail") as! DetailImageViewController
-        vc.modalPresentationStyle = .overFullScreen
-        vc.sendImage = detailImage[indexPath.row]
+        vc.modalPresentationStyle = .fullScreen
+        vc.sendImage = showDetailImages[indexPath.row]
         present(vc, animated: true, completion: nil)
     }
 }
