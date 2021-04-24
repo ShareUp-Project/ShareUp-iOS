@@ -12,7 +12,7 @@ import Photos
 import RxCocoa
 
 class PostViewController: UIViewController {
-
+    
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var cameraBoxView: UIView!
     @IBOutlet weak var numOfPictureLabel: UILabel!
@@ -20,13 +20,16 @@ class PostViewController: UIViewController {
     @IBOutlet var categoryButton: [UIButton]!
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var contentTextView: UITextView!
-
-    private var selectAsset = [PHAsset]()
-    private var convertImageData = [Data]()
+    
     private var categoryTraking = BehaviorRelay<String>(value: "")
     private let viewModel = PostViewModel()
     private let disposeBag = DisposeBag()
-    private let selectImage = PublishRelay<[Data]>()
+    private let multipleImages = PublishRelay<[Data]>()
+    private var selectMultiImage = [PHAsset]() {
+        willSet {
+            if selectMultiImage.count != 0 { numOfPictureLabel.textColor = MainColor.primaryGreen }
+        }
+    }
     
     lazy var rightButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
@@ -37,7 +40,7 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         managerTrait()
         bindViewModel()
     }
@@ -52,7 +55,7 @@ class PostViewController: UIViewController {
     
     private func bindViewModel() {
         let input = PostViewModel.Input(postTap: rightButton.rx.tap.asDriver(),
-                                        isImage: selectImage.asDriver(onErrorJustReturn: []),
+                                        isImage: multipleImages.asDriver(onErrorJustReturn: []),
                                         isTitle: titleTextView.rx.text.orEmpty.asDriver(),
                                         isContent: contentTextView.rx.text.orEmpty.asDriver(),
                                         isCategory: categoryTraking.asDriver(onErrorJustReturn: ""))
@@ -72,17 +75,17 @@ class PostViewController: UIViewController {
             imagePicker.settings.theme.selectionStyle = .numbered
             imagePicker.settings.fetch.assets.supportedMediaTypes = [.image]
             imagePicker.settings.selection.unselectOnReachingMax = true
-            selectAsset.removeAll()
+            selectMultiImage.removeAll()
             presentImagePicker(imagePicker, select: { (asset) in
             }, deselect: { (asset) in
             }, cancel: { (assets) in
             }, finish: { (assets) in
                 for i in 0..<assets.count {
-                    self.selectAsset.append(assets[i])
+                    self.selectMultiImage.append(assets[i])
                 }
                 pickerCollectionView.reloadData()
-                selectImage.accept(getData(selectAsset))
-                numOfPictureLabel.text = String(selectAsset.count)
+                multipleImages.accept(getData(selectMultiImage))
+                numOfPictureLabel.text = String(selectMultiImage.count)
             }, completion: {
                 pickerCollectionView.reloadData()
             })
@@ -106,25 +109,22 @@ class PostViewController: UIViewController {
 
 extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return selectAsset.count
+        return selectMultiImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "pickerCell", for: indexPath) as! PickerCollectionViewCell
         
-        cell.pickerImageView.image = selectAsset[indexPath.row].getUIImage()
+        cell.pickerImageView.image = selectMultiImage[indexPath.row].getUIImage()
         cell.removeButton.rx.tap.subscribe(onNext: {[unowned self] _ in
-            selectAsset.remove(at: indexPath.row)
+            selectMultiImage.remove(at: indexPath.row)
             pickerCollectionView.reloadData()
-            numOfPictureLabel.text = String(selectAsset.count)
+            numOfPictureLabel.text = String(selectMultiImage.count)
         }).disposed(by: cell.disposeBag)
-        
-        if selectAsset.count != 0 { numOfPictureLabel.textColor = MainColor.primaryGreen }
         
         return cell
     }
 }
-
 
 extension PostViewController: DismissSendData {
     func dismissData(_ data: String) {
