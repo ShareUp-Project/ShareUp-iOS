@@ -40,7 +40,7 @@ class FindAuthViewModel: ViewModelType {
                 case .conflict:
                     waitAuthCode.onNext("이미 가입된 전화번호입니다.")
                 default:
-                    waitAuthCode.onNext("인증이 제대로 진행되지 않았습니다.")
+                    waitAuthCode.onNext("존재하지 않는 전화번호입니다.")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
@@ -55,7 +55,7 @@ class FindAuthViewModel: ViewModelType {
                 case .unauthorized:
                     result.onNext("인증번호가 올바르지 않습니다.")
                 default:
-                    result.onNext("인증이 제대로 진행되지 않았습니다.")
+                    result.onNext("인증번호가 올ㄹ바르지 않습니다.")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)

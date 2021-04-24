@@ -54,7 +54,7 @@ class SignUpViewModel: ViewModelType {
                 case .conflict:
                     result.onNext("중복된 닉네임입니다.")
                 default:
-                    result.onNext("오류로 회원가입이 작동하지 않습니다.")
+                    result.onNext("비밀번호 형식이 올바르지 않습니다.")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
