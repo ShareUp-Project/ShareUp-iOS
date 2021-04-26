@@ -20,6 +20,7 @@ class PostViewController: UIViewController {
     @IBOutlet var categoryButton: [UIButton]!
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var contentTextView: UITextView!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
     
     private var categoryTraking = BehaviorRelay<String>(value: "")
     private let viewModel = PostViewModel()
@@ -31,7 +32,7 @@ class PostViewController: UIViewController {
         }
     }
     
-    lazy var rightButton: UIBarButtonItem = {
+    lazy var postButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.primaryGreen
         button.isEnabled = false
@@ -49,12 +50,12 @@ class PostViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.topItem?.title = "글쓰기"
-        tabBarController?.navigationItem.rightBarButtonItem = rightButton
+        tabBarController?.navigationItem.rightBarButtonItem = postButton
         tabBarController?.navigationItem.leftBarButtonItems = []
     }
     
     private func bindViewModel() {
-        let input = PostViewModel.Input(postTap: rightButton.rx.tap.asDriver(),
+        let input = PostViewModel.Input(postTap: postButton.rx.tap.asDriver(),
                                         isImage: multipleImages.asDriver(onErrorJustReturn: []),
                                         isTitle: titleTextView.rx.text.orEmpty.asDriver(),
                                         isContent: contentTextView.rx.text.orEmpty.asDriver(),
@@ -62,10 +63,11 @@ class PostViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.result.emit(onCompleted: {[unowned self] in
+            loadingView.isHidden = true
             pushViewController("main")
         }).disposed(by: disposeBag)
         
-        output.isEnable.drive(rightButton.rx.isEnabled).disposed(by: disposeBag)
+        output.isEnable.drive(postButton.rx.isEnabled).disposed(by: disposeBag)
     }
     
     private func managerTrait() {
@@ -93,6 +95,10 @@ class PostViewController: UIViewController {
         
         cameraBoxView.layer.borderColor = MainColor.gray03.cgColor
         
+        postButton.rx.tap.subscribe(onNext: { _ in
+            self.loadingView.isHidden = false
+            self.loadingView.startAnimating()
+        }).disposed(by: disposeBag)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
