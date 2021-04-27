@@ -16,6 +16,7 @@ class MainViewModel: ViewModelType {
         let getPosts: Signal<Void>
         let loadDetail: Signal<IndexPath>
         let postScrap: Signal<Int>
+        let getMorePosts: Signal<Void>
     }
     
     struct Output{
@@ -32,6 +33,7 @@ class MainViewModel: ViewModelType {
         let getDetailRow = PublishSubject<String>()
         let scrapResult = PublishRelay<Void>()
         let scrapInfo = Signal.combineLatest(input.postScrap, getPostsData.asSignal(onErrorJustReturn: []))
+        var pagination = 0
         
         input.getPosts.asObservable()
             .flatMap { _ in api.getPosts(0) }
@@ -40,6 +42,21 @@ class MainViewModel: ViewModelType {
                 switch response {
                 case .ok:
                     getPostsData.accept(data!.data)
+                default:
+                    result.onNext("서버 오류")
+                }
+            }).disposed(by: disposeBag)
+        
+        input.getMorePosts.asObservable()
+            .map { pagination += 1 }
+            .flatMap { _ in api.getPosts(pagination)}
+            .subscribe(onNext: { data, response in
+                print(response)
+                switch response {
+                case .ok:
+                    for i in data!.data {
+                        getPostsData.add(element: i)
+                    }
                 default:
                     result.onNext("서버 오류")
                 }

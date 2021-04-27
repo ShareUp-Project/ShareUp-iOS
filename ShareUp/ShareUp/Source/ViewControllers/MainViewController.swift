@@ -43,17 +43,18 @@ class MainViewController: UIViewController {
         tabBarController?.navigationItem.leftBarButtonItem = ShareUp
         tabBarController?.navigationItem.rightBarButtonItems = []
         mainTableView.separatorInset = .zero
+        tabBarController?.navigationController?.navigationItem.hidesSearchBarWhenScrolling = true
     }
 
     private func bindViewModel() {
         let input = MainViewModel.Input(getPosts: getData.asSignal(onErrorJustReturn: ()),
                                         loadDetail: mainTableView.rx.itemSelected.asSignal(),
-                                        postScrap: selectScrap.asSignal())
+                                        postScrap: selectScrap.asSignal(),
+                                        getMorePosts: mainTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input)
-        
+            
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
-            print(data)
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in
                 cell.doubleTapped()
                 selectScrap.accept(row)
@@ -72,10 +73,10 @@ class MainViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         output.result.emit(onNext: { [unowned self] text in
-            print(text)
             getData.accept(())
             mainTableView.reloadData()
         }).disposed(by: disposeBag)
+        
     }
 
     private func setTableView() {
