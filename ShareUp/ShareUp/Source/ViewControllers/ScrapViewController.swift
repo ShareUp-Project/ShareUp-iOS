@@ -39,7 +39,8 @@ class ScrapViewController: UIViewController {
     private func bindViewModel() {
         let input = ScarpViewModel.Input(getScarpPosts: getData.asSignal(onErrorJustReturn: ()),
                                          loadDetail: scrapTableView.rx.itemSelected.asSignal(),
-                                         deleteScarp: selectScrap.asSignal())
+                                         deleteScarp: selectScrap.asSignal(),
+                                         getMoreScrapPosts: scrapTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input)
         
         output.getScarpPosts.asObservable().bind(to: scrapTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in

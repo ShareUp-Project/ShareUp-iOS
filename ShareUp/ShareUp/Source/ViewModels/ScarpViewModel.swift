@@ -16,6 +16,7 @@ class ScarpViewModel: ViewModelType {
         let getScarpPosts: Signal<Void>
         let loadDetail: Signal<IndexPath>
         let deleteScarp: Signal<Int>
+        let getMoreScrapPosts: Signal<Void>
     }
     
     struct Output{
@@ -31,8 +32,8 @@ class ScarpViewModel: ViewModelType {
         let getScarpData = BehaviorRelay<[ScrapPost]>(value: [])
         let getDetailRow = PublishSubject<String>()
         let scrapResult = PublishRelay<Void>()
-        
         let scrapInfo = Signal.combineLatest(input.deleteScarp, getScarpData.asSignal(onErrorJustReturn: []))
+        var pagination = 0
 
         input.getScarpPosts.asObservable()
             .flatMap { _ in api.getScrapPosts(0) }
@@ -40,6 +41,21 @@ class ScarpViewModel: ViewModelType {
                 switch response {
                 case .ok:
                     getScarpData.accept(data!.data)
+                default:
+                    result.onNext("서버 오류")
+                }
+            }).disposed(by: disposeBag)
+        
+        input.getMoreScrapPosts.asObservable()
+            .map { pagination += 1 }
+            .flatMap { _ in api.getScrapPosts(pagination)}
+            .subscribe(onNext: { data, response in
+                print(response)
+                switch response {
+                case .ok:
+                    for i in data!.data {
+                        getScarpData.add(element: i)
+                    }
                 default:
                     result.onNext("서버 오류")
                 }
