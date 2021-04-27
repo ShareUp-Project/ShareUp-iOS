@@ -153,14 +153,21 @@ class AuthService {
             }
     }
     
+    func searchPosts(_ tags: String, _ page: Int) -> Observable<(Posts?, StatusRules)> {
+        return provider.rx.request(.searchPosts(tags, page))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map (Posts.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                return .just((nil, .fail))
+            }
+    }
+    
     func setNetworkError(_ error: Error) -> StatusRules {
         print(error)
         print(error.localizedDescription)
         guard let status = (error as? MoyaError)?.response?.statusCode else { return (.fail) }
-        print((error as? MoyaError)?.response?.response)
-        print((error as? MoyaError)?.response?.description)
-        
-        print((error as? MoyaError)?.response.unsafelyUnwrapped.data.base64EncodedString())
         return (StatusRules(rawValue: status) ?? .fail)
     }
     

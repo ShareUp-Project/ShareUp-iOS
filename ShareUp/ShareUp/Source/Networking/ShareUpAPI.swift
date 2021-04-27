@@ -25,6 +25,7 @@ enum ShareUpAPI {
     case getScrapPost(_ page: Int)
     case removePost(_ id: String)
     case scrapDelete(_ id: String)
+    case searchPosts(_ tags: String, _ page: Int)
 }
 
 extension ShareUpAPI: TargetType {
@@ -50,7 +51,7 @@ extension ShareUpAPI: TargetType {
             return "/phone/password"
         case .autoLogin:
             return "/auth/refresh"
-        case .getPosts(let page):
+        case .getPosts:
             return "/posts"
         case .wirtePost:
             return "/posts"
@@ -58,16 +59,18 @@ extension ShareUpAPI: TargetType {
             return "/posts/scraps/\(id)"
         case .detailPost(let id):
             return "/posts/\(id)"
-        case .getScrapPost(let page):
+        case .getScrapPost:
             return "/posts/scraps"
         case .removePost(let id):
             return "/posts/\(id)"
+        case .searchPosts:
+            return "/posts/search"
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword, .wirtePost, .scrapPost:
+        case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword, .wirtePost, .scrapPost, .searchPosts:
             return .post
         case .passwordReset:
             return .put
@@ -115,6 +118,8 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
         case .getScrapPost(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
+        case .searchPosts(let tags, let page):
+            return .requestParameters(parameters: ["tags" : tags, "page": page], encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
