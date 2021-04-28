@@ -27,11 +27,17 @@ class MainViewController: UIViewController {
         return button
     }()
     
+    lazy var searchBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "search"), style: .plain, target: self, action: nil)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         bindViewModel()
         setTableView()
+        managerTrait()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,7 +47,7 @@ class MainViewController: UIViewController {
         mainTableView.reloadData()
         
         tabBarController?.navigationItem.leftBarButtonItem = ShareUp
-        tabBarController?.navigationItem.rightBarButtonItems = []
+        tabBarController?.navigationItem.rightBarButtonItem = searchBarButton
         mainTableView.separatorInset = .zero
         tabBarController?.navigationController?.navigationItem.hidesSearchBarWhenScrolling = true
     }
@@ -76,7 +82,12 @@ class MainViewController: UIViewController {
             getData.accept(())
             mainTableView.reloadData()
         }).disposed(by: disposeBag)
-        
+    }
+    
+    private func managerTrait() {
+        searchBarButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+            pushViewController("search")
+        }).disposed(by: disposeBag)
     }
 
     private func setTableView() {
