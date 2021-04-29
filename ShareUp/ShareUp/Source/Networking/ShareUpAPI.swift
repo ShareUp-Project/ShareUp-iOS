@@ -119,7 +119,7 @@ extension ShareUpAPI: TargetType {
         case .getScrapPost(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
         case .searchPosts(let tags, let page):
-            return .requestParameters(parameters: ["tags" : tags, "page": page], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: ["word" : tags, "page": page], encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }
