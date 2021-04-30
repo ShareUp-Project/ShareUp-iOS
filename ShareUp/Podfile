@@ -5,21 +5,29 @@ target 'ShareUp' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
+#Rx
 pod ‘RxSwift’, ‘~> 5’
 pod ‘RxCocoa’, ‘~> 5’
+
+#Networking
 pod ‘Alamofire’, ‘~> 5.2’
 pod 'Moya', '~> 14.0'
 pod 'Moya/RxSwift', '~> 14.0'
+
+#Misc
 pod 'Kingfisher', '~> 5.0'
 pod 'SwiftyTimer'
-pod 'SnapKit', '~> 5.0.0'
 pod 'Then'
+
+# UI/UX
+pod 'SnapKit', '~> 5.0.0'
 pod 'SPAlert'
 pod 'lottie-ios'
 pod "BSImagePicker", "~> 3.1"
 pod 'ActiveLabel'
 pod 'AdvancedPageControl'
 pod 'KMPlaceholderTextView', '~> 1.4.0'
+pod 'Hashtags'
 
   # Pods for ShareUp
 
