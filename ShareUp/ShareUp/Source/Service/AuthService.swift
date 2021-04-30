@@ -160,6 +160,31 @@ class AuthService {
             .map (Posts.self)
             .map { return ($0, .ok)}
             .catchError { error in
+                print(self.setNetworkError(error))
+                return .just((nil, .fail))
+            }
+    }
+    
+    func getNickname(_ id: String?) -> Observable<(Nickname?, StatusRules)> {
+        return provider.rx.request(.getNickname(id ?? ""))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map (Nickname.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                print(self.setNetworkError(error))
+                return .just((nil, .fail))
+            }
+    }
+    
+    func getUserPosts(_ id: String, _ page: Int) -> Observable<(Posts?, StatusRules)> {
+        return provider.rx.request(.getUserPosts(id, page))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map (Posts.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                print(self.setNetworkError(error))
                 return .just((nil, .fail))
             }
     }
