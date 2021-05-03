@@ -1957,7 +1957,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGP-gX-PSc" customClass="AdvancedPageControlView" customModule="AdvancedPageControl">
-                                                <rect key="frame" x="127" y="199" width="160" height="20"/>
+                                                <rect key="frame" x="127" y="204" width="160" height="20"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="NWr-4Y-0t3"/>
@@ -1982,7 +1982,7 @@
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vkj-Of-3dT" secondAttribute="trailing" constant="200" id="0DQ-nF-TfA"/>
                                             <constraint firstItem="fpe-xs-0mU" firstAttribute="centerY" secondItem="bDN-gY-BkX" secondAttribute="centerY" id="7B4-Qp-HIH"/>
                                             <constraint firstItem="b2F-Eu-qR0" firstAttribute="centerX" secondItem="XK0-nX-Bpy" secondAttribute="centerX" id="9It-do-410"/>
-                                            <constraint firstItem="oGP-gX-PSc" firstAttribute="bottom" secondItem="3ML-Wp-zdV" secondAttribute="bottom" constant="-8" id="BJ9-7E-CbL"/>
+                                            <constraint firstItem="oGP-gX-PSc" firstAttribute="bottom" secondItem="3ML-Wp-zdV" secondAttribute="bottom" constant="-3" id="BJ9-7E-CbL"/>
                                             <constraint firstItem="TOt-I6-Juz" firstAttribute="top" secondItem="8mM-nm-2og" secondAttribute="bottom" constant="16" id="GBk-jC-VaK"/>
                                             <constraint firstItem="vFX-DH-ajX" firstAttribute="top" secondItem="TOt-I6-Juz" secondAttribute="bottom" constant="16" id="HUA-Ch-edB"/>
                                             <constraint firstItem="twC-Tv-KbW" firstAttribute="centerY" secondItem="bDN-gY-BkX" secondAttribute="centerY" id="HlJ-0N-U4p"/>

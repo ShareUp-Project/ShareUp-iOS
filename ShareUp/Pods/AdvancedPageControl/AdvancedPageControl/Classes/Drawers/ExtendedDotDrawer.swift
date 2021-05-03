@@ -40,8 +40,8 @@ public class ExtendedDotDrawer: AdvancedPageControlDrawerParentWithIndicator, Ad
                     // reverse the scale value
                     let scale = step - (halfMovementRatio * step)
 
-                    newHeight = size
-                    newWidth = width + scale
+                    newHeight = 10
+                    newWidth = 10 + scale
                     newX = rect.origin.x + x
                     newY = y
 
@@ -50,13 +50,13 @@ public class ExtendedDotDrawer: AdvancedPageControlDrawerParentWithIndicator, Ad
                     let y = rect.origin.y + centeredYPosition
                     let x = getCenteredXPosition(rect, itemPos: CGFloat(i), dotSize: width, space: space, numberOfPages: numberOfPages + 1)
 
-                    newHeight = size
-                    newWidth = width
+                    newHeight = 10
+                    newWidth = 10
                     newX = rect.origin.x + x
                     newY = y
                 }
 
-                drawItem(CGRect(x: newX, y: newY, width: newWidth, height: newHeight), raduis: radius,
+                drawItem(CGRect(x: newX, y: newY, width: newWidth, height: 10), raduis: radius,
                          color: dotColor,
                          borderWidth: borderWidth, borderColor: borderColor)
             }
@@ -85,7 +85,7 @@ public class ExtendedDotDrawer: AdvancedPageControlDrawerParentWithIndicator, Ad
             let rect = CGRect(x: desiredX,
                               y: y,
                               width: desiredWidth,
-                              height: size)
+                              height: 10)
             
             drawItem(rect,
                      raduis: radius,

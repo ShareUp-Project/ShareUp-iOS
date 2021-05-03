@@ -53,7 +53,7 @@ public class AdvancedPageControlView: UIView {
     }
 
     override public var intrinsicContentSize: CGSize {
-        return CGSize(width: self.drawer.size, height: self.drawer.size + 16)
+        return CGSize(width: self.drawer.size, height: self.drawer.size + 5)
     }
 
     override public func draw(_ rect: CGRect) {
