@@ -28,7 +28,10 @@ enum ShareUpAPI {
     case searchPosts(_ tags: String, _ page: Int)
     
     case getNickname(_ id: String?)
+    case getCategorySearch(_ page: Int, _ category: String)
     case getUserPosts(_ id: String?, _ page: Int)
+    
+    case getEditorPosts(_ page: Int)
 }
 
 extension ShareUpAPI: TargetType {
@@ -72,6 +75,10 @@ extension ShareUpAPI: TargetType {
             return "/users/nickname/\(id ?? "")"
         case .getUserPosts(let id, let page):
             return "/posts/users/\(id ?? "")"
+        case .getCategorySearch:
+            return "/posts"
+        case .getEditorPosts:
+            return "/posts/editor"
         }
     }
     
@@ -81,7 +88,7 @@ extension ShareUpAPI: TargetType {
             return .post
         case .passwordReset:
             return .put
-        case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts:
+        case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch:
             return .get
         case .removePost, .scrapDelete:
             return .delete
@@ -121,14 +128,12 @@ extension ShareUpAPI: TargetType {
             multipartFormData.append(MultipartFormData(provider: .data(title.data(using: .utf8)!), name: "title", mimeType: "text/plain"))
             print(multipartFormData)
             return .uploadMultipart(multipartFormData)
-        case .getPosts(let page):
-            return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
-        case .getScrapPost(let page):
+        case .getScrapPost(let page), .getUserPosts( _, let page), .getPosts(let page), .getEditorPosts(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)
         case .searchPosts(let tags, let page):
             return .requestParameters(parameters: ["word" : tags, "page": page], encoding: URLEncoding.queryString)
-        case .getUserPosts( _, let page):
-            return .requestParameters(parameters: ["page" : page], encoding: URLEncoding.queryString)
+        case .getCategorySearch(let page, let category):
+            return .requestParameters(parameters: ["page" : page, "category": category], encoding: URLEncoding.queryString)
         default:
             return .requestPlain
         }

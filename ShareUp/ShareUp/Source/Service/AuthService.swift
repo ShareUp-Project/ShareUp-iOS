@@ -189,6 +189,30 @@ class AuthService {
             }
     }
     
+    func getCategorySearch(_ page: Int, _ category: String) -> Observable<(Posts?, StatusRules)> {
+        return provider.rx.request(.getCategorySearch(page, category))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map (Posts.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                print(self.setNetworkError(error))
+                return .just((nil, .fail))
+            }
+    }
+    
+    func getEditorPosts(_ page: Int) -> Observable<(Editor?, StatusRules)> {
+        return provider.rx.request(.getEditorPosts(page))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map (Editor.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                print(self.setNetworkError(error))
+                return .just((nil, .fail))
+            }
+    }
+    
     func setNetworkError(_ error: Error) -> StatusRules {
         print(error)
         print(error.localizedDescription)
