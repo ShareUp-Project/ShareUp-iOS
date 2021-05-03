@@ -51,7 +51,7 @@ extension ShareUpAPI: TargetType {
         case .checkCode:
             return "/phones/check"
         case .certifyPassword:
-            return "/phone/password"
+            return "/phones/password"
         case .autoLogin:
             return "/auth/refresh"
         case .getPosts:
