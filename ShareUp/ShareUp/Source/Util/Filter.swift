@@ -25,4 +25,18 @@ struct ShareUpFilter {
         default: return ""
         }
     }
+    
+    static func filterCategorySearch(_ number: Int) -> String {
+        switch number {
+        case 1 : return "paper"
+        case 2 : return "vinyl"
+        case 3 : return "can"
+        case 4 : return "plastic"
+        case 5 : return "glass"
+        case 6 : return "styroform"
+        case 7 : return "clothing"
+        case 8 : return "etc"
+        default: return ""
+        }
+    }
 }
