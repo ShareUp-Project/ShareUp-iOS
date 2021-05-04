@@ -12,12 +12,14 @@ class EditorDetailViewController: UIViewController {
     @IBOutlet weak var editorImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentTextView: UITextView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     var editorDetailData: EditorPost?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        scrollView.delegate = self
         bind()
     }
     
@@ -32,3 +34,19 @@ class EditorDetailViewController: UIViewController {
     }
 
 }
+
+extension EditorDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yPosition = scrollView.contentOffset.y
+        if yPosition < 240 {
+            titleLabel.alpha = (240 - yPosition) / 200
+            var imageViewFrame = editorImageView.frame
+            imageViewFrame.origin.y = yPosition
+            var contentViewFrame = contentTextView.frame
+            contentViewFrame.origin.y = yPosition + 264
+            editorImageView.frame = imageViewFrame
+            contentTextView.frame = contentViewFrame
+        }
+    }
+}
+
