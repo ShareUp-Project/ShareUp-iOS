@@ -38,15 +38,10 @@ class EditorDetailViewController: UIViewController {
 extension EditorDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yPosition = scrollView.contentOffset.y
-        if yPosition < 240 {
-            titleLabel.alpha = (240 - yPosition) / 200
-            var imageViewFrame = editorImageView.frame
-            imageViewFrame.origin.y = yPosition
-            var contentViewFrame = contentTextView.frame
-            contentViewFrame.origin.y = yPosition + 264
-            editorImageView.frame = imageViewFrame
-            contentTextView.frame = contentViewFrame
-        }
+        var eimageViewFrame = editorImageView.frame
+        titleLabel.alpha = (240 - yPosition) / 200
+        eimageViewFrame.origin.y = yPosition
+        titleLabel.frame.origin.y = yPosition + 169
+        editorImageView.frame = eimageViewFrame
     }
 }
-
