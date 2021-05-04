@@ -206,7 +206,7 @@ class AuthService {
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map (Editor.self)
-            .map { return ($0, .ok)}
+            .map { return ($0, .ok) }
             .catchError { error in
                 print(self.setNetworkError(error))
                 return .just((nil, .fail))
