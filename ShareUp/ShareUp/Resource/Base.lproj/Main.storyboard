@@ -1466,7 +1466,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yad-c9-txg">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1131"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ufo-gc-AQU">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="240"/>
@@ -1481,7 +1481,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3Tc-lY-iNY">
-                                                <rect key="frame" x="16" y="264" width="382" height="867"/>
+                                                <rect key="frame" x="16" y="264" width="382" height="554"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="554" id="iMO-lt-V7P"/>
@@ -1507,11 +1507,11 @@
                                     </view>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="3Tc-lY-iNY" firstAttribute="height" relation="greaterThanOrEqual" secondItem="mH2-dY-xw1" secondAttribute="height" multiplier="0.677262" id="0sR-sh-yUL"/>
                                     <constraint firstItem="yad-c9-txg" firstAttribute="width" secondItem="mH2-dY-xw1" secondAttribute="width" id="54H-zv-7lt"/>
                                     <constraint firstItem="yad-c9-txg" firstAttribute="top" secondItem="OhN-nE-QKk" secondAttribute="top" id="5L5-W2-7QM"/>
                                     <constraint firstItem="yad-c9-txg" firstAttribute="leading" secondItem="OhN-nE-QKk" secondAttribute="leading" id="XXT-Oc-KSw"/>
                                     <constraint firstItem="yad-c9-txg" firstAttribute="trailing" secondItem="OhN-nE-QKk" secondAttribute="trailing" id="dw7-4C-HDL"/>
-                                    <constraint firstItem="3Tc-lY-iNY" firstAttribute="height" secondItem="mH2-dY-xw1" secondAttribute="height" multiplier="106%" id="eL6-jm-H1q"/>
                                     <constraint firstItem="yad-c9-txg" firstAttribute="bottom" secondItem="OhN-nE-QKk" secondAttribute="bottom" id="jWo-NG-faZ"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="OhN-nE-QKk"/>
