@@ -15,13 +15,21 @@ class EditorTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
 
+    func configCell(_ data: EditorPost) {
+        if let image = data.image {
+            editorImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + image))
+        }else {
+            editorImageView.isHidden = true
+        }
+        mainLabel.text = data.title
+        contentLabel.text = data.content
+    }
 }
