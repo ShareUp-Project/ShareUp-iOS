@@ -21,6 +21,13 @@ class EditorViewController: UIViewController {
         super.viewDidLoad()
 
         bindViewModel()
+        setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        editorTableView.separatorInset = .zero
     }
     
     private func bindViewModel() {
@@ -43,3 +50,4 @@ class EditorViewController: UIViewController {
         editorTableView.rowHeight = 144
     }
 }
+
