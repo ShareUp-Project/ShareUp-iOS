@@ -15,13 +15,18 @@ class CategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationBackCustom()
     }
     
     @IBAction func clickCategory(_ sender: UIButton) {
         delegate?.dismissData((sender.titleLabel?.text)!)
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
 
 }

@@ -19,11 +19,23 @@ class ProfileViewController: UIViewController {
     private let viewModel = ProfileViewModel()
     private let loadProfile = BehaviorRelay<Void>(value: ())
     
+    lazy var settingButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "설정", style: .done, target: self, action: nil)
+        button.tintColor = MainColor.primaryGreen
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         bindViewModel()
         setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tabBarController?.navigationItem.rightBarButtonItem = settingButton
     }
     
     private func bindViewModel() {

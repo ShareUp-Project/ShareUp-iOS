@@ -20,7 +20,7 @@ class MainViewController: UIViewController {
     private let getData = PublishRelay<Void>()
     private let selectScrap = PublishRelay<Int>()
     
-    lazy var ShareUp: UIBarButtonItem = {
+    lazy var shareUpButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "ShareUp", style: .plain, target: self, action: nil)
         button.isEnabled = false
         button.tintColor = .black
@@ -28,7 +28,7 @@ class MainViewController: UIViewController {
     }()
     
     lazy var searchBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(named: "search"), style: .plain, target: self, action: nil)
+        let button = UIBarButtonItem(image: UIImage(named: "search"), style: .done, target: self, action: nil)
         return button
     }()
     
@@ -36,7 +36,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
         bindViewModel()
-        setTableView()
+        setupTableView()
         managerTrait()
     }
     
@@ -46,7 +46,7 @@ class MainViewController: UIViewController {
         getData.accept(())
         mainTableView.reloadData()
         
-        tabBarController?.navigationItem.leftBarButtonItem = ShareUp
+        tabBarController?.navigationItem.leftBarButtonItem = shareUpButton
         tabBarController?.navigationItem.rightBarButtonItem = searchBarButton
         mainTableView.separatorInset = .zero
         tabBarController?.navigationController?.navigationItem.hidesSearchBarWhenScrolling = true
@@ -90,7 +90,7 @@ class MainViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
 
-    private func setTableView() {
+    private func setupTableView() {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         mainTableView.register(nib, forCellReuseIdentifier: "mainCell")
         mainTableView.rowHeight = UITableView.automaticDimension

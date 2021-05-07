@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class CategorySearchViewController: UIViewController {
+final class CategorySearchViewController: UIViewController {
 
     @IBOutlet var categoryView: [UIView]!
     @IBOutlet var categoryBackgroundView: [UIView]!
