@@ -213,6 +213,14 @@ class AuthService {
             }
     }
     
+    func changeNickname(_ name: String) -> Observable<(StatusRules)> {
+        return provider.rx.request(.changeNickname(name))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok)}
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
+    }
+    
     func setNetworkError(_ error: Error) -> StatusRules {
         print(error)
         print(error.localizedDescription)

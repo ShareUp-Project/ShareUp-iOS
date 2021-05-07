@@ -32,6 +32,7 @@ enum ShareUpAPI {
     case getUserPosts(_ id: String?, _ page: Int)
     
     case getEditorPosts(_ page: Int)
+    case changeNickname(_ name: String)
 }
 
 extension ShareUpAPI: TargetType {
@@ -73,12 +74,14 @@ extension ShareUpAPI: TargetType {
             return "/posts/search"
         case .getNickname(let id):
             return "/users/nickname/\(id ?? "")"
-        case .getUserPosts(let id, let page):
+        case .getUserPosts(let id, _):
             return "/posts/users/\(id ?? "")"
         case .getCategorySearch:
             return "/posts"
         case .getEditorPosts:
             return "/posts/editor"
+        case .changeNickname:
+            return "users/nickname"
         }
     }
     
@@ -86,7 +89,7 @@ extension ShareUpAPI: TargetType {
         switch self {
         case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword, .wirtePost, .scrapPost:
             return .post
-        case .passwordReset:
+        case .passwordReset, .changeNickname:
             return .put
         case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch:
             return .get
@@ -134,6 +137,8 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["word" : tags, "page": page], encoding: URLEncoding.queryString)
         case .getCategorySearch(let page, let category):
             return .requestParameters(parameters: ["page" : page, "category": category], encoding: URLEncoding.queryString)
+        case .changeNickname(let name):
+            return .requestParameters(parameters: ["nickname": name], encoding: JSONEncoding.prettyPrinted)
         default:
             return .requestPlain
         }
