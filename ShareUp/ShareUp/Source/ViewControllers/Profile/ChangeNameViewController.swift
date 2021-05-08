@@ -40,11 +40,7 @@ class ChangeNameViewController: UIViewController {
             duplicateLabel.isHidden = false
             duplicateLabel.text = error
         },onCompleted: { [unowned self] in
-            duplicateLabel.text = "가능"
-            duplicateLabel.textColor = MainColor.primaryGreen
-            output.result.emit(onCompleted: { [unowned self] in
-                navigationController?.popViewController(animated: true)
-            }).disposed(by: disposeBag)
+            navigationController?.popViewController(animated: true)
         }).disposed(by: disposeBag)
     }
     
