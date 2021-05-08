@@ -26,3 +26,12 @@ struct User: Codable {
     let id: String
     let nickname: String
 }
+
+struct WeeklyPosts: Codable {
+    let id: String
+    let title: String
+}
+
+struct WeeklyPost: Codable {
+    let data: [WeeklyPosts]
+}
