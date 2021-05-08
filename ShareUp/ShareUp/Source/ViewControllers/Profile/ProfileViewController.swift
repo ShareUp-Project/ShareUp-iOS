@@ -30,22 +30,32 @@ class ProfileViewController: UIViewController {
 
         bindViewModel()
         setupTableView()
+        managerTrait()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        loadProfile.accept(())
         tabBarController?.navigationItem.rightBarButtonItem = settingButton
     }
     
     private func bindViewModel() {
-        let input = ProfileViewModel.Input(loadProfile: loadProfile.asSignal(onErrorJustReturn: ()))
+        let input = ProfileViewModel.Input(loadProfile: loadProfile.asSignal(onErrorJustReturn: ()),
+                                           loadMoreProfile: myPostsTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input)
         
         output.myNickname.asObservable().bind {[unowned self] nickname in nicknameLabel.text = nickname}.disposed(by: disposeBag)
+        
         output.myPosts.asObservable().bind(to: myPostsTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
         }.disposed(by: disposeBag)
+    }
+    
+    private func managerTrait() {
+        settingButton.rx.tap.subscribe(onNext: { _ in
+            self.pushViewController("setting")
+        }).disposed(by: disposeBag)
     }
     
     private func setupTableView() {
