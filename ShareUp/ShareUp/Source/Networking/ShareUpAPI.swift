@@ -33,6 +33,7 @@ enum ShareUpAPI {
     
     case getEditorPosts(_ page: Int)
     case changeNickname(_ name: String)
+    case weeklyPost
 }
 
 extension ShareUpAPI: TargetType {
@@ -82,6 +83,8 @@ extension ShareUpAPI: TargetType {
             return "/posts/editor"
         case .changeNickname:
             return "users/nickname"
+        case .weeklyPost:
+            return "/posts/weeks"
         }
     }
     
@@ -91,7 +94,7 @@ extension ShareUpAPI: TargetType {
             return .post
         case .passwordReset, .changeNickname:
             return .put
-        case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch:
+        case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch, .weeklyPost:
             return .get
         case .removePost, .scrapDelete:
             return .delete
@@ -129,7 +132,6 @@ extension ShareUpAPI: TargetType {
             multipartFormData.append(MultipartFormData(provider: .data(content.data(using: .utf8)!), name: "content", mimeType: "text/plain"))
             multipartFormData.append(MultipartFormData(provider: .data(category.data(using: .utf8)!), name: "category", mimeType: "text/plain"))
             multipartFormData.append(MultipartFormData(provider: .data(title.data(using: .utf8)!), name: "title", mimeType: "text/plain"))
-            print(multipartFormData)
             return .uploadMultipart(multipartFormData)
         case .getScrapPost(let page), .getUserPosts( _, let page), .getPosts(let page), .getEditorPosts(let page):
             return .requestParameters(parameters: ["page": page], encoding: URLEncoding.queryString)

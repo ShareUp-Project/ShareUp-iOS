@@ -221,6 +221,17 @@ class AuthService {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
+    func weeklyPost() -> Observable<(WeeklyPost?, StatusRules)> {
+        return provider.rx.request(.weeklyPost)
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(WeeklyPost.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                return .just((nil, .fail))
+            }
+    }
+    
     func setNetworkError(_ error: Error) -> StatusRules {
         print(error)
         print(error.localizedDescription)
