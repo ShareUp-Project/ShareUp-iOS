@@ -17,12 +17,14 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         settingTableView.delegate = self
         settingTableView.dataSource = self
+        settingTableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         settingTableView.separatorInset = .zero
+        navigationBackCustom()
     }
 }
 
@@ -36,6 +38,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.selectionStyle = .none
         cell.textLabel?.text = settings[indexPath.row]
+        cell.textLabel?.font = UIFont(name: Font.nsM.rawValue, size: 18)
         
         if indexPath.row == settings.count-1 {
             cell.textLabel?.textColor = MainColor.red
@@ -57,6 +60,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 4:
             TokenManager.removeToken()
             UserDefaults.standard.removeObject(forKey: "isAuto")
+            pushViewController("first")
         default:
             print("error")
         }
