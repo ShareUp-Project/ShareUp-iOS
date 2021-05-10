@@ -15,33 +15,30 @@ final class CategorySearchViewController: UIViewController {
     @IBOutlet var categoryView: [UIView]!
     @IBOutlet var categoryBackgroundView: [UIView]!
     @IBOutlet var categoryTouchArea: [UIButton]!
-    @IBOutlet weak var recentlySearchView: UIView!
+    @IBOutlet weak var recentlySearchView: UITableView!
     @IBOutlet weak var searchTableView: UITableView!
     
     private let viewModel = SearchViewModel()
     private let disposeBag = DisposeBag()
     private var selectCategory = PublishRelay<String>()
-    private let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 320, height: 0))
-    private let cancel = UIBarButtonItem(title: "취소", style: .plain, target: self, action: nil)
+    private let loadWeeklyPost = BehaviorRelay<Void>(value: ())
+    private let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 280, height: 0))
     
+    lazy var cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         bindViewModel()
         managerTrait()
         setupTableView()
-        searchBar.rx.textDidBeginEditing.subscribe(onNext: { _ in
-            self.recentlySearchView.isHidden = false
-        }).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationItem.rightBarButtonItem = cancel
         searchBar.placeholder = "검색"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBar)
+        navigationItem.rightBarButtonItems = [cancelButton, UIBarButtonItem(customView: searchBar)]
         
         navigationBackCustom()
     }
@@ -50,13 +47,18 @@ final class CategorySearchViewController: UIViewController {
         let input = SearchViewModel.Input(searchTap: searchBar.rx.searchButtonClicked.asDriver(),
                                           loadDetail: searchTableView.rx.itemSelected.asDriver(),
                                           searchContent: searchBar.rx.text.asDriver(),
-                                          searchCategory: selectCategory.asDriver(onErrorJustReturn: ""))
+                                          searchCategory: selectCategory.asDriver(onErrorJustReturn: ""),
+                                          loadWeeklyPost: loadWeeklyPost.asDriver())
         let output = viewModel.transform(input)
 
         output.isRecentlyOn.drive(recentlySearchView.rx.isHidden).disposed(by: disposeBag)
         
         output.getCategoryPosts.asObservable().bind(to: searchTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
+        }.disposed(by: disposeBag)
+        
+        output.getWeeklyPosts.asObservable().bind(to: recentlySearchView.rx.items(cellIdentifier: "weeklyCell", cellType: UITableViewCell.self)) { row, data, cell in
+            cell.textLabel?.text = data.title
         }.disposed(by: disposeBag)
         
         output.getCategoryPosts.asObservable().subscribe(onNext: { _ in
@@ -101,6 +103,22 @@ final class CategorySearchViewController: UIViewController {
         
         categoryTouchArea[7].rx.tap.subscribe(onNext: { _ in
             self.selectCategory.accept(ShareUpFilter.filterCategorySearch(8))
+        }).disposed(by: disposeBag)
+        
+        searchBar.rx.textDidBeginEditing.asObservable().subscribe(onNext: { _ in
+            if self.searchBar.text!.isEmpty {
+                self.recentlySearchView.isHidden = false
+            }
+        }).disposed(by: disposeBag)
+        
+        searchBar.rx.text.subscribe(onNext: { text in
+            if !text!.isEmpty {
+                self.recentlySearchView.isHidden = true
+            }
+        }).disposed(by: disposeBag)
+        
+        cancelButton.rx.tap.subscribe(onNext: { _ in
+            self.searchTableView.isHidden = true
         }).disposed(by: disposeBag)
     }
     
