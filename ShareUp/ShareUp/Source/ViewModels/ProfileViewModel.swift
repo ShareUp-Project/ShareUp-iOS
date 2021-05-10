@@ -14,6 +14,7 @@ final class ProfileViewModel: ViewModelType {
     
     struct Input {
         let loadProfile: Signal<Void>
+        let loadMoreProfile: Signal<Void>
     }
     
     struct Output {
@@ -25,7 +26,8 @@ final class ProfileViewModel: ViewModelType {
         let api = AuthService()
         let result = PublishSubject<String>()
         let nickname = PublishRelay<String>()
-        let getMyPost = PublishRelay<[Post]>()
+        let getMyPost = BehaviorRelay<[Post]>(value: [])
+        var pagination = 0
         
         input.loadProfile.asObservable()
             .flatMap { _ in api.getNickname("")}
@@ -38,7 +40,7 @@ final class ProfileViewModel: ViewModelType {
                     result.onNext("getNickname server error")
                 }
                 api.getUserPosts("", 0).subscribe(onNext: { data, response in
-                    print(response)
+                    print("profile \(data!)")
                     switch response {
                     case .ok:
                         getMyPost.accept(data!.data)
@@ -46,6 +48,21 @@ final class ProfileViewModel: ViewModelType {
                         result.onNext("getUserPosts server error")
                     }
                 }).disposed(by: self.disposeBag)
+            }).disposed(by: disposeBag)
+        
+        input.loadMoreProfile.asObservable()
+            .map { pagination += 1}
+            .flatMap { _ in api.getUserPosts("", pagination)}
+            .subscribe(onNext: { data, response in
+                print(response)
+                switch response {
+                case .ok:
+                    for i in data!.data {
+                        getMyPost.add(element: i)
+                    }
+                default:
+                    result.onNext("서버 오류")
+                }
             }).disposed(by: disposeBag)
         
         return Output(myNickname: nickname.asDriver(onErrorJustReturn: ""), myPosts: getMyPost.asDriver(onErrorJustReturn: []))
