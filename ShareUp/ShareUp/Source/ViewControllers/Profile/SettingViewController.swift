@@ -23,6 +23,7 @@ class SettingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        title = "설정"
         settingTableView.separatorInset = .zero
         navigationBackCustom()
     }
@@ -38,10 +39,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.selectionStyle = .none
         cell.textLabel?.text = settings[indexPath.row]
-        cell.textLabel?.font = UIFont(name: Font.nsM.rawValue, size: 18)
+        cell.textLabel?.font = UIFont(name: Font.nsR.rawValue, size: 18)
         
         if indexPath.row == settings.count-1 {
             cell.textLabel?.textColor = MainColor.red
+            cell.accessoryType = .none
         }
         
         return cell
