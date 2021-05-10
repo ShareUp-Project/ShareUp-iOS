@@ -19,20 +19,37 @@ class EditorDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        contentTextView.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 180, right: 15)
+
         scrollView.delegate = self
+        
         bind()
+        
+        navigationBackCustom()
+        title = "에디터"
     }
-    
+
     private func bind() {
         if let image = editorDetailData?.image {
+            addGradientMask(targetView: editorImageView, 0.5)
             editorImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + image))
-        }else {
-            editorImageView.isHidden = true
+        } else {
+            addGradientMask(targetView: editorImageView, 0.1)
+            editorImageView.backgroundColor = MainColor.defaultGreen
         }
         titleLabel.text = editorDetailData!.title
         contentTextView.text = editorDetailData!.content
     }
 
+    func addGradientMask(targetView: UIView, _ alpha: Double){
+        let gradientMask = CAGradientLayer()
+
+        gradientMask.frame = targetView.bounds
+        gradientMask.colors = [UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0 / 255.0, alpha: 0.0).cgColor, UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0 / 255.0, alpha: CGFloat(alpha)).cgColor]
+        
+        gradientMask.locations = [0.0, 1.0]
+        targetView.layer.insertSublayer(gradientMask, at: 0)
+    }
 }
 
 extension EditorDetailViewController: UIScrollViewDelegate {
