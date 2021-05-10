@@ -23,6 +23,7 @@ class ScrapViewController: UIViewController {
 
         bindViewModel()
         setTableView()
+        scrapTableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {

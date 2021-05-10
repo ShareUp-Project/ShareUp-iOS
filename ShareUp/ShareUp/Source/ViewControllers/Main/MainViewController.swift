@@ -38,6 +38,7 @@ class MainViewController: UIViewController {
         bindViewModel()
         setupTableView()
         managerTrait()
+        mainTableView.tableFooterView = UIView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
