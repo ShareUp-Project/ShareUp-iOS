@@ -39,6 +39,15 @@ final class SearchViewModel: ViewModelType {
         
         input.searchTap.asObservable().withLatestFrom(input.searchContent).subscribe(onNext: { [weak self] word in
             guard let self = self else { return }
+            
+            var savedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
+            if savedSearches.count == 10 { savedSearches.removeFirst() }
+            var newSearches = [String]()
+            newSearches = savedSearches
+            newSearches.append(word!)
+            UserDefaults.standard.set(newSearches, forKey: "recentSearches")
+            UserDefaults.standard.synchronize()
+            
             api.searchPosts(word!, 0).subscribe(onNext: { data, response in
                 switch response {
                 case .ok:
