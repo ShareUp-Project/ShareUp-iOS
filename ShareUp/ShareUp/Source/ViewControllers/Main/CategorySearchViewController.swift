@@ -17,13 +17,15 @@ final class CategorySearchViewController: UIViewController {
     @IBOutlet var categoryTouchArea: [UIButton]!
     @IBOutlet weak var weeklyBestTableView: UITableView!
     @IBOutlet weak var searchTableView: UITableView!
-    @IBOutlet weak var recentlySearchView: UIView!
+    @IBOutlet weak var recentlySearchView: RecentlySearch!
     
     private let viewModel = SearchViewModel()
     private let disposeBag = DisposeBag()
     private var selectCategory = PublishRelay<String>()
     private let loadWeeklyPost = BehaviorRelay<Void>(value: ())
-    private let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 280, height: 0))
+    private let searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 280, height: 0)).then {
+        $0.returnKeyType = .done
+    }
     
     lazy var cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: nil)
 
@@ -60,7 +62,6 @@ final class CategorySearchViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         output.getWeeklyPosts.asObservable().bind(to: weeklyBestTableView.rx.items(cellIdentifier: "weeklyCell", cellType: WeeklyTableViewCell.self)) { row, data, cell in
-            print(data)
             cell.bestPostLabel.text = data.title
         }.disposed(by: disposeBag)
         
@@ -115,13 +116,18 @@ final class CategorySearchViewController: UIViewController {
         }).disposed(by: disposeBag)
 
         searchBar.rx.text.subscribe(onNext: { text in
-            if !text!.isEmpty {
-                self.recentlySearchView.isHidden = true
+            if !text!.isEmpty || text != "" {
+                self.recentlySearchView.recentlyTag.isHidden = true
+            }else {
+                self.recentlySearchView.recentlyTag.isHidden = false
             }
         }).disposed(by: disposeBag)
         
-        cancelButton.rx.tap.subscribe(onNext: { _ in
-            self.searchTableView.isHidden = true
+        cancelButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+            searchTableView.isHidden = true
+            searchBar.endEditing(true)
+            recentlySearchView.isHidden = true
+            searchBar.text = ""
         }).disposed(by: disposeBag)
     }
     
@@ -132,6 +138,8 @@ final class CategorySearchViewController: UIViewController {
         weeklyBestTableView.rowHeight = 32
         searchTableView.estimatedRowHeight = 350
     }
+
+
 }
 
 class WeeklyTableViewCell: UITableViewCell {
