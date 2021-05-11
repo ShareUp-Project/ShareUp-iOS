@@ -39,7 +39,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 10.0, indicatorColor: MainColor.primaryGreen, dotsColor: .white, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
+        pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 5.0, indicatorColor: MainColor.primaryGreen, dotsColor: .white, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
 
         contentTextView.numberOfLines = 0
         contentTextView.enabledTypes = [.hashtag]
