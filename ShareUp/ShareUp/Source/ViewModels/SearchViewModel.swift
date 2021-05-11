@@ -17,36 +17,48 @@ final class SearchViewModel: ViewModelType {
         let loadDetail: Driver<IndexPath>
         let searchContent: Driver<String?>
         let searchCategory: Driver<String>
+        let loadWeeklyPost: Driver<Void>
+        let loadPopularPostDetail: Driver<IndexPath>
     }
 
     struct Output {
         let result: Signal<String>
-        let getSearchPosts: Driver<[Post]>
         let isRecentlyOn: Driver<Bool>
-        let getCategoryPosts: Driver<[Post]>
+        let getCategoryPosts: Signal<[Post]>
+        let getWeeklyPosts: Driver<[WeeklyPosts]>
         let detailIndexPath: Signal<String>
     }
 
     func transform(_ input: Input) -> Output {
         let api = AuthService()
         let result = PublishSubject<String>()
-        let getSearchData = BehaviorRelay<[Post]>(value: [])
         let getCategoryPosts = BehaviorRelay<[Post]>(value: [])
         let getDetailRow = PublishSubject<String>()
         let isRecentlyOn = input.searchContent.map { $0?.isEmpty ?? false }
-            
+        let getWeeklyPosts = BehaviorRelay<[WeeklyPosts]>(value: [])
+        
         input.searchTap.asObservable().withLatestFrom(input.searchContent).subscribe(onNext: { [weak self] word in
             guard let self = self else { return }
             api.searchPosts(word!, 0).subscribe(onNext: { data, response in
-                print(data)
                 switch response {
                 case .ok:
-                    getSearchData.accept(data!.data)
+                    getCategoryPosts.accept(data!.data)
                 default:
                     result.onNext("서버 오류")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
+        
+        input.loadWeeklyPost.asObservable()
+            .flatMap { _ in api.weeklyPost()}
+            .subscribe(onNext: { data, response in
+                switch response{
+                case .ok:
+                    getWeeklyPosts.accept(data!.data)
+                default:
+                    result.onNext("서버 오류")
+                }
+            }).disposed(by: disposeBag)
         
         input.searchCategory.asObservable()
             .flatMap { category in api.getCategorySearch(0, category)}
@@ -65,6 +77,11 @@ final class SearchViewModel: ViewModelType {
             getDetailRow.onNext(String(value[indexPath.row].id))
         }).disposed(by: disposeBag)
         
-        return Output(result: result.asSignal(onErrorJustReturn: ""), getSearchPosts: getSearchData.asDriver(), isRecentlyOn: isRecentlyOn.asDriver(), getCategoryPosts: getCategoryPosts.asDriver(onErrorJustReturn: []), detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""))
+        input.loadPopularPostDetail.asObservable().subscribe(onNext: { indexPath in
+            let value = getWeeklyPosts.value
+            getDetailRow.onNext(String(value[indexPath.row].id))
+        }).disposed(by: disposeBag)
+        
+        return Output(result: result.asSignal(onErrorJustReturn: ""), isRecentlyOn: isRecentlyOn.asDriver(), getCategoryPosts: getCategoryPosts.asSignal(onErrorJustReturn: []), getWeeklyPosts: getWeeklyPosts.asDriver(), detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""))
     }
 }

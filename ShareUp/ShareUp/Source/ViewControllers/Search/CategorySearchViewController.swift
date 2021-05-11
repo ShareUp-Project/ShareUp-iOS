@@ -15,8 +15,9 @@ final class CategorySearchViewController: UIViewController {
     @IBOutlet var categoryView: [UIView]!
     @IBOutlet var categoryBackgroundView: [UIView]!
     @IBOutlet var categoryTouchArea: [UIButton]!
-    @IBOutlet weak var recentlySearchView: UITableView!
+    @IBOutlet weak var weeklyBestTableView: UITableView!
     @IBOutlet weak var searchTableView: UITableView!
+    @IBOutlet weak var recentlySearchView: UIView!
     
     private let viewModel = SearchViewModel()
     private let disposeBag = DisposeBag()
@@ -39,7 +40,7 @@ final class CategorySearchViewController: UIViewController {
         
         searchBar.placeholder = "검색"
         navigationItem.rightBarButtonItems = [cancelButton, UIBarButtonItem(customView: searchBar)]
-        
+        weeklyBestTableView.separatorStyle = .none
         navigationBackCustom()
     }
     
@@ -48,7 +49,8 @@ final class CategorySearchViewController: UIViewController {
                                           loadDetail: searchTableView.rx.itemSelected.asDriver(),
                                           searchContent: searchBar.rx.text.asDriver(),
                                           searchCategory: selectCategory.asDriver(onErrorJustReturn: ""),
-                                          loadWeeklyPost: loadWeeklyPost.asDriver())
+                                          loadWeeklyPost: loadWeeklyPost.asDriver(),
+                                          loadPopularPostDetail: weeklyBestTableView.rx.itemSelected.asDriver())
         let output = viewModel.transform(input)
 
         output.isRecentlyOn.drive(recentlySearchView.rx.isHidden).disposed(by: disposeBag)
@@ -57,8 +59,9 @@ final class CategorySearchViewController: UIViewController {
             cell.configCell(data)
         }.disposed(by: disposeBag)
         
-        output.getWeeklyPosts.asObservable().bind(to: recentlySearchView.rx.items(cellIdentifier: "weeklyCell", cellType: UITableViewCell.self)) { row, data, cell in
-            cell.textLabel?.text = data.title
+        output.getWeeklyPosts.asObservable().bind(to: weeklyBestTableView.rx.items(cellIdentifier: "weeklyCell", cellType: WeeklyTableViewCell.self)) { row, data, cell in
+            print(data)
+            cell.bestPostLabel.text = data.title
         }.disposed(by: disposeBag)
         
         output.getCategoryPosts.asObservable().subscribe(onNext: { _ in
@@ -110,7 +113,7 @@ final class CategorySearchViewController: UIViewController {
                 self.recentlySearchView.isHidden = false
             }
         }).disposed(by: disposeBag)
-        
+
         searchBar.rx.text.subscribe(onNext: { text in
             if !text!.isEmpty {
                 self.recentlySearchView.isHidden = true
@@ -126,6 +129,16 @@ final class CategorySearchViewController: UIViewController {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         searchTableView.register(nib, forCellReuseIdentifier: "mainCell")
         searchTableView.rowHeight = UITableView.automaticDimension
+        weeklyBestTableView.rowHeight = 32
         searchTableView.estimatedRowHeight = 350
+    }
+}
+
+class WeeklyTableViewCell: UITableViewCell {
+    @IBOutlet weak var bestPostLabel: UILabel!
+    
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+        
     }
 }
