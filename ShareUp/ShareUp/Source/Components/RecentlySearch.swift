@@ -45,17 +45,23 @@ final class RecentlySearch: UIView {
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
         
-        let tags = [HashTag(word: "this", isRemovable: true),
-                    HashTag(word: "is", isRemovable: true),
-                    HashTag(word: "another", isRemovable: true),
-                    HashTag(word: "example", isRemovable: true)]
+        var tags = [HashTag]()
+        
+        for i in UserDefaults.standard.stringArray(forKey: "recentSearches") ?? [String]() {
+            tags.append(HashTag(word: i, isRemovable: true))
+        }
+        
         recentlyTag.addTags(tags: tags)
     }
 }
 
 extension RecentlySearch: HashtagViewDelegate {
     func hashtagRemoved(hashtag: HashTag) {
-        UserDefaults.standard.removeObject(forKey: hashtag.text)
+        var removedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
+        hashtag.text.removeFirst()
+        removedSearches.remove(at: removedSearches.firstIndex(of: hashtag.text) ?? 0)
+        UserDefaults.standard.set(removedSearches, forKey: "recentSearches")
+        UserDefaults.standard.synchronize()
     }
     
     func viewShouldResizeTo(size: CGSize) {
