@@ -11,41 +11,42 @@ import Then
 import Hashtags
 
 final class RecentlySearch: UIView {
-    private let recentlyLabel = UILabel().then {
+    let recentlyLabel = UILabel().then {
         $0.font = UIFont(name: Font.nsM.rawValue, size: 16)
     }
     
-    private let recentlyTag = HashtagView().then {
+    let recentlyTag = HashtagView().then {
         $0.tagBackgroundColor = .clear
-        $0.tagTextColor = MainColor.gray03
+        $0.tagTextColor = MainColor.gray04
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        print("load")
+        addSubview(recentlyTag)
+        addSubview(recentlyLabel)
+        
+        recentlyTag.delegate = self
+
         setupRecentlyText()
     }
     
     private func setupRecentlyText() {
-        recentlyTag.delegate = self
-        addSubview(recentlyTag)
-        addSubview(recentlyLabel)
-        
         recentlyLabel.snp.makeConstraints { make in
-            make.top.equalTo(snp.top).offset(24)
-            make.leading.equalTo(snp.leading).offset(16)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(16)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
         
         recentlyTag.snp.makeConstraints { make in
-            make.top.equalTo(recentlyLabel.snp.bottom).offset(8)
-            make.leading.equalTo(snp.leading)
-            make.trailing.equalTo(snp.trailing)
-            make.bottom.equalTo(snp.bottom)
+            make.top.equalTo(recentlyLabel.snp.top).offset(8)
+            make.leading.equalTo(safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(safeAreaLayoutGuide.snp.trailing)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom)
         }
         
-        let tags = [HashTag(word: "this"),
-                    HashTag(word: "is", isRemovable: false),
+        let tags = [HashTag(word: "this", isRemovable: true),
+                    HashTag(word: "is", isRemovable: true),
                     HashTag(word: "another", isRemovable: true),
                     HashTag(word: "example", isRemovable: true)]
         recentlyTag.addTags(tags: tags)
@@ -54,7 +55,7 @@ final class RecentlySearch: UIView {
 
 extension RecentlySearch: HashtagViewDelegate {
     func hashtagRemoved(hashtag: HashTag) {
-        print("removed")
+        UserDefaults.standard.removeObject(forKey: hashtag.text)
     }
     
     func viewShouldResizeTo(size: CGSize) {
