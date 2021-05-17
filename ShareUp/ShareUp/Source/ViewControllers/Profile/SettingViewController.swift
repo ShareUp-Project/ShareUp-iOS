@@ -60,9 +60,17 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 3:
             print("info")
         case 4:
-            TokenManager.removeToken()
-            UserDefaults.standard.removeObject(forKey: "isAuto")
-            pushViewController("first")
+            let alert = UIAlertController(title: "로그아웃", message: "로그아웃 하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "확인", style: .default) {[unowned self] action in
+                TokenManager.removeToken()
+                UserDefaults.standard.removeObject(forKey: "isAuto")
+                pushViewController("first")
+            }
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
+            alert.addAction(ok)
+            alert.addAction(cancel)
+            
+            present(alert, animated: true, completion: nil)
         default:
             print("error")
         }
