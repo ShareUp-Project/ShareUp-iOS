@@ -31,4 +31,5 @@ struct MainColor: Point {
     static let gray04 = pointHex(hex: "666666")
     static let primaryGreen = pointHex(hex: "5DB075")
     static let secondaryGreen = pointHex(hex: "4B9460")
+    static let defaultGreen = pointHex(hex: "59B57D")
 }
