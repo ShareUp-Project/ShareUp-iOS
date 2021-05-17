@@ -28,10 +28,14 @@ class EditorViewController: UIViewController {
         super.viewWillAppear(animated)
         
         editorTableView.separatorInset = .zero
+        navigationController?.navigationBar.topItem?.title = "에디터의 글"
+        tabBarController?.navigationItem.rightBarButtonItems = []
+        tabBarController?.navigationItem.leftBarButtonItems = []
     }
     
     private func bindViewModel() {
         let input = EditorViewModel.Input(loadData: loadData.asDriver(),
+                                          loadMoreData: editorTableView.reachedBottom.asDriver(onErrorJustReturn: ()),
                                           loadDetail: editorTableView.rx.itemSelected.asDriver())
         let output = viewModel.transform(input)
         

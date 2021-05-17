@@ -14,6 +14,7 @@ final class EditorViewModel: ViewModelType {
     
     struct Input{
         let loadData: Driver<Void>
+        let loadMoreData: Driver<Void>
         let loadDetail: Driver<IndexPath>
     }
     
@@ -27,6 +28,7 @@ final class EditorViewModel: ViewModelType {
         let result = PublishSubject<String>()
         let getEditorPosts = BehaviorRelay<[EditorPost]>(value: [])
         let getDetailValue = PublishRelay<EditorPost>()
+        var pagination: Int = 0
         
         input.loadData.asObservable()
             .flatMap { _ in api.getEditorPosts(0)}
@@ -35,6 +37,20 @@ final class EditorViewModel: ViewModelType {
                 switch response{
                 case .ok:
                     getEditorPosts.accept(data!.data)
+                default:
+                    result.onNext("server error")
+                }
+            }).disposed(by: disposeBag)
+        
+        input.loadMoreData.asObservable()
+            .map { pagination += 1 }
+            .flatMap { _ in api.getEditorPosts(pagination)}
+            .subscribe(onNext: { data, response in
+                switch response {
+                case .ok:
+                    for i in data!.data {
+                        getEditorPosts.add(element: i)
+                    }
                 default:
                     result.onNext("server error")
                 }
