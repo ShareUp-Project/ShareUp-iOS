@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SignInViewController: UIViewController {
+final class SignInViewController: UIViewController {
 
     @IBOutlet weak var authTextField: AuthTextField!
     @IBOutlet weak var passwordTextField: AuthTextField!

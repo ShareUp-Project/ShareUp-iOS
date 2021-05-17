@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditorTableViewCell: UITableViewCell {
+final class EditorTableViewCell: UITableViewCell {
 
     @IBOutlet weak var editorImageView: UIImageView!
     @IBOutlet weak var mainLabel: UILabel!

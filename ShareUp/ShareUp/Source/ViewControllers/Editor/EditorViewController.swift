@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class EditorViewController: UIViewController {
+final class EditorViewController: UIViewController {
 
     @IBOutlet weak var editorTableView: UITableView!
     

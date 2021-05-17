@@ -10,7 +10,7 @@ import SwiftyTimer
 import RxSwift
 import RxCocoa
 
-class CertifyViewController: UIViewController {
+final class CertifyViewController: UIViewController {
 
     @IBOutlet weak var countCertifyLabel: UILabel!
     @IBOutlet weak var certifyRequestButton: UIButton!

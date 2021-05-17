@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class PickerCollectionViewCell: UICollectionViewCell {
+final class PickerCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var pickerImageView: UIImageView!
     @IBOutlet weak var removeButton: UIButton!

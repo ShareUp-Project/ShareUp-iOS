@@ -11,7 +11,7 @@ import RxSwift
 import Photos
 import RxCocoa
 
-class PostViewController: UIViewController {
+final class PostViewController: UIViewController {
     
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var cameraBoxView: UIView!
@@ -134,7 +134,7 @@ extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 extension PostViewController: DismissSendData {
     func dismissData(_ data: String) {
-        categoryButton[0].setTitle(data, for: .normal)
+        categoryButton[0].setTitle(" " + data, for: .normal)
         categoryTraking.accept(data)
     }
 }

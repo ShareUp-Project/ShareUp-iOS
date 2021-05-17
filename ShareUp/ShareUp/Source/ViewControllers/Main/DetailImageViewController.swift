@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class DetailImageViewController: UIViewController {
+final class DetailImageViewController: UIViewController {
 
     @IBOutlet weak var detailImageView: UIImageView!
     @IBOutlet weak var dismissButton: UIButton!

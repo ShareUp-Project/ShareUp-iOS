@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 
     @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!

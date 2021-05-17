@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class FindAuthViewController: UIViewController {
+final class FindAuthViewController: UIViewController {
 
     @IBOutlet weak var countCertifyLabel: UILabel!
     @IBOutlet weak var certifyRequestButton: UIButton!

@@ -47,7 +47,7 @@ final class SearchViewModel: ViewModelType {
             newSearches.append(word!)
             UserDefaults.standard.set(newSearches, forKey: "recentSearches")
             UserDefaults.standard.synchronize()
-            
+
             api.searchPosts(word!, 0).subscribe(onNext: { data, response in
                 switch response {
                 case .ok:

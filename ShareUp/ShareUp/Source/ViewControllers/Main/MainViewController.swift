@@ -11,7 +11,7 @@ import RxCocoa
 import Kingfisher
 import Lottie
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     @IBOutlet weak var mainTableView: UITableView!
     
@@ -34,7 +34,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         bindViewModel()
         setupTableView()
         managerTrait()
@@ -51,6 +51,7 @@ class MainViewController: UIViewController {
         tabBarController?.navigationItem.rightBarButtonItem = searchBarButton
         mainTableView.separatorInset = .zero
         tabBarController?.navigationController?.navigationItem.hidesSearchBarWhenScrolling = true
+        tabBarController?.navigationController?.navigationBar.topItem?.title = ""
     }
 
     private func bindViewModel() {
@@ -62,6 +63,7 @@ class MainViewController: UIViewController {
             
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
+            
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in
                 cell.doubleTapped()
                 selectScrap.accept(row)

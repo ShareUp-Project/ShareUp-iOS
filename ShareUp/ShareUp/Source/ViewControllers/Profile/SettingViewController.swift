@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+final class SettingViewController: UIViewController {
 
     @IBOutlet weak var settingTableView: UITableView!
     
@@ -15,6 +15,7 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         settingTableView.delegate = self
         settingTableView.dataSource = self
         settingTableView.tableFooterView = UIView()

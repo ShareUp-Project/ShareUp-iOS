@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategoryViewController: UIViewController {
+final class CategoryViewController: UIViewController {
 
     @IBOutlet var categorys: [UIButton]!
     

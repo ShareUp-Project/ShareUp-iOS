@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditorDetailViewController: UIViewController {
+final class EditorDetailViewController: UIViewController {
 
     @IBOutlet weak var editorImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!

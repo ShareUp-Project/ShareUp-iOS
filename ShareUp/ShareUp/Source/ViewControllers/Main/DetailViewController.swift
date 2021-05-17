@@ -12,7 +12,7 @@ import RxCocoa
 import ActiveLabel
 import Kingfisher
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
 
     @IBOutlet weak var pictureCollectionView: UICollectionView!
     @IBOutlet weak var pageController: AdvancedPageControlView!

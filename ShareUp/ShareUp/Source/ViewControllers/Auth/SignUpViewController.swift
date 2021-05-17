@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SPAlert
 
-class SignUpViewController: UIViewController {
+final class SignUpViewController: UIViewController {
 
     @IBOutlet weak var nicknameTextField: AuthTextField!
     @IBOutlet weak var passwordTextField: AuthTextField!

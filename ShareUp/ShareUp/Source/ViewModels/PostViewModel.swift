@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import Photos
 
-class PostViewModel: ViewModelType {
+final class PostViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
     
     struct Input {
@@ -35,6 +35,7 @@ class PostViewModel: ViewModelType {
         let isEnable = info.map { !$0.0.isEmpty && !$0.1.isEmpty && !$0.2.isEmpty && !$0.3.isEmpty }
     
         input.postTap.asObservable().withLatestFrom(info).subscribe(onNext: { [weak self] images, category, title, content, hashtag in
+            print(hashtag)
             guard let self = self else { return }
             api.writePost(content, category, hashtag ?? [" "], images, title).subscribe(onNext: { response in
                 switch response {

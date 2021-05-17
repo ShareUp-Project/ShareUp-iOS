@@ -12,7 +12,7 @@ import Then
 import RxSwift
 import RxCocoa
 
-class PostTableViewCell: UITableViewCell {
+final class PostTableViewCell: UITableViewCell {
     
     @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var nicknameButton: UIButton!

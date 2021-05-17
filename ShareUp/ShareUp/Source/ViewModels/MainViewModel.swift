@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class MainViewModel: ViewModelType {
+final class MainViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
     
     struct Input{
@@ -62,7 +62,8 @@ class MainViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
-        input.loadDetail.asObservable().subscribe(onNext: { indexPath in
+        input.loadDetail.asObservable()
+            .subscribe(onNext: { indexPath in
             let value = getPostsData.value
             getDetailRow.onNext(String(value[indexPath.row].id))
         }).disposed(by: disposeBag)

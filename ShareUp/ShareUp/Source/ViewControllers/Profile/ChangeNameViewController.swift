@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ChangeNameViewController: UIViewController {
+final class ChangeNameViewController: UIViewController {
 
     @IBOutlet weak var nicknameTextField: AuthTextField!
     @IBOutlet weak var changeButton: HighlightedButton!

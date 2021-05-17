@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SPAlert
 
-class NewAuthViewController: UIViewController {
+final class NewAuthViewController: UIViewController {
 
     @IBOutlet weak var newTextField: AuthTextField!
     @IBOutlet weak var securityOnOffButton: UIButton!

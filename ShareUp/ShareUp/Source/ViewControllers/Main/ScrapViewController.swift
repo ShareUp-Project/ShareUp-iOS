@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ScrapViewController: UIViewController {
+final class ScrapViewController: UIViewController {
 
     @IBOutlet weak var scrapTableView: UITableView!
     
