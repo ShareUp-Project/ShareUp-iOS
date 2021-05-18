@@ -115,12 +115,8 @@ final class CategorySearchViewController: UIViewController {
             }
         }).disposed(by: disposeBag)
 
-        searchBar.rx.text.subscribe(onNext: { text in
-            if !text!.isEmpty {
-                self.recentlySearchView.recentlyTag.isHidden = true
-            }else {
-                self.recentlySearchView.recentlyTag.isHidden = false
-            }
+        searchBar.rx.text.subscribe(onNext: {[unowned self] text in
+            recentlySearchView.recentlyTag.isHidden = !text!.isEmpty ? true : false
         }).disposed(by: disposeBag)
         
         cancelButton.rx.tap.subscribe(onNext: {[unowned self] _ in
@@ -139,14 +135,10 @@ final class CategorySearchViewController: UIViewController {
         searchTableView.estimatedRowHeight = 350
     }
 
-
 }
 
 class WeeklyTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var bestPostLabel: UILabel!
     
-    override class func awakeFromNib() {
-        super.awakeFromNib()
-        
-    }
 }

@@ -81,9 +81,9 @@ final class MainViewController: UIViewController {
             mainTableView.reloadData()
         }).disposed(by: disposeBag)
         
+        
         output.result.emit(onNext: { [unowned self] text in
-            getData.accept(())
-            mainTableView.reloadData()
+            print(text)
         }).disposed(by: disposeBag)
     }
     

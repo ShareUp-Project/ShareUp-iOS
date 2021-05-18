@@ -13,7 +13,7 @@ import ActiveLabel
 import Kingfisher
 
 final class DetailViewController: UIViewController {
-
+    
     @IBOutlet weak var pictureCollectionView: UICollectionView!
     @IBOutlet weak var pageController: AdvancedPageControlView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -40,7 +40,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         
         pageController.drawer = ExtendedDotDrawer(numberOfPages: 0, space: 5.0, indicatorColor: MainColor.primaryGreen, dotsColor: .white, isBordered: false, borderWidth: 0.0, indicatorBorderColor: .clear, indicatorBorderWidth: 0.0)
-
+        
         contentTextView.numberOfLines = 0
         contentTextView.enabledTypes = [.hashtag]
         contentTextView.font = UIFont(name: "Noto Sans KR", size: 16)
@@ -72,6 +72,7 @@ final class DetailViewController: UIViewController {
             scrapsLabel.text = String(data.scraps)
             if data.isMine { navigationItem.rightBarButtonItem = deletePostButton }
             pageController.numberOfPages = data.images.count
+            
             pictureCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
@@ -79,7 +80,7 @@ final class DetailViewController: UIViewController {
         
         output.result.emit(onCompleted : { self.navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
     }
-
+    
 }
 
 class DetailCollectionViewCell: UICollectionViewCell {

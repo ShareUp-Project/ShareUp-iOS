@@ -33,7 +33,7 @@ final class EditorDetailViewController: UIViewController {
         if let image = editorDetailData?.image {
             addGradientMask(targetView: editorImageView, 0.5)
             editorImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + image))
-        } else {
+        }else {
             addGradientMask(targetView: editorImageView, 0.1)
             editorImageView.backgroundColor = MainColor.defaultGreen
         }
@@ -41,7 +41,7 @@ final class EditorDetailViewController: UIViewController {
         contentTextView.text = editorDetailData!.content
     }
 
-    func addGradientMask(targetView: UIView, _ alpha: Double){
+    private func addGradientMask(targetView: UIView, _ alpha: Double){
         let gradientMask = CAGradientLayer()
 
         gradientMask.frame = targetView.bounds
