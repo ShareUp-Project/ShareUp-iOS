@@ -18,13 +18,16 @@ PODS:
   - Moya/RxSwift (14.0.0):
     - Moya/Core
     - RxSwift (~> 5.0)
+  - PanModal (1.2.7)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
+  - SkeletonView (1.15.0)
   - SnapKit (5.0.1)
+  - SnapLikeCollectionView (1.1.0)
   - SPAlert (3.0.6)
   - SwiftyTimer (2.1.0)
   - Then (2.7.0)
@@ -40,9 +43,12 @@ DEPENDENCIES:
   - lottie-ios
   - Moya (~> 14.0)
   - Moya/RxSwift (~> 14.0)
+  - PanModal
   - RxCocoa (~> 5)
   - RxSwift (~> 5)
+  - SkeletonView
   - SnapKit (~> 5.0.0)
+  - SnapLikeCollectionView
   - SPAlert
   - SwiftyTimer
   - Then
@@ -59,10 +65,13 @@ SPEC REPOS:
     - KMPlaceholderTextView
     - lottie-ios
     - Moya
+    - PanModal
     - RxCocoa
     - RxRelay
     - RxSwift
+    - SkeletonView
     - SnapKit
+    - SnapLikeCollectionView
     - SPAlert
     - SwiftyTimer
     - Then
@@ -78,14 +87,17 @@ SPEC CHECKSUMS:
   KMPlaceholderTextView: 2206c3df39979e9396e2d96fa9f427a8951121b0
   lottie-ios: 106e92eaf11fbed0a76590b4cdb9b5ec26123ff7
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  SkeletonView: cac18a3ac4f893b09d99e65072d806ef08377aae
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SnapLikeCollectionView: b6f46ad57d104f94d91ce78b721afa43fd2b444b
   SPAlert: 900c6dba637e060fd4f3daa397ee6290c0b1fa67
   SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: d300410c27fe89016e05a878bf68ec924c74a6d7
+PODFILE CHECKSUM: ac33ef16c48e8be4a32d8f624108092d075c5348
 
 COCOAPODS: 1.10.1

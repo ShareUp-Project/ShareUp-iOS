@@ -22,12 +22,17 @@ pod 'Then'
 # UI/UX
 pod 'SnapKit', '~> 5.0.0'
 pod 'SPAlert'
-pod 'lottie-ios'
 pod "BSImagePicker", "~> 3.1"
 pod 'ActiveLabel'
 pod 'AdvancedPageControl'
 pod 'KMPlaceholderTextView', '~> 1.4.0'
 pod 'Hashtags'
+pod 'PanModal'
+pod 'SnapLikeCollectionView'
+
+#Animation
+pod 'lottie-ios'
+pod 'SkeletonView'
 
   # Pods for ShareUp
 
