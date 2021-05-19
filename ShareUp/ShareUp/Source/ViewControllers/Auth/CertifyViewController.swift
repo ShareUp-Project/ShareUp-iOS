@@ -23,7 +23,7 @@ final class CertifyViewController: UIViewController {
     private var disposeBag = DisposeBag()
     private var countDown: Int = 180 {
         willSet {
-            if countDown < 0 { countCertifyLabel.isHidden = true }
+            if countDown == 0 { countCertifyLabel.isHidden = true }
             countCertifyLabel.text = checkTimer(countDown)
         }
     }
@@ -36,6 +36,12 @@ final class CertifyViewController: UIViewController {
         managerTrait()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        countDown = 0
+    }
+    
     private func bindViewModel() {
         let input = CertifyViewModel.Input(phoneNum: numberTextField.rx.text.orEmpty.asDriver(),
                                            phoneRequest: certifyRequestButton.rx.tap.asDriver(),
@@ -43,7 +49,7 @@ final class CertifyViewController: UIViewController {
                                            certifyButton: certifyButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
         let timer = Timer.new(every: 1.second) {[unowned self] time in
-            if countDown < 0 { time.invalidate() }
+            if countDown == 0 { time.invalidate() }
             countDown -= 1
         }
 
