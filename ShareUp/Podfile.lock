@@ -4,6 +4,7 @@ PODS:
   - Alamofire (5.4.1)
   - AlignedCollectionViewFlowLayout (1.1.2)
   - BSImagePicker (3.3.1)
+  - CollectionViewPagingLayout (1.0.1)
   - Hashtags (0.1.3):
     - AlignedCollectionViewFlowLayout (~> 1.1.2)
   - Kingfisher (5.15.8):
@@ -27,7 +28,6 @@ PODS:
   - RxSwift (5.1.1)
   - SkeletonView (1.15.0)
   - SnapKit (5.0.1)
-  - SnapLikeCollectionView (1.1.0)
   - SPAlert (3.0.6)
   - SwiftyTimer (2.1.0)
   - Then (2.7.0)
@@ -37,6 +37,7 @@ DEPENDENCIES:
   - AdvancedPageControl
   - Alamofire (~> 5.2)
   - BSImagePicker (~> 3.1)
+  - CollectionViewPagingLayout
   - Hashtags
   - Kingfisher (~> 5.0)
   - KMPlaceholderTextView (~> 1.4.0)
@@ -48,7 +49,6 @@ DEPENDENCIES:
   - RxSwift (~> 5)
   - SkeletonView
   - SnapKit (~> 5.0.0)
-  - SnapLikeCollectionView
   - SPAlert
   - SwiftyTimer
   - Then
@@ -60,6 +60,7 @@ SPEC REPOS:
     - Alamofire
     - AlignedCollectionViewFlowLayout
     - BSImagePicker
+    - CollectionViewPagingLayout
     - Hashtags
     - Kingfisher
     - KMPlaceholderTextView
@@ -71,7 +72,6 @@ SPEC REPOS:
     - RxSwift
     - SkeletonView
     - SnapKit
-    - SnapLikeCollectionView
     - SPAlert
     - SwiftyTimer
     - Then
@@ -82,6 +82,7 @@ SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
   AlignedCollectionViewFlowLayout: ee2ef451e741ec08f8e0967d828001e2f051c20a
   BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
+  CollectionViewPagingLayout: 9c75b7edf3f2334f308c402622412960f67c18a4
   Hashtags: 6e2fbcb3ec0cae07403aab96985a9497927a5962
   Kingfisher: a3c03d702433fa6cfedabb2bddbe076fb8f2e902
   KMPlaceholderTextView: 2206c3df39979e9396e2d96fa9f427a8951121b0
@@ -93,11 +94,10 @@ SPEC CHECKSUMS:
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SkeletonView: cac18a3ac4f893b09d99e65072d806ef08377aae
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
-  SnapLikeCollectionView: b6f46ad57d104f94d91ce78b721afa43fd2b444b
   SPAlert: 900c6dba637e060fd4f3daa397ee6290c0b1fa67
   SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: ac33ef16c48e8be4a32d8f624108092d075c5348
+PODFILE CHECKSUM: d55b572407ba742dc54d7aaed6b07daeeb14c7af
 
 COCOAPODS: 1.10.1

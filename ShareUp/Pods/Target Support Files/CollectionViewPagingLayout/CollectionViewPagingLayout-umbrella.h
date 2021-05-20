@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double SnapLikeCollectionViewVersionNumber;
-FOUNDATION_EXPORT const unsigned char SnapLikeCollectionViewVersionString[];
+FOUNDATION_EXPORT double CollectionViewPagingLayoutVersionNumber;
+FOUNDATION_EXPORT const unsigned char CollectionViewPagingLayoutVersionString[];
 

@@ -28,7 +28,7 @@ pod 'AdvancedPageControl'
 pod 'KMPlaceholderTextView', '~> 1.4.0'
 pod 'Hashtags'
 pod 'PanModal'
-pod 'SnapLikeCollectionView'
+pod 'CollectionViewPagingLayout'
 
 #Animation
 pod 'lottie-ios'
