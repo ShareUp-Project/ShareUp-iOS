@@ -19,6 +19,7 @@ final class ProfileViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = ProfileViewModel()
     private let loadProfile = BehaviorRelay<Void>(value: ())
+    var otherProfile = BehaviorRelay<String>(value: "")
     
     lazy var settingButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "설정", style: .done, target: self, action: nil)
@@ -42,11 +43,11 @@ final class ProfileViewController: UIViewController {
         
         myPostsTableView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
         myPostsTableView.reloadData()
-        
+        myPostsTableView.separatorInset = .zero
+
         loadProfile.accept(())
         tabBarController?.navigationItem.rightBarButtonItem = settingButton
         tabBarController?.navigationItem.leftBarButtonItems = []
-        myPostsTableView.separatorInset = .zero
         tabBarController?.navigationController?.navigationBar.topItem?.title = "프로필"
     }
     
@@ -57,7 +58,8 @@ final class ProfileViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let input = ProfileViewModel.Input(loadProfile: loadProfile.asSignal(onErrorJustReturn: ()),
+        let input = ProfileViewModel.Input(otherProfileId: otherProfile.asDriver(onErrorJustReturn: ""),
+                                           loadProfile: loadProfile.asSignal(onErrorJustReturn: ()),
                                            loadMoreProfile: myPostsTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input)
         

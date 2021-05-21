@@ -13,6 +13,7 @@ final class ProfileViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
     
     struct Input {
+        let otherProfileId: Driver<String>
         let loadProfile: Signal<Void>
         let loadMoreProfile: Signal<Void>
     }
@@ -30,7 +31,8 @@ final class ProfileViewModel: ViewModelType {
         var pagination = 0
         
         input.loadProfile.asObservable()
-            .flatMap { _ in api.getNickname("")}
+            .withLatestFrom(input.otherProfileId)
+            .flatMap { id in api.getNickname(id)}
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -39,15 +41,19 @@ final class ProfileViewModel: ViewModelType {
                 default:
                     result.onNext("getNickname server error")
                 }
-                api.getUserPosts("", 0).subscribe(onNext: { data, response in
-                    print("profile \(data!)")
-                    switch response {
-                    case .ok:
-                        getMyPost.accept(data!.data)
-                    default:
-                        result.onNext("getUserPosts server error")
-                    }
-                }).disposed(by: self.disposeBag)
+            }).disposed(by: disposeBag)
+        
+        input.loadProfile.asObservable()
+            .withLatestFrom(input.otherProfileId)
+            .flatMap { id in api.getUserPosts(id, 0)}
+            .subscribe(onNext: { data, response in
+                print("profile \(data!)")
+                switch response {
+                case .ok:
+                    getMyPost.accept(data!.data)
+                default:
+                    result.onNext("getUserPosts server error")
+                }
             }).disposed(by: disposeBag)
         
         input.loadMoreProfile.asObservable()
