@@ -19,6 +19,7 @@ final class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let getData = PublishRelay<Void>()
     private let selectScrap = PublishRelay<Int>()
+    private let selectProfile = PublishRelay<Int>()
     
     lazy var shareUpButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "ShareUp", style: .plain, target: self, action: nil)
@@ -58,7 +59,8 @@ final class MainViewController: UIViewController {
         let input = MainViewModel.Input(getPosts: getData.asSignal(onErrorJustReturn: ()),
                                         loadDetail: mainTableView.rx.itemSelected.asSignal(),
                                         postScrap: selectScrap.asSignal(),
-                                        getMorePosts: mainTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
+                                        getMorePosts: mainTableView.reachedBottom.asSignal(onErrorJustReturn: ()),
+                                        getOtherProfile: selectProfile.asSignal())
         let output = viewModel.transform(input)
             
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
@@ -67,6 +69,10 @@ final class MainViewController: UIViewController {
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in
                 cell.doubleTapped()
                 selectScrap.accept(row)
+            }).disposed(by: cell.disposeBag)
+            
+            cell.nicknameButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+                selectProfile.accept(row)
             }).disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
         
@@ -84,6 +90,12 @@ final class MainViewController: UIViewController {
         
         output.result.emit(onNext: { [unowned self] text in
             print(text)
+        }).disposed(by: disposeBag)
+        
+        output.profileIndexPath.asObservable().subscribe(onNext: {[unowned self] profile in
+            guard let vc = storyboard?.instantiateViewController(identifier: "profile") as? ProfileViewController else { return }
+            vc.otherProfile.accept(profile)
+            navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
     }
     

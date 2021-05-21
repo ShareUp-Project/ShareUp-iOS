@@ -17,6 +17,7 @@ final class MainViewModel: ViewModelType {
         let loadDetail: Signal<IndexPath>
         let postScrap: Signal<Int>
         let getMorePosts: Signal<Void>
+        let getOtherProfile: Signal<Int>
     }
     
     struct Output{
@@ -24,6 +25,7 @@ final class MainViewModel: ViewModelType {
         let detailIndexPath: Signal<String>
         let scrapResult: Driver<Void>
         let result: Signal<String>
+        let profileIndexPath: Driver<String>
     }
     
     func transform(_ input: Input) -> Output {
@@ -33,6 +35,7 @@ final class MainViewModel: ViewModelType {
         let getDetailRow = PublishSubject<String>()
         let scrapResult = PublishRelay<Void>()
         let scrapInfo = Signal.combineLatest(input.postScrap, getPostsData.asSignal(onErrorJustReturn: []))
+        let profileIndexPath = PublishSubject<String>()
         var pagination = 0
         
         input.getPosts.asObservable()
@@ -68,6 +71,12 @@ final class MainViewModel: ViewModelType {
             getDetailRow.onNext(String(value[indexPath.row].id))
         }).disposed(by: disposeBag)
         
+        input.getOtherProfile.asObservable()
+            .subscribe(onNext: { row in
+                let value = getPostsData.value
+                profileIndexPath.onNext(String(value[row].user.id))
+            }).disposed(by: disposeBag)
+        
         input.postScrap.asObservable().withLatestFrom(scrapInfo).subscribe(onNext: {[weak self] row, data in
             guard let self = self else { return }
             let postId = data[row].id
@@ -97,6 +106,6 @@ final class MainViewModel: ViewModelType {
         return Output(getPosts: getPostsData.asDriver(onErrorJustReturn: []),
                       detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""),
                       scrapResult: scrapResult.asDriver(onErrorJustReturn: ()),
-                      result: result.asSignal(onErrorJustReturn: ""))
+                      result: result.asSignal(onErrorJustReturn: ""), profileIndexPath: profileIndexPath.asDriver(onErrorJustReturn: ""))
     }
 }
