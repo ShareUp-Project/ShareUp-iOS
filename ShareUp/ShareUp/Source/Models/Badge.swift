@@ -17,3 +17,13 @@ struct Badge: Codable {
     let can: Int
     let clothing: Int
 }
+
+struct WritePost: Codable {
+    let message: String
+    let badgeInfo: BadgeInfo?
+}
+
+struct BadgeInfo: Codable {
+    let category: String
+    let level: Int
+}
