@@ -30,10 +30,12 @@ enum ShareUpAPI {
     case getNickname(_ id: String?)
     case getCategorySearch(_ page: Int, _ category: String)
     case getUserPosts(_ id: String?, _ page: Int)
+    case getBadgeList
     
     case getEditorPosts(_ page: Int)
     case changeNickname(_ name: String)
     case weeklyPost
+    
 }
 
 extension ShareUpAPI: TargetType {
@@ -85,6 +87,8 @@ extension ShareUpAPI: TargetType {
             return "users/nickname"
         case .weeklyPost:
             return "/posts/weeks"
+        case .getBadgeList:
+            return "/users/badge"
         }
     }
     
@@ -94,7 +98,7 @@ extension ShareUpAPI: TargetType {
             return .post
         case .passwordReset, .changeNickname:
             return .put
-        case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch, .weeklyPost:
+        case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch, .weeklyPost, .getBadgeList:
             return .get
         case .removePost, .scrapDelete:
             return .delete

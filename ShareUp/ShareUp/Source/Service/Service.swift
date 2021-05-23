@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import Moya
 
-class AuthService {
+final class Service {
     
     let provider = MoyaProvider<ShareUpAPI>()
     
@@ -226,6 +226,17 @@ class AuthService {
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map(WeeklyPost.self)
+            .map { return ($0, .ok)}
+            .catchError { error in
+                return .just((nil, .fail))
+            }
+    }
+    
+    func getBadgeList() -> Observable<(Badge?, StatusRules)> {
+        return provider.rx.request(.getBadgeList)
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map(Badge.self)
             .map { return ($0, .ok)}
             .catchError { error in
                 return .just((nil, .fail))
