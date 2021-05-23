@@ -18,6 +18,8 @@ final class BadgeViewController: UIViewController {
     @IBOutlet weak var currentTouchArea: UIButton!
     
     private let disposeBag = DisposeBag()
+    private let viewModel = BadgeListViewModel()
+    private let loadData = BehaviorRelay<Void>(value: ())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +38,17 @@ final class BadgeViewController: UIViewController {
             let vc = self.storyboard?.instantiateViewController(identifier: "badgeDetail") as! BadgeDetailViewController
             self.presentPanModal(vc)
         }).disposed(by: disposeBag)
+        
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        let input = BadgeListViewModel.Input(loadData: loadData.asSignal(onErrorJustReturn: ()))
+        let output = viewModel.transform(input)
+        
+        output.loadData.asObservable().bind(to: badgeCollectionView.rx.items(cellIdentifier: "badgeCell", cellType: BadgeCollectionViewCell.self)) { row, data, cell in
+            cell.configCell(data, indexPath: row)
+        }.disposed(by: disposeBag)
     }
 
 }
