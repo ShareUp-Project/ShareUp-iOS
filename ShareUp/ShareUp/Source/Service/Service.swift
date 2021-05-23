@@ -86,12 +86,16 @@ final class Service {
             }
     }
     
-    func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String) -> Observable<(StatusRules)> {
+    func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String) -> Observable<(WritePost?, StatusRules)> {
         return provider.rx.request(.wirtePost(content, category, tags, images, title))
             .filterSuccessfulStatusCodes()
             .asObservable()
-            .map { _ -> StatusRules in return (.ok) }
-            .catchError { [unowned self] in return .just(setNetworkError($0))}
+            .map(WritePost.self)
+            .map { return ($0, .ok) }
+            .catchError { errer in
+                print(errer)
+               return .just((nil, .fail))
+            }
     }
     
     func scrapPost(_ id: String) -> Observable<(StatusRules)> {
