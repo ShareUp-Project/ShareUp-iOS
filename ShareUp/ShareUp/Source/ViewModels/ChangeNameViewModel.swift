@@ -23,7 +23,7 @@ final class ChangeNameViewModel: ViewModelType {
     }
 
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let duplicate = PublishSubject<String>()
         

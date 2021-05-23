@@ -27,7 +27,7 @@ final class ScarpViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let getScarpData = BehaviorRelay<[ScrapPost]>(value: [])
         let getDetailRow = PublishSubject<String>()

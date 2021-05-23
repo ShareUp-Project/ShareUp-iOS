@@ -29,7 +29,7 @@ final class DetailViewModel: ViewModelType {
         let result = PublishSubject<String>()
         let getDetailData = PublishRelay<DetailPost>()
         let scrapResult = PublishRelay<Void>()
-        let api = AuthService()
+        let api = Service()
         
         input.getDetail.asObservable()
             .flatMap { api.detailPost(input.detailPostId) }

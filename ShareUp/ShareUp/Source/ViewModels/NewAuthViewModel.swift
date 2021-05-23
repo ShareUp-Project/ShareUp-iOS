@@ -28,7 +28,7 @@ class NewAuthViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let check = PublishSubject<String>()
         let result = PublishSubject<String>()
         let checkInfo = Driver.combineLatest(input.newPassword, input.againPassword)

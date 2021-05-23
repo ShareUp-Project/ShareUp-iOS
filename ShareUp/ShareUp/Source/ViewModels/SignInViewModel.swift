@@ -28,7 +28,7 @@ final class SignInViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let autoResult = PublishSubject<String>()
         let result = PublishSubject<String>()
         let info = Driver.combineLatest(input.phone, input.password, input.isAuto)

@@ -29,7 +29,7 @@ final class MainViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let getPostsData = BehaviorRelay<[Post]>(value: [])
         let getDetailRow = PublishSubject<String>()

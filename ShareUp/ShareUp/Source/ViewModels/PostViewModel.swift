@@ -29,7 +29,7 @@ final class PostViewModel: ViewModelType {
     func transform(_ input: Input) -> Output {
         let hashtag = input.isContent.map { $0.getHashtags() }
         let filterCategory = input.isCategory.map { ShareUpFilter.filterCategory($0) }
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let info = Driver.combineLatest(input.isImage, filterCategory, input.isTitle, input.isContent, hashtag.asDriver())
         let isEnable = info.map { !$0.0.isEmpty && !$0.1.isEmpty && !$0.2.isEmpty && !$0.3.isEmpty }

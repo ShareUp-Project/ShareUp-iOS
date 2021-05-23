@@ -28,7 +28,7 @@ class CertifyViewModel: ViewModelType {
         let result = PublishSubject<String>()
         let waitAuthCode = PublishSubject<String>()
         let info = Driver.combineLatest(input.phoneCertify, input.phoneNum)
-        let api = AuthService()
+        let api = Service()
 
         input.phoneRequest.asObservable().withLatestFrom(input.phoneNum).subscribe(onNext: {[weak self] phone in
             guard let self = self else { return }

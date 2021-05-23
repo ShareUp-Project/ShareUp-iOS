@@ -24,7 +24,7 @@ final class ProfileViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let nickname = PublishRelay<String>()
         let getMyPost = BehaviorRelay<[Post]>(value: [])

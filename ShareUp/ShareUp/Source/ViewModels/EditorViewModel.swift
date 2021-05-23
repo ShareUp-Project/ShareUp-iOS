@@ -24,7 +24,7 @@ final class EditorViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let getEditorPosts = BehaviorRelay<[EditorPost]>(value: [])
         let getDetailValue = PublishRelay<EditorPost>()

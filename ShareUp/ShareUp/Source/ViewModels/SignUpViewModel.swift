@@ -26,7 +26,7 @@ class SignUpViewModel: ViewModelType {
     }
 
     func transform(_ input: Input) -> Output {
-        let api = AuthService()
+        let api = Service()
         let result = PublishSubject<String>()
         let duplicate = PublishSubject<String>()
         let info = Driver.combineLatest(input.phone, input.nickname, input.password)
