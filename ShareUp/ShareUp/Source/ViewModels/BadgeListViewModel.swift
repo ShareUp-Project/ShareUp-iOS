@@ -14,20 +14,22 @@ final class BadgeListViewModel: ViewModelType {
     
     struct Input {
         let loadData: Signal<Void>
+        let selectBadge: Driver<IndexPath>
     }
     
     struct Output {
         let loadData: Driver<[Int]>
+        let detailIndexPath: Driver<Int>
     }
     
     func transform(_ input: Input) -> Output {
         let api = Service()
         let getBadgeList = BehaviorRelay<[Int]>(value: [])
+        let getDetailRow = PublishRelay<Int>()
         
         input.loadData.asObservable()
             .flatMap { _ in api.getBadgeList() }
             .subscribe(onNext: { data, response in
-                print(response)
                 switch response {
                 case .ok:
                     var array = [Int]()
@@ -47,6 +49,11 @@ final class BadgeListViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
-        return Output(loadData: getBadgeList.asDriver())
+        input.selectBadge.asObservable().subscribe(onNext: { indexPath in
+            let value = getBadgeList.value
+            getDetailRow.accept(value[indexPath.row])
+        }).disposed(by: disposeBag)
+        
+        return Output(loadData: getBadgeList.asDriver(), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: 0))
     }
 }

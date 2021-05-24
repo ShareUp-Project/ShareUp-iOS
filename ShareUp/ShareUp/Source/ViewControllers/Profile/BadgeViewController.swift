@@ -39,12 +39,20 @@ final class BadgeViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        let input = BadgeListViewModel.Input(loadData: loadData.asSignal(onErrorJustReturn: ()))
+        let input = BadgeListViewModel.Input(loadData: loadData.asSignal(onErrorJustReturn: ()),
+                                             selectBadge: badgeCollectionView.rx.itemSelected.asDriver())
         let output = viewModel.transform(input)
         
         output.loadData.asObservable().bind(to: badgeCollectionView.rx.items(cellIdentifier: "badgeCell", cellType: BadgeCollectionViewCell.self)) { row, data, cell in
             cell.configCell(data, indexPath: row)
         }.disposed(by: disposeBag)
+        
+        output.detailIndexPath.asObservable().subscribe(onNext: { level in
+            let vc = self.storyboard?.instantiateViewController(identifier: "badgeDetail") as! BadgeDetailViewController
+            vc.category = "paper"
+            vc.level = level
+            
+        }).disposed(by: disposeBag)
     }
 
 }
