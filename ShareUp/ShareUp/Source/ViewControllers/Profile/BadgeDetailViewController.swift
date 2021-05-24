@@ -18,20 +18,26 @@ final class BadgeDetailViewController: UIViewController {
     @IBOutlet weak var badgeSetButton: UIButton!
             
     private let layout = CollectionViewPagingLayout()
-
-    private var test = ["editor", "selectEditor", "AppIcon"]
+    private var badgeAcheive = [String]()
+    var category = String()
+    var level = Int()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         layout.numberOfVisibleItems = 3
         badgeLevelCollectionView.collectionViewLayout = layout
+        badgeLevelCollectionView.isPagingEnabled = true
 
         layout.delegate = self
         badgeLevelCollectionView.dataSource = self
         badgeLevelCollectionView.delegate = self
-        badgeLevelCollectionView.isPagingEnabled = true
+        
+        
+        for i in 1..<level {
+            badgeAcheive.append(category + "\(i)")
+        }
     }
-    
 }
 
 extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -41,7 +47,7 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "badgeDetailCell", for: indexPath) as! BadgeLevelCollectionViewCell
-        cell.badgeImageView.image = UIImage(named: test[indexPath.row])
+        cell.badgeImageView.image = UIImage(named: badgeAcheive[indexPath.row])
         return cell
     }
     
