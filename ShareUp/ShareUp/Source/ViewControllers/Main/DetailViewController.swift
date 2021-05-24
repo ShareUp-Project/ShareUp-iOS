@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import ActiveLabel
 import Kingfisher
+import Lottie
 
 final class DetailViewController: UIViewController {
     
@@ -29,12 +30,16 @@ final class DetailViewController: UIViewController {
     private let viewModel = DetailViewModel()
     private var loadData = BehaviorRelay<Void>(value: ())
     private var showDetailImages = [String]()
-    
+
     lazy var deletePostButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.red
         return button
     }()
+    private let animationView = AnimationView(name: "bookmark-animation").then {
+        $0.contentMode = .scaleAspectFit
+        $0.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +50,14 @@ final class DetailViewController: UIViewController {
         contentTextView.enabledTypes = [.hashtag]
         contentTextView.font = UIFont(name: "Noto Sans KR", size: 16)
         
+        pictureCollectionView.addSubview(animationView)
         bindViewModel()
+        
+        scrapButton.rx.tap.subscribe(onNext: { _ in
+            self.doubleTapped()
+        }).disposed(by: disposeBag)
+        setupConstraint()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,11 +88,24 @@ final class DetailViewController: UIViewController {
             pictureCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in loadData.accept(()) }).disposed(by: disposeBag)
+        output.scrapResult.asObservable().bind(to: loadData).disposed(by: disposeBag)
         
         output.result.emit(onCompleted : { self.navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
     }
     
+    private func setupConstraint() {
+        animationView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalTo(128)
+            make.height.equalTo(128)
+        }
+    }
+    
+    private func doubleTapped() {
+        animationView.isHidden = false
+        animationView.play()
+        animationView.play { _ in self.animationView.isHidden = true }
+    }
 }
 
 class DetailCollectionViewCell: UICollectionViewCell {
