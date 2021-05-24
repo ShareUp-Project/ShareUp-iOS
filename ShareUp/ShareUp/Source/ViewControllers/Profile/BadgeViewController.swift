@@ -30,10 +30,6 @@ final class BadgeViewController: UIViewController {
         flowLayout.itemSize = CGSize(width: 120, height: 132)
         
         badgeCollectionView.collectionViewLayout = flowLayout
-
-        badgeCollectionView.delegate = self
-        badgeCollectionView.dataSource = self
-        
         currentTouchArea.rx.tap.subscribe(onNext: { _ in
             let vc = self.storyboard?.instantiateViewController(identifier: "badgeDetail") as! BadgeDetailViewController
             self.presentPanModal(vc)
@@ -51,19 +47,4 @@ final class BadgeViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
 
-}
-
-extension BadgeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "badgeCell", for: indexPath) as! BadgeCollectionViewCell
-        
-        cell.badgeImageView.image = UIImage(named: "selectEditor")
-        cell.badgeNameLabel.text = "배지이름"
-        
-        return cell
-    }
 }

@@ -55,7 +55,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             pushViewController("changeNickname")
         case 1:
-            print("badge")
+            pushViewController("badge")
         case 2:
             pushViewController("resetPassword")
         case 3:
