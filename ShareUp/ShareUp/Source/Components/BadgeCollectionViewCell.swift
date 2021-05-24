@@ -14,21 +14,53 @@ final class BadgeCollectionViewCell: UICollectionViewCell {
     func configCell(_ data: Int, indexPath: Int) {
         switch indexPath {
         case 0:
-            badgeImageView.image = UIImage(named: "first\(data)")
+            badgeImageView.image = UIImage(named: "0")
+            badgeNameLabel.text = "첫 배지"
         case 1:
-            badgeImageView.image = UIImage(named: "paper\(data)")
+            if data == 0 {
+                badgeImageView.image = UIImage(named: "0")
+            }
+            else {
+                badgeImageView.image = UIImage(named: "paper\(data)")
+            }
+            badgeNameLabel.text = "종이 배지"
         case 2:
-            badgeImageView.image = UIImage(named: "plastic\(data)")
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "plastic\(data)")
+            }
+            badgeNameLabel.text = "플라스틱"
         case 3:
-            badgeImageView.image = UIImage(named: "glass\(data)")
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "glass\(data)")
+            }
+            badgeNameLabel.text = "유리"
         case 4:
-            badgeImageView.image = UIImage(named: "styrofoam\(data)")
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "styrofoam\(data)")
+            }
+            badgeNameLabel.text = "스티로폼"
         case 5:
-            badgeImageView.image = UIImage(named: "vinyl\(data)")
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "vinyl\(data)")
+            }
+            badgeNameLabel.text = "비닐"
         case 6:
-            badgeImageView.image = UIImage(named: "can\(data)")
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "can\(data)")
+            }
+            badgeNameLabel.text = "캔"
+
         case 7:
-            badgeImageView.image = UIImage(named: "clothing\(data)")
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "clothing\(data)")
+            }
+            badgeNameLabel.text = "옷"
         default:
             print("no more badge")
         }
