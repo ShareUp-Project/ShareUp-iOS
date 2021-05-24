@@ -10,6 +10,7 @@ import BSImagePicker
 import RxSwift
 import Photos
 import RxCocoa
+import SPAlert
 
 final class PostViewController: UIViewController {
     
@@ -62,9 +63,15 @@ final class PostViewController: UIViewController {
                                         isCategory: categoryTraking.asDriver(onErrorJustReturn: ""))
         let output = viewModel.transform(input)
         
-        output.result.emit(onCompleted: {[unowned self] in
-            loadingView.isHidden = true
-            pushViewController("main")
+        output.result.asObservable().subscribe(onNext: {[unowned self] data in
+            if let badgeAcheive = data {
+                let alertView = SPAlertView(title: "배지 획득", message: "\(badgeAcheive.category) 배지를 획득했습니다.", preset: .done)
+                alertView.present(duration: 2.0, haptic: .success) {
+                    pushViewController("main")
+                }
+            } else {
+                pushViewController("main")
+            }
         }).disposed(by: disposeBag)
         
         output.isEnable.drive(postButton.rx.isEnabled).disposed(by: disposeBag)
