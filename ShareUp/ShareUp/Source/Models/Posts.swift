@@ -10,6 +10,7 @@ import Foundation
 struct Posts: Codable {
     let data: [Post]
 }
+
 struct Post: Codable {
     let id: String
     let title: String
@@ -25,6 +26,8 @@ struct Post: Codable {
 struct User: Codable {
     let id: String
     let nickname: String
+    let badgeCategory: String
+    let badgeLevel: Int
 }
 
 struct WeeklyPosts: Codable {

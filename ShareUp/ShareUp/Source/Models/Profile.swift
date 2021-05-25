@@ -9,4 +9,6 @@ import Foundation
 
 struct Nickname: Codable {
     let nickname: String
+    let badgeCategory: String
+    let badgeLevel: Int
 }
