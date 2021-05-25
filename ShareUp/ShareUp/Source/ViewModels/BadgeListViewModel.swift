@@ -19,13 +19,15 @@ final class BadgeListViewModel: ViewModelType {
     
     struct Output {
         let loadData: Driver<[Int]>
-        let detailIndexPath: Driver<Int>
+        let detailIndexPath: Driver<[Int]>
+        let loadBadgeData: Driver<Nickname?>
     }
     
     func transform(_ input: Input) -> Output {
         let api = Service()
         let getBadgeList = BehaviorRelay<[Int]>(value: [])
-        let getDetailRow = PublishRelay<Int>()
+        let getDetailRow = PublishRelay<[Int]>()
+        let getMyBadge = PublishRelay<Nickname?>()
         
         input.loadData.asObservable()
             .flatMap { _ in api.getBadgeList() }
@@ -34,6 +36,7 @@ final class BadgeListViewModel: ViewModelType {
                 case .ok:
                     var array = [Int]()
                     
+                    array.append(0)
                     array.append(data!.first)
                     array.append(data!.paper)
                     array.append(data!.plastic)
@@ -47,13 +50,22 @@ final class BadgeListViewModel: ViewModelType {
                 default:
                     getBadgeList.accept([])
                 }
+                
+                api.getNickname("").subscribe(onNext: { data, response in
+                    switch response {
+                    case .ok:
+                        getMyBadge.accept(data)
+                    default:
+                        getMyBadge.accept(nil)
+                    }
+                }).disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
         
         input.selectBadge.asObservable().subscribe(onNext: { indexPath in
             let value = getBadgeList.value
-            getDetailRow.accept(value[indexPath.row])
+            getDetailRow.accept([value[indexPath.row], indexPath.row])
         }).disposed(by: disposeBag)
         
-        return Output(loadData: getBadgeList.asDriver(), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: 0))
+        return Output(loadData: getBadgeList.asDriver(), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: []), loadBadgeData: getMyBadge.asDriver(onErrorJustReturn: nil))
     }
 }
