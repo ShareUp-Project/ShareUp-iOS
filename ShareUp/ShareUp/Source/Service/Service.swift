@@ -243,8 +243,18 @@ final class Service {
             .map(Badge.self)
             .map { return ($0, .ok)}
             .catchError { error in
-                return .just((nil, .fail))
+                print(error)
+                print(error.localizedDescription)
+                return .just((nil, self.setNetworkError(error)))
             }
+    }
+    
+    func postBadge(_ category: String, _ level: Int) -> Observable<StatusRules> {
+        return provider.rx.request(.postBadge(category, level))
+            .filterSuccessfulStatusCodes()
+            .asObservable()
+            .map { _ -> StatusRules in return (.ok)}
+            .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
     func setNetworkError(_ error: Error) -> StatusRules {
@@ -253,5 +263,4 @@ final class Service {
         guard let status = (error as? MoyaError)?.response?.statusCode else { return (.fail) }
         return (StatusRules(rawValue: status) ?? .fail)
     }
-    
 }

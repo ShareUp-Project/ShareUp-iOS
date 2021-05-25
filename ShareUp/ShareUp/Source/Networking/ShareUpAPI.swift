@@ -31,7 +31,7 @@ enum ShareUpAPI {
     case getCategorySearch(_ page: Int, _ category: String)
     case getUserPosts(_ id: String?, _ page: Int)
     case getBadgeList
-    
+    case postBadge(_ category: String, _ level: Int)
     case getEditorPosts(_ page: Int)
     case changeNickname(_ name: String)
     case weeklyPost
@@ -40,7 +40,7 @@ enum ShareUpAPI {
 
 extension ShareUpAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "http://52.79.143.242/api")!
+        return URL(string: "http://3.34.188.161/api")!
     }
     
     var path: String {
@@ -76,7 +76,7 @@ extension ShareUpAPI: TargetType {
         case .searchPosts:
             return "/posts/search"
         case .getNickname(let id):
-            return "/users/nickname/\(id ?? "")"
+            return "/users/profile/\(id ?? "")"
         case .getUserPosts(let id, _):
             return "/posts/users/\(id ?? "")"
         case .getCategorySearch:
@@ -89,6 +89,8 @@ extension ShareUpAPI: TargetType {
             return "/posts/weeks"
         case .getBadgeList:
             return "/users/badge"
+        case .postBadge:
+            return "/users/badge"
         }
     }
     
@@ -96,7 +98,7 @@ extension ShareUpAPI: TargetType {
         switch self {
         case .nicknameCheck, .signIn, .signUp, .phoneCertify, .checkCode, .certifyPassword, .wirtePost, .scrapPost:
             return .post
-        case .passwordReset, .changeNickname:
+        case .passwordReset, .changeNickname, .postBadge:
             return .put
         case .autoLogin, .getPosts, .getScrapPost, .detailPost, .searchPosts, .getNickname, .getUserPosts, .getEditorPosts, .getCategorySearch, .weeklyPost, .getBadgeList:
             return .get
@@ -145,6 +147,8 @@ extension ShareUpAPI: TargetType {
             return .requestParameters(parameters: ["page" : page, "category": category], encoding: URLEncoding.queryString)
         case .changeNickname(let name):
             return .requestParameters(parameters: ["nickname": name], encoding: JSONEncoding.prettyPrinted)
+        case .postBadge(let category, let level):
+            return .requestParameters(parameters: ["category": category, "level": level], encoding: JSONEncoding.prettyPrinted)
         default:
             return .requestPlain
         }
