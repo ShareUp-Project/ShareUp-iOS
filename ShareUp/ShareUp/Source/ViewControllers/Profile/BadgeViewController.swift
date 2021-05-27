@@ -38,6 +38,12 @@ final class BadgeViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadData.accept(())
+    }
+    
     private func bindViewModel() {
         let input = BadgeListViewModel.Input(loadData: loadData.asSignal(onErrorJustReturn: ()),
                                              selectBadge: badgeCollectionView.rx.itemSelected.asDriver())
@@ -47,12 +53,24 @@ final class BadgeViewController: UIViewController {
             cell.configCell(data, indexPath: row)
         }.disposed(by: disposeBag)
         
+        output.loadBadgeData.asObservable().bind {[unowned self] data in
+            if data!.badgeCategory == "default" {
+                currentBadgeImageView.image = UIImage(named: "default0")
+                currentBadgeNameLabel.text = "첫 걸음"
+            }else if data!.badgeCategory == "first" {
+                currentBadgeImageView.image = UIImage(named: data!.badgeCategory)
+                currentBadgeNameLabel.text = "삐약삐약"
+            }else {
+                currentBadgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
+                currentBadgeNameLabel.text = Category(rawValue: data!.badgeCategory + "\(data!.badgeLevel)")?.toDescription()[0]
+            }
+        }.disposed(by: disposeBag)
+        
         output.detailIndexPath.asObservable().subscribe(onNext: { level in
             let vc = self.storyboard?.instantiateViewController(identifier: "badgeDetail") as! BadgeDetailViewController
-            vc.category = "paper"
-            vc.level = level
-            
+            vc.category = ShareUpFilter.filterCategoryBadge(level[1])
+            vc.level = level[0]
+            self.presentPanModal(vc)
         }).disposed(by: disposeBag)
     }
-
 }
