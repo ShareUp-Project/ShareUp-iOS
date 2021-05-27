@@ -8,7 +8,7 @@
 import Foundation
 
 enum Category: String {
-    case defaultBadge = "defaultBadge"
+    case defaultBadge = "default"
     case first = "first"
     case paper1 = "paper1"
     case paper2 = "paper2"
