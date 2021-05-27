@@ -39,4 +39,19 @@ struct ShareUpFilter {
         default: return ""
         }
     }
+    
+    static func filterCategoryBadge(_ number: Int) -> String {
+        switch number {
+        case 0 : return "defaultBadge"
+        case 1: return "first"
+        case 2 : return "paper"
+        case 3 : return "vinyl"
+        case 4 : return "can"
+        case 5 : return "plastic"
+        case 6 : return "glass"
+        case 7 : return "styrofoam"
+        case 8 : return "clothing"
+        default: return ""
+        }
+    }
 }
