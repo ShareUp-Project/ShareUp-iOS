@@ -27,37 +27,37 @@ final class BadgeCollectionViewCell: UICollectionViewCell {
             else {
                 badgeImageView.image = UIImage(named: "paper\(data)")
             }
-            badgeNameLabel.text = "종이 배지"
+            badgeNameLabel.text = "종이"
         case 3:
-            if data == 0 { badgeImageView.image = UIImage(named: "0") }
-            else {
-                badgeImageView.image = UIImage(named: "plastic\(data)")
-            }
-            badgeNameLabel.text = "플라스틱"
-        case 4:
-            if data == 0 { badgeImageView.image = UIImage(named: "0") }
-            else {
-                badgeImageView.image = UIImage(named: "glass\(data)")
-            }
-            badgeNameLabel.text = "유리"
-        case 5:
-            if data == 0 { badgeImageView.image = UIImage(named: "0") }
-            else {
-                badgeImageView.image = UIImage(named: "styrofoam\(data)")
-            }
-            badgeNameLabel.text = "스티로폼"
-        case 6:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
                 badgeImageView.image = UIImage(named: "vinyl\(data)")
             }
             badgeNameLabel.text = "비닐"
-        case 7:
+        case 4:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
                 badgeImageView.image = UIImage(named: "can\(data)")
             }
             badgeNameLabel.text = "캔"
+        case 5:
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "plastic\(data)")
+            }
+            badgeNameLabel.text = "플라스틱"
+        case 6:
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "glass\(data)")
+            }
+            badgeNameLabel.text = "유리"
+        case 7:
+            if data == 0 { badgeImageView.image = UIImage(named: "0") }
+            else {
+                badgeImageView.image = UIImage(named: "styrofoam\(data)")
+            }
+            badgeNameLabel.text = "스티로폼"
 
         case 8:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
