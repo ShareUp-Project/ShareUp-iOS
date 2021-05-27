@@ -22,7 +22,7 @@ final class PostViewModel: ViewModelType {
     }
     
     struct Output {
-        let result: Signal<String>
+        let result: Driver<BadgeInfo?>
         let isEnable: Driver<Bool>
     }
     
@@ -30,23 +30,23 @@ final class PostViewModel: ViewModelType {
         let hashtag = input.isContent.map { $0.getHashtags() }
         let filterCategory = input.isCategory.map { ShareUpFilter.filterCategory($0) }
         let api = Service()
-        let result = PublishSubject<String>()
+        let result = PublishSubject<BadgeInfo?>()
         let info = Driver.combineLatest(input.isImage, filterCategory, input.isTitle, input.isContent, hashtag.asDriver())
         let isEnable = info.map { !$0.0.isEmpty && !$0.1.isEmpty && !$0.2.isEmpty && !$0.3.isEmpty }
-    
+        
         input.postTap.asObservable().withLatestFrom(info).subscribe(onNext: { [weak self] images, category, title, content, hashtag in
             print(hashtag)
             guard let self = self else { return }
-            api.writePost(content, category, hashtag ?? [" "], images, title).subscribe(onNext: { response in
+            api.writePost(content, category, hashtag , images, title).subscribe(onNext: { data, response in
                 switch response {
                 case .ok:
-                    result.onCompleted()
+                    result.onNext(data!.badgeInfo)
                 default:
-                    result.onNext("서버 오류")
+                    print("서버 오류")
                 }
             }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
-        return Output(result: result.asSignal(onErrorJustReturn: ""), isEnable: isEnable.asDriver(onErrorJustReturn: false))
+        return Output(result: result.asDriver(onErrorJustReturn: nil), isEnable: isEnable.asDriver(onErrorJustReturn: false))
     }
 }
