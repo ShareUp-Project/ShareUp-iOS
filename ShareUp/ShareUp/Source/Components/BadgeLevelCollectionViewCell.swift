@@ -31,5 +31,13 @@ final class BadgeLevelCollectionViewCell: UICollectionViewCell, ScaleTransformVi
             return [""]
         }
     }
+    
+    func setBadgeButtonEnable(_ isLock: String) -> Bool{
+        if isLock == "0" {
+            return false
+        }else{
+            return true
+        }
+    }
 }
 

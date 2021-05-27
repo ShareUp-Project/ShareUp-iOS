@@ -47,6 +47,12 @@ final class BadgeDetailViewController: UIViewController {
         badgeLevelCollectionView.delegate = self
         currentName.accept(category)
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        title = "배지"
         navigationBackCustom()
     }
     
@@ -55,9 +61,8 @@ final class BadgeDetailViewController: UIViewController {
                                                level: currentLevel.asDriver(),
                                                postBadge: badgeSetButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
-        output.result.emit(onNext: { message in
-            print(message)
-        }, onCompleted: {
+        
+        output.result.emit(onCompleted: {
             self.dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)
     }
@@ -82,7 +87,10 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
             badgeLabel.text = info?[1]
         }else {
             cell.badgeImageView.image = UIImage(named: badgeAcheive[indexPath.row])
+            badgeSetButton.isEnabled = cell.setBadgeButtonEnable(badgeAcheive[indexPath.row])
+            badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠금", for: .normal)
         }
+        
         return cell
     }
     
@@ -92,6 +100,9 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
         badgeLabel.text = info?[1]
         badgeCountLabel.text = info?[2]
         currentLevel.accept(currentPage+1)
+        
+        badgeSetButton.isEnabled = badgeAcheive[currentPage] == "0" ? false : true
+        badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠금", for: .normal)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
