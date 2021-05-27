@@ -36,6 +36,10 @@ final class ProfileViewController: UIViewController {
         bindViewModel()
         setupTableView()
         managerTrait()
+        
+        if !otherProfile.value.isEmpty {
+            navigationBackCustom()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +67,9 @@ final class ProfileViewController: UIViewController {
                                            loadMoreProfile: myPostsTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
         let output = viewModel.transform(input)
         
-        output.myNickname.asObservable().bind {[unowned self] nickname in nicknameLabel.text = nickname}.disposed(by: disposeBag)
+        output.myNickname.asObservable().bind {[unowned self] data in
+            badgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
+            nicknameLabel.text = data?.nickname}.disposed(by: disposeBag)
         
         output.myPosts.asObservable().bind(to: myPostsTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)

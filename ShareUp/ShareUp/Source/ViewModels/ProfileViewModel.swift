@@ -19,14 +19,14 @@ final class ProfileViewModel: ViewModelType {
     }
     
     struct Output {
-        let myNickname: Driver<String>
+        let myNickname: Driver<Nickname?>
         let myPosts: Driver<[Post]>
     }
     
     func transform(_ input: Input) -> Output {
         let api = Service()
         let result = PublishSubject<String>()
-        let nickname = PublishRelay<String>()
+        let nickname = PublishRelay<Nickname?>()
         let getMyPost = BehaviorRelay<[Post]>(value: [])
         var pagination = 0
         
@@ -37,7 +37,7 @@ final class ProfileViewModel: ViewModelType {
                 print(response)
                 switch response {
                 case .ok:
-                    nickname.accept(data!.nickname)
+                    nickname.accept(data!)
                 default:
                     result.onNext("getNickname server error")
                 }
@@ -47,7 +47,6 @@ final class ProfileViewModel: ViewModelType {
             .withLatestFrom(input.otherProfileId)
             .flatMap { id in api.getUserPosts(id, 0)}
             .subscribe(onNext: { data, response in
-                print("profile \(data!)")
                 switch response {
                 case .ok:
                     getMyPost.accept(data!.data)
@@ -71,6 +70,6 @@ final class ProfileViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
-        return Output(myNickname: nickname.asDriver(onErrorJustReturn: ""), myPosts: getMyPost.asDriver(onErrorJustReturn: []))
+        return Output(myNickname: nickname.asDriver(onErrorJustReturn: nil), myPosts: getMyPost.asDriver(onErrorJustReturn: []))
     }
 }
