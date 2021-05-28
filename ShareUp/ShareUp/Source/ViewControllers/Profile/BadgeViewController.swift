@@ -38,6 +38,8 @@ final class BadgeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        title = "배지"
+        navigationBackCustom()
         loadData.accept(())
     }
     

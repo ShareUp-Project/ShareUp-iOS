@@ -49,13 +49,6 @@ final class BadgeDetailViewController: UIViewController {
         bindViewModel()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        title = "배지"
-        navigationBackCustom()
-    }
-    
     private func bindViewModel() {
         let input = BadgeDetailViewModel.Input(category: .just(category),
                                                level: currentLevel.asDriver(),
