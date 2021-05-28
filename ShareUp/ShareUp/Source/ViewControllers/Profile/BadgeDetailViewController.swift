@@ -87,8 +87,6 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
             badgeLabel.text = info?[1]
         }else {
             cell.badgeImageView.image = UIImage(named: badgeAcheive[indexPath.row])
-            badgeSetButton.isEnabled = cell.setBadgeButtonEnable(badgeAcheive[indexPath.row])
-            badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠금", for: .normal)
         }
         
         return cell
@@ -115,6 +113,10 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
             badgeNameLabel.text = info?[0]
             badgeLabel.text = info?[1]
             badgeCountLabel.text = info?[2]
+            
+            badgeSetButton.isEnabled = badgeAcheive[0] == "0" ? false : true
+            badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠금", for: .normal)
+            
             currentLevel.accept(1)
         }
     }
