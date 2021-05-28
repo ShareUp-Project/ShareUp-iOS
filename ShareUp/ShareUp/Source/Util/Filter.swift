@@ -54,4 +54,19 @@ struct ShareUpFilter {
         default: return ""
         }
     }
+    
+    static func filterCurrentBadge(_ str: String) -> Int {
+        switch str {
+        case "default" : return 0
+        case "first": return 1
+        case "paper" : return 2
+        case "vinyl" : return 3
+        case "can" : return 4
+        case "plastic" : return 5
+        case "glass" : return 6
+        case "styrofoam" : return 7
+        case "clothing": return 8
+        default: return 0
+        }
+    }
 }
