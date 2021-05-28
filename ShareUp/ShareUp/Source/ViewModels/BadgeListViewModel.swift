@@ -15,6 +15,8 @@ final class BadgeListViewModel: ViewModelType {
     struct Input {
         let loadData: Signal<Void>
         let selectBadge: Driver<IndexPath>
+        let selectCurrentBadge: Driver<String>
+        let selectCurrent: Driver<Void>
     }
     
     struct Output {
@@ -64,6 +66,12 @@ final class BadgeListViewModel: ViewModelType {
         input.selectBadge.asObservable().subscribe(onNext: { indexPath in
             let value = getBadgeList.value
             getDetailRow.accept([value[indexPath.row], indexPath.row])
+        }).disposed(by: disposeBag)
+        
+        input.selectCurrent.withLatestFrom(input.selectCurrentBadge).asObservable().subscribe(onNext: { category in
+            let row = ShareUp.ShareUpFilter.filterCurrentBadge(category)
+            let value = getBadgeList.value
+            getDetailRow.accept([value[row], row])
         }).disposed(by: disposeBag)
         
         return Output(loadData: getBadgeList.asDriver(), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: []), loadBadgeData: getMyBadge.asDriver(onErrorJustReturn: nil))
