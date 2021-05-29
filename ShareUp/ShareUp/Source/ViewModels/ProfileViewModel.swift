@@ -16,11 +16,13 @@ final class ProfileViewModel: ViewModelType {
         let otherProfileId: Driver<String>
         let loadProfile: Signal<Void>
         let loadMoreProfile: Signal<Void>
+        let loadDetail: Signal<IndexPath>
     }
     
     struct Output {
         let myNickname: Driver<Nickname?>
         let myPosts: Driver<[Post]>
+        let detailIndexPath: Driver<String>
     }
     
     func transform(_ input: Input) -> Output {
@@ -28,6 +30,7 @@ final class ProfileViewModel: ViewModelType {
         let result = PublishSubject<String>()
         let nickname = PublishRelay<Nickname?>()
         let getMyPost = BehaviorRelay<[Post]>(value: [])
+        let getDetailRow = PublishSubject<String>()
         var pagination = 0
         
         input.loadProfile.asObservable()
@@ -70,6 +73,12 @@ final class ProfileViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
-        return Output(myNickname: nickname.asDriver(onErrorJustReturn: nil), myPosts: getMyPost.asDriver(onErrorJustReturn: []))
+        input.loadDetail.asObservable()
+            .subscribe(onNext: { indexPath in
+                let value = getMyPost.value
+                getDetailRow.onNext(String(value[indexPath.row].id))
+            }).disposed(by: disposeBag)
+        
+        return Output(myNickname: nickname.asDriver(onErrorJustReturn: nil), myPosts: getMyPost.asDriver(onErrorJustReturn: []), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: ""))
     }
 }

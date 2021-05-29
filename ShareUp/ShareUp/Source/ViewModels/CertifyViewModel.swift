@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class CertifyViewModel: ViewModelType {
+final class CertifyViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
 
     struct Input {
@@ -30,9 +30,10 @@ class CertifyViewModel: ViewModelType {
         let info = Driver.combineLatest(input.phoneCertify, input.phoneNum)
         let api = Service()
 
-        input.phoneRequest.asObservable().withLatestFrom(input.phoneNum).subscribe(onNext: {[weak self] phone in
-            guard let self = self else { return }
-            api.phoneCertify(phone).subscribe(onNext: { response in
+        input.phoneRequest.asObservable()
+            .withLatestFrom(input.phoneNum)
+            .flatMap { phone in api.phoneCertify(phone)}
+            .subscribe(onNext: { response in
                 print(response)
                 switch response {
                 case .ok:
@@ -42,12 +43,12 @@ class CertifyViewModel: ViewModelType {
                 default:
                     waitAuthCode.onNext("인증이 제대로 진행되지 않았습니다.")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
 
-        input.certifyButton.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] code, phone in
-            guard let self = self else { return }
-            api.checkCode(phone: phone, code).subscribe(onNext: { response in
+        input.certifyButton.asObservable()
+            .withLatestFrom(info)
+            .flatMap { code, phone in api.checkCode(phone: phone, code)}
+            .subscribe(onNext: { response in
                 print(response)
                 switch response {
                 case .ok:
@@ -57,8 +58,7 @@ class CertifyViewModel: ViewModelType {
                 default:
                     result.onNext("인증이 제대로 진행되지 않았습니다.")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
         
         return Output(wait: waitAuthCode.asSignal(onErrorJustReturn: ""), result: result.asSignal(onErrorJustReturn: "") )
     }

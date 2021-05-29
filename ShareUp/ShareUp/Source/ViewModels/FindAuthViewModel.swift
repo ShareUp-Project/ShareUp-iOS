@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class FindAuthViewModel: ViewModelType {
+final class FindAuthViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
 
     struct Input {
@@ -29,11 +29,11 @@ class FindAuthViewModel: ViewModelType {
         let waitAuthCode = PublishSubject<String>()
         let info = Driver.combineLatest(input.phoneCertify, input.phoneNum)
         let api = Service()
-
-        input.phoneRequest.asObservable().withLatestFrom(input.phoneNum).subscribe(onNext: {[weak self] phone in
-            guard let self = self else { return }
-            api.certifyPassword(phone).subscribe(onNext: { response in
-                print(response)
+        
+        input.phoneRequest.asObservable()
+            .withLatestFrom(input.phoneNum)
+            .flatMap { phone in api.certifyPassword(phone)}
+            .subscribe(onNext: { response in
                 switch response {
                 case .ok:
                     waitAuthCode.onCompleted()
@@ -42,12 +42,12 @@ class FindAuthViewModel: ViewModelType {
                 default:
                     waitAuthCode.onNext("존재하지 않는 전화번호입니다.")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
-
-        input.certifyButton.asObservable().withLatestFrom(info).subscribe(onNext: {[weak self] code, phone in
-            guard let self = self else { return }
-            api.checkCode(phone: phone, code).subscribe(onNext: { response in
+            }).disposed(by: disposeBag)
+        
+        input.certifyButton.asObservable()
+            .withLatestFrom(info)
+            .flatMap { code, phone in api.checkCode(phone: phone, code)}
+            .subscribe(onNext: { response in
                 print(response)
                 switch response {
                 case .ok:
@@ -57,8 +57,7 @@ class FindAuthViewModel: ViewModelType {
                 default:
                     result.onNext("인증번호가 올ㄹ바르지 않습니다.")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
         
         return Output(wait: waitAuthCode.asSignal(onErrorJustReturn: ""), result: result.asSignal(onErrorJustReturn: "") )
     }

@@ -34,18 +34,18 @@ final class PostViewModel: ViewModelType {
         let info = Driver.combineLatest(input.isImage, filterCategory, input.isTitle, input.isContent, hashtag.asDriver())
         let isEnable = info.map { !$0.0.isEmpty && !$0.1.isEmpty && !$0.2.isEmpty && !$0.3.isEmpty }
         
-        input.postTap.asObservable().withLatestFrom(info).subscribe(onNext: { [weak self] images, category, title, content, hashtag in
-            print(hashtag)
-            guard let self = self else { return }
-            api.writePost(content, category, hashtag , images, title).subscribe(onNext: { data, response in
+        input.postTap.asObservable()
+            .withLatestFrom(info)
+            .flatMap { images, category, title, content, hashtag in api.writePost(content, category, hashtag, images, title)}
+            .subscribe(onNext: { data, response in
+                print(response)
                 switch response {
                 case .ok:
                     result.onNext(data!.badgeInfo)
                 default:
-                    print("서버 오류")
+                    print("글 쓰기를 다시 시도해보세요.")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
         
         return Output(result: result.asDriver(onErrorJustReturn: nil), isEnable: isEnable.asDriver(onErrorJustReturn: false))
     }

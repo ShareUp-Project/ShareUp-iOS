@@ -26,10 +26,10 @@ final class DetailViewModel: ViewModelType {
     }
     
     func transform(_ input: Input) -> Output {
+        let api = Service()
         let result = PublishSubject<String>()
         let getDetailData = PublishRelay<DetailPost>()
         let scrapResult = PublishRelay<Void>()
-        let api = Service()
         
         input.getDetail.asObservable()
             .flatMap { api.detailPost(input.detailPostId) }
@@ -68,16 +68,15 @@ final class DetailViewModel: ViewModelType {
             }
         }).disposed(by: disposeBag)
         
-        input.deletePost.asObservable().subscribe(onNext: {[weak self] _ in
-            guard let self = self else { return }
-            api.removePost(input.detailPostId).subscribe(onNext: { response in
+        input.deletePost.asObservable()
+            .flatMap { _ in api.removePost(input.detailPostId)}
+            .subscribe(onNext: { response in
                 switch response {
                 case .ok:
                     result.onCompleted()
                 default:
                     result.onNext("포스트 삭제 서버 오류")
                 }
-            }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         
         return Output(getDetail: getDetailData, scrapResult: scrapResult.asDriver(onErrorJustReturn: ()), result: result.asSignal(onErrorJustReturn: ""))

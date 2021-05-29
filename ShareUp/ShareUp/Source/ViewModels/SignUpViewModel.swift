@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class SignUpViewModel: ViewModelType {
+final class SignUpViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
 
     struct Input {
@@ -32,9 +32,10 @@ class SignUpViewModel: ViewModelType {
         let info = Driver.combineLatest(input.phone, input.nickname, input.password)
         let errorIsHidden = info.map { ShareUpFilter.checkPassword($0.2) }
         
-        input.doneTap.asObservable().withLatestFrom(info).subscribe(onNext: { [weak self] phone, nickname, password in
-            guard let self = self else { return }
-            api.nicknameCheck(nickname).subscribe(onNext: { response in
+        input.doneTap.asObservable()
+            .withLatestFrom(input.nickname)
+            .flatMap { nickname in api.nicknameCheck(nickname)}
+            .subscribe(onNext: { response in
                 print(response)
                 switch response {
                 case .ok:
@@ -44,9 +45,12 @@ class SignUpViewModel: ViewModelType {
                 default:
                     duplicate.onNext("에러")
                 }
-            }).disposed(by: self.disposeBag)
+            }).disposed(by: disposeBag)
             
-            api.signUp(phone, nickname: nickname, password: password).subscribe(onNext: { response in
+        input.doneTap.asObservable()
+            .withLatestFrom(info)
+            .flatMap { phone, nickname, password in api.signUp(phone, nickname: nickname, password: password)}
+            .subscribe(onNext: { response in
                 print(response)
                 switch response {
                 case .ok:
@@ -56,9 +60,8 @@ class SignUpViewModel: ViewModelType {
                 default:
                     result.onNext("비밀번호 형식이 올바르지 않습니다.")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
-        
+            }).disposed(by: disposeBag)
+    
         return Output(duplicateCheck: duplicate.asSignal(onErrorJustReturn: ""), result: result.asSignal(onErrorJustReturn: ""), errorIsHidden: errorIsHidden.asDriver())
     }
 }

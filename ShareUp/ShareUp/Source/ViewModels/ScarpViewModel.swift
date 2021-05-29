@@ -34,7 +34,7 @@ final class ScarpViewModel: ViewModelType {
         let scrapResult = PublishRelay<Void>()
         let scrapInfo = Signal.combineLatest(input.deleteScarp, getScarpData.asSignal(onErrorJustReturn: []))
         var pagination = 0
-
+        
         input.getScarpPosts.asObservable()
             .flatMap { _ in api.getScrapPosts(0) }
             .subscribe(onNext: { data, response in
@@ -61,24 +61,25 @@ final class ScarpViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
-        input.loadDetail.asObservable().subscribe(onNext: { indexPath in
-            let value = getScarpData.value
-            getDetailRow.onNext(String(value[indexPath.row].id))
-        }).disposed(by: disposeBag)
+        input.loadDetail.asObservable()
+            .subscribe(onNext: { indexPath in
+                let value = getScarpData.value
+                getDetailRow.onNext(String(value[indexPath.row].id))
+            }).disposed(by: disposeBag)
         
-        input.deleteScarp.asObservable().withLatestFrom(scrapInfo).subscribe(onNext: { row, data in
-                let postScarpId = data[row].id
-                api.scrapDelete(postScarpId).subscribe(onNext: { response in
-                    print(response)
-                    switch response {
-                    case .ok:
-                        scrapResult.accept(())
-                    case .notFound:
-                        result.onNext("")
-                    default:
-                        result.onNext("")
-                    }
-                }).disposed(by: self.disposeBag)
+        input.deleteScarp.asObservable()
+            .withLatestFrom(scrapInfo)
+            .flatMap { row, data in api.scrapPost(data[row].id)}
+            .subscribe(onNext: { response in
+                print(response)
+                switch response {
+                case .ok:
+                    scrapResult.accept(())
+                case .notFound:
+                    result.onNext("")
+                default:
+                    result.onNext("")
+                }
             }).disposed(by: disposeBag)
         
         return Output(getScarpPosts: getScarpData.asDriver(onErrorJustReturn: []),
@@ -87,4 +88,3 @@ final class ScarpViewModel: ViewModelType {
                       result: result.asSignal(onErrorJustReturn: ""))
     }
 }
-

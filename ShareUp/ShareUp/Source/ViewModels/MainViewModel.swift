@@ -22,7 +22,7 @@ final class MainViewModel: ViewModelType {
     
     struct Output{
         let getPosts: Driver<[Post]>
-        let detailIndexPath: Signal<String>
+        let detailIndexPath: Driver<String>
         let scrapResult: Driver<Void>
         let result: Signal<String>
         let profileIndexPath: Driver<String>
@@ -77,7 +77,8 @@ final class MainViewModel: ViewModelType {
                 profileIndexPath.onNext(String(value[row].user.id))
             }).disposed(by: disposeBag)
         
-        input.postScrap.asObservable().withLatestFrom(scrapInfo).subscribe(onNext: {[weak self] row, data in
+        input.postScrap.asObservable()
+            .withLatestFrom(scrapInfo).subscribe(onNext: {[weak self] row, data in
             guard let self = self else { return }
             let postId = data[row].id
             if !data[row].isScrap {
@@ -104,7 +105,7 @@ final class MainViewModel: ViewModelType {
         }).disposed(by: disposeBag)
         
         return Output(getPosts: getPostsData.asDriver(onErrorJustReturn: []),
-                      detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""),
+                      detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: ""),
                       scrapResult: scrapResult.asDriver(onErrorJustReturn: ()),
                       result: result.asSignal(onErrorJustReturn: ""), profileIndexPath: profileIndexPath.asDriver(onErrorJustReturn: ""))
     }

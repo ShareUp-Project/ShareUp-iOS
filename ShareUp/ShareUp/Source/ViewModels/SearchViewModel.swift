@@ -11,7 +11,7 @@ import RxCocoa
 
 final class SearchViewModel: ViewModelType {
     private let disposeBag = DisposeBag()
-
+    
     struct Input {
         let searchTap: Driver<Void>
         let loadDetail: Driver<IndexPath>
@@ -20,7 +20,7 @@ final class SearchViewModel: ViewModelType {
         let loadWeeklyPost: Driver<Void>
         let loadPopularPostDetail: Driver<IndexPath>
     }
-
+    
     struct Output {
         let result: Signal<String>
         let isRecentlyOn: Driver<Bool>
@@ -28,7 +28,7 @@ final class SearchViewModel: ViewModelType {
         let getWeeklyPosts: Driver<[WeeklyPosts]>
         let detailIndexPath: Signal<String>
     }
-
+    
     func transform(_ input: Input) -> Output {
         let api = Service()
         let result = PublishSubject<String>()
@@ -37,26 +37,18 @@ final class SearchViewModel: ViewModelType {
         let isRecentlyOn = input.searchContent.map { $0?.isEmpty ?? false }
         let getWeeklyPosts = BehaviorRelay<[WeeklyPosts]>(value: [])
         
-        input.searchTap.asObservable().withLatestFrom(input.searchContent).subscribe(onNext: { [weak self] word in
-            guard let self = self else { return }
-            
-            var savedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
-            if savedSearches.count == 10 { savedSearches.removeFirst() }
-            var newSearches = [String]()
-            newSearches = savedSearches
-            newSearches.append(word!)
-            UserDefaults.standard.set(newSearches, forKey: "recentSearches")
-            UserDefaults.standard.synchronize()
-
-            api.searchPosts(word!, 0).subscribe(onNext: { data, response in
+        input.searchTap.asObservable()
+            .withLatestFrom(input.searchContent)
+            .flatMap { word in api.searchPosts(word!, 0)}
+            .subscribe(onNext: { data, response in
+                print(response)
                 switch response {
                 case .ok:
                     getCategoryPosts.accept(data!.data)
                 default:
                     result.onNext("서버 오류")
                 }
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
         
         input.loadWeeklyPost.asObservable()
             .flatMap { _ in api.weeklyPost()}
@@ -81,15 +73,17 @@ final class SearchViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
-        input.loadDetail.asObservable().subscribe(onNext: { indexPath in
-            let value = getCategoryPosts.value
-            getDetailRow.onNext(String(value[indexPath.row].id))
-        }).disposed(by: disposeBag)
+        input.loadDetail.asObservable()
+            .subscribe(onNext: { indexPath in
+                let value = getCategoryPosts.value
+                getDetailRow.onNext(String(value[indexPath.row].id))
+            }).disposed(by: disposeBag)
         
-        input.loadPopularPostDetail.asObservable().subscribe(onNext: { indexPath in
-            let value = getWeeklyPosts.value
-            getDetailRow.onNext(String(value[indexPath.row].id))
-        }).disposed(by: disposeBag)
+        input.loadPopularPostDetail.asObservable()
+            .subscribe(onNext: { indexPath in
+                let value = getWeeklyPosts.value
+                getDetailRow.onNext(String(value[indexPath.row].id))
+            }).disposed(by: disposeBag)
         
         return Output(result: result.asSignal(onErrorJustReturn: ""), isRecentlyOn: isRecentlyOn.asDriver(), getCategoryPosts: getCategoryPosts.asSignal(onErrorJustReturn: []), getWeeklyPosts: getWeeklyPosts.asDriver(), detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""))
     }
