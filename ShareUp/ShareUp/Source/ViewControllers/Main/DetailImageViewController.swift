@@ -12,6 +12,7 @@ final class DetailImageViewController: UIViewController {
     //MARK: UI
     @IBOutlet weak var detailImageView: UIImageView!
     @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var pinch: UIPinchGestureRecognizer!
     
     //MARK: Properties
     var sendImage = String()
@@ -25,12 +26,10 @@ final class DetailImageViewController: UIViewController {
         dismissButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)
-        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(doPinchGesture(_:)))
-        detailImageView.addGestureRecognizer(pinch)
     }
     
-    @objc func doPinchGesture(_ pinch: UIPinchGestureRecognizer) {
+    @IBAction func pinchImageGesture(_ sender: Any) {
         detailImageView.transform = detailImageView.transform.scaledBy(x: pinch.scale, y: pinch.scale)
-        pinch.scale = 1
+        pinch.scale = 1.0
     }
 }
