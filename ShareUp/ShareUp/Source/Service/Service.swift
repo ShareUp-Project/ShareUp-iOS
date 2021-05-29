@@ -93,7 +93,6 @@ final class Service {
             .map(WritePost.self)
             .map { return ($0, .ok) }
             .catchError { errer in
-                print(errer)
                return .just((nil, .fail))
             }
     }
@@ -162,7 +161,17 @@ final class Service {
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map (Posts.self)
-            .map { return ($0, .ok)}
+            .map { data in
+                var savedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
+                if savedSearches.count == 10 { savedSearches.removeFirst() }
+                var newSearches = [String]()
+                newSearches = savedSearches
+                newSearches.append(tags)
+                UserDefaults.standard.set(newSearches, forKey: "recentSearches")
+                UserDefaults.standard.synchronize()
+                
+                return (data, .ok)
+            }
             .catchError { error in
                 print(self.setNetworkError(error))
                 return .just((nil, .fail))
@@ -243,8 +252,6 @@ final class Service {
             .map(Badge.self)
             .map { return ($0, .ok)}
             .catchError { error in
-                print(error)
-                print(error.localizedDescription)
                 return .just((nil, self.setNetworkError(error)))
             }
     }
