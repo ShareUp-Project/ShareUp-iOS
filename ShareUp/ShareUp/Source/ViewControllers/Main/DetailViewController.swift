@@ -14,7 +14,7 @@ import Kingfisher
 import Lottie
 
 final class DetailViewController: UIViewController {
-    
+    //MARK: UI
     @IBOutlet weak var pictureCollectionView: UICollectionView!
     @IBOutlet weak var pageController: AdvancedPageControlView!
     @IBOutlet weak var titleLabel: UILabel!
@@ -25,6 +25,7 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
     
+    //MARK: Properties
     var detailId = String()
     private let disposeBag = DisposeBag()
     private let viewModel = DetailViewModel()
@@ -41,6 +42,7 @@ final class DetailViewController: UIViewController {
         $0.isHidden = true
     }
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +59,6 @@ final class DetailViewController: UIViewController {
             self.doubleTapped()
         }).disposed(by: disposeBag)
         setupConstraint()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +69,7 @@ final class DetailViewController: UIViewController {
         navigationBackCustom()
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = DetailViewModel.Input(getDetail: loadData.asSignal(onErrorJustReturn: ()),
                                           detailPostId: detailId, postScrap: scrapButton.rx.tap.asDriver(),
@@ -108,7 +110,7 @@ final class DetailViewController: UIViewController {
     }
 }
 
-class DetailCollectionViewCell: UICollectionViewCell {
+final class DetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var detailImageView: UIImageView!
 }
 

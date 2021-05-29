@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class SignInViewController: UIViewController {
+    //MARK: UI
     @IBOutlet weak var authTextField: AuthTextField!
     @IBOutlet weak var passwordTextField: AuthTextField!
     @IBOutlet weak var forgotPasswordButton: UIButton!
@@ -18,11 +19,13 @@ final class SignInViewController: UIViewController {
     @IBOutlet weak var securityOnOffButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
+    //MARK: Properties
     private let disposeBag = DisposeBag()
     private let viewModel = SignInViewModel()
     private let setAutoLogin = BehaviorRelay<Void>(value: ())
     private let autoIsSelect = BehaviorRelay<Bool>(value: false)
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +34,7 @@ final class SignInViewController: UIViewController {
         managerTrait()
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = SignInViewModel.Input(setAutoLogin: setAutoLogin.asDriver(),
                                           phone: authTextField.rx.text.orEmpty.asDriver(),
@@ -51,6 +55,7 @@ final class SignInViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
         autoAuthButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle() }).disposed(by: disposeBag)

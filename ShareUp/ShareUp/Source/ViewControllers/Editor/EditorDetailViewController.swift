@@ -8,14 +8,16 @@
 import UIKit
 
 final class EditorDetailViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var editorImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    //MARK: Properties
     var editorDetailData: EditorPost?
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 

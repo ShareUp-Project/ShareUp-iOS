@@ -11,17 +11,19 @@ import RxSwift
 import RxCocoa
 
 final class BadgeViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var currentBadgeImageView: UIImageView!
     @IBOutlet weak var currentBadgeNameLabel: UILabel!
     @IBOutlet weak var badgeCollectionView: UICollectionView!
     @IBOutlet weak var currentTouchArea: UIButton!
     
+    //MARK: Properties
     private let disposeBag = DisposeBag()
     private let viewModel = BadgeListViewModel()
     private let loadData = BehaviorRelay<Void>(value: ())
     private var getCategory = PublishRelay<String>()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +45,7 @@ final class BadgeViewController: UIViewController {
         loadData.accept(())
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = BadgeListViewModel.Input(loadData: loadData.asSignal(onErrorJustReturn: ()),
                                              selectBadge: badgeCollectionView.rx.itemSelected.asDriver(),

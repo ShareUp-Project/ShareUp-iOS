@@ -12,9 +12,10 @@ import Kingfisher
 import Lottie
 
 final class MainViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var mainTableView: UITableView!
     
+    //MARK: Properties
     private let viewModel = MainViewModel()
     private let disposeBag = DisposeBag()
     private let getData = PublishRelay<Void>()
@@ -33,6 +34,7 @@ final class MainViewController: UIViewController {
         return button
     }()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +57,7 @@ final class MainViewController: UIViewController {
         tabBarController?.navigationController?.navigationBar.topItem?.title = ""
     }
 
+    //MARK: Bind
     private func bindViewModel() {
         let input = MainViewModel.Input(getPosts: getData.asSignal(onErrorJustReturn: ()),
                                         loadDetail: mainTableView.rx.itemSelected.asSignal(),
@@ -87,11 +90,6 @@ final class MainViewController: UIViewController {
             mainTableView.reloadData()
         }).disposed(by: disposeBag)
         
-        
-        output.result.emit(onNext: { [unowned self] text in
-            print(text)
-        }).disposed(by: disposeBag)
-        
         output.profileIndexPath.asObservable().subscribe(onNext: {[unowned self] profile in
             guard let vc = storyboard?.instantiateViewController(identifier: "profile") as? ProfileViewController else { return }
             vc.otherProfile.accept(profile)
@@ -99,6 +97,7 @@ final class MainViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         searchBarButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             pushViewController("search")

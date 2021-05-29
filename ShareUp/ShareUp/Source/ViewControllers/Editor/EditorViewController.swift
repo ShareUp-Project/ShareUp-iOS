@@ -10,13 +10,15 @@ import RxSwift
 import RxCocoa
 
 final class EditorViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var editorTableView: UITableView!
     
+    //MARK: Properties
     private let disposeBag = DisposeBag()
     private let viewModel = EditorViewModel()
     private let loadData = BehaviorRelay<Void>(value: ())
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,6 +35,7 @@ final class EditorViewController: UIViewController {
         tabBarController?.navigationItem.leftBarButtonItems = []
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = EditorViewModel.Input(loadData: loadData.asDriver(),
                                           loadMoreData: editorTableView.reachedBottom.asDriver(onErrorJustReturn: ()),

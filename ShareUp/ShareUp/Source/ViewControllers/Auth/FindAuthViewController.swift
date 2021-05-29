@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class FindAuthViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var countCertifyLabel: UILabel!
     @IBOutlet weak var certifyRequestButton: UIButton!
     @IBOutlet weak var numberTextField: AuthTextField!
@@ -18,6 +18,7 @@ final class FindAuthViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var certifyButton: HighlightedButton!
     
+    //MARK: Properties
     private let viewModel = FindAuthViewModel()
     private var disposeBag = DisposeBag()
     private var countDown: Int = 180 {
@@ -27,6 +28,7 @@ final class FindAuthViewController: UIViewController {
         }
     }
 
+    //MARK: UI
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
@@ -34,6 +36,7 @@ final class FindAuthViewController: UIViewController {
         managerTrait()
     }
     
+    //MAKR: Bind
     private func bindViewModel() {
         let input = FindAuthViewModel.Input(phoneNum: numberTextField.rx.text.orEmpty.asDriver(),
                                            phoneRequest: certifyRequestButton.rx.tap.asDriver(),
@@ -41,7 +44,7 @@ final class FindAuthViewController: UIViewController {
                                            certifyButton: certifyButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
         let timer = Timer.new(every: 1.second) {[unowned self] _ in countDown -= 1 }
-
+        
         output.wait.emit(onNext: { [unowned self] error in
                             errorLabel.text = error
                             errorLabel.isHidden = false},
@@ -57,10 +60,12 @@ final class FindAuthViewController: UIViewController {
                            onCompleted: {[unowned self] in
                             let vc = storyboard?.instantiateViewController(withIdentifier: "newPassword") as! NewAuthViewController
                             vc.phoneNumber = numberTextField.text!
+                            timer.invalidate()
                             navigationController?.pushViewController(vc, animated: true)
                            }).disposed(by: disposeBag)
     }
     
+    //MARK:Rx Action
     private func managerTrait() {
         certifyRequestButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             certifyRequestButton.setTitle("재요청", for: .normal)

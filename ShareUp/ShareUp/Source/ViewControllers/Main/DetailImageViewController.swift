@@ -9,13 +9,15 @@ import UIKit
 import RxSwift
 
 final class DetailImageViewController: UIViewController {
-    
+    //MARK: UI
     @IBOutlet weak var detailImageView: UIImageView!
     @IBOutlet weak var dismissButton: UIButton!
     
+    //MARK: Properties
     var sendImage = String()
     private let disposeBag = DisposeBag()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         

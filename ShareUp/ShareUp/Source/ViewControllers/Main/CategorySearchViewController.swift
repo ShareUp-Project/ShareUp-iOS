@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class CategorySearchViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet var categoryView: [UIView]!
     @IBOutlet var categoryBackgroundView: [UIView]!
     @IBOutlet var categoryTouchArea: [UIButton]!
@@ -19,6 +19,7 @@ final class CategorySearchViewController: UIViewController {
     @IBOutlet weak var searchTableView: UITableView!
     @IBOutlet weak var recentlySearchView: RecentlySearch!
     
+    //MARK: Properties
     private let viewModel = SearchViewModel()
     private let disposeBag = DisposeBag()
     private var selectCategory = PublishRelay<String>()
@@ -29,6 +30,7 @@ final class CategorySearchViewController: UIViewController {
     
     lazy var cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: nil)
 
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +48,7 @@ final class CategorySearchViewController: UIViewController {
         navigationBackCustom()
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = SearchViewModel.Input(searchTap: searchBar.rx.searchButtonClicked.asDriver(),
                                           loadDetail: searchTableView.rx.itemSelected.asDriver(),
@@ -76,6 +79,7 @@ final class CategorySearchViewController: UIViewController {
         }).disposed(by: disposeBag)
     }
 
+    //MARK: Rx Action
     private func managerTrait() {
         categoryTouchArea[0].rx.tap.subscribe(onNext: { _ in
             self.selectCategory.accept(ShareUpFilter.filterCategorySearch(1))

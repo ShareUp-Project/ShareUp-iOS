@@ -13,7 +13,7 @@ import RxCocoa
 import SPAlert
 
 final class PostViewController: UIViewController {
-    
+    //MARK: UI
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var cameraBoxView: UIView!
     @IBOutlet weak var numOfPictureLabel: UILabel!
@@ -23,6 +23,7 @@ final class PostViewController: UIViewController {
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
     
+    //MARK: Properties
     private var categoryTraking = BehaviorRelay<String>(value: "")
     private let viewModel = PostViewModel()
     private let disposeBag = DisposeBag()
@@ -40,6 +41,7 @@ final class PostViewController: UIViewController {
         return button
     }()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +57,7 @@ final class PostViewController: UIViewController {
         tabBarController?.navigationItem.leftBarButtonItems = []
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = PostViewModel.Input(postTap: postButton.rx.tap.asDriver(),
                                         isImage: multipleImages.asDriver(onErrorJustReturn: []),
@@ -77,6 +80,7 @@ final class PostViewController: UIViewController {
         output.isEnable.drive(postButton.rx.isEnabled).disposed(by: disposeBag)
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         cameraButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             let imagePicker = ImagePickerController()
@@ -120,6 +124,7 @@ final class PostViewController: UIViewController {
     }
 }
 
+//MARK: Extension
 extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return selectMultiImage.count

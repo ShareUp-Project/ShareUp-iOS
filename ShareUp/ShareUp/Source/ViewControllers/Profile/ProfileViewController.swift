@@ -10,12 +10,13 @@ import RxSwift
 import RxCocoa
 
 final class ProfileViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var myPostsTableView: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     
+    //MARK: Properties
     private let disposeBag = DisposeBag()
     private let viewModel = ProfileViewModel()
     private let loadProfile = BehaviorRelay<Void>(value: ())
@@ -27,11 +28,9 @@ final class ProfileViewController: UIViewController {
         return button
     }()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        myPostsTableView.delegate = nil
-        myPostsTableView.dataSource = nil
         
         bindViewModel()
         setupTableView()
@@ -61,10 +60,12 @@ final class ProfileViewController: UIViewController {
         myPostsTableView.removeObserver(self, forKeyPath: "contentSize")
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = ProfileViewModel.Input(otherProfileId: otherProfile.asDriver(onErrorJustReturn: ""),
                                            loadProfile: loadProfile.asSignal(onErrorJustReturn: ()),
-                                           loadMoreProfile: myPostsTableView.reachedBottom.asSignal(onErrorJustReturn: ()))
+                                           loadMoreProfile: myPostsTableView.reachedBottom.asSignal(onErrorJustReturn: ()),
+                                           loadDetail: myPostsTableView.rx.itemSelected.asSignal())
         let output = viewModel.transform(input)
         
         output.myNickname.asObservable().bind {[unowned self] data in
@@ -74,8 +75,15 @@ final class ProfileViewController: UIViewController {
         output.myPosts.asObservable().bind(to: myPostsTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
         }.disposed(by: disposeBag)
+        
+        output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
+            guard let vc = storyboard?.instantiateViewController(identifier: "detail") as? DetailViewController else { return }
+            vc.detailId = detail
+            navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         settingButton.rx.tap.subscribe(onNext: { _ in
             self.pushViewController("setting")
@@ -99,12 +107,3 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
-    }
-}

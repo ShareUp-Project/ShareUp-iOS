@@ -11,7 +11,7 @@ import RxCocoa
 import SPAlert
 
 final class NewAuthViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var newTextField: AuthTextField!
     @IBOutlet weak var securityOnOffButton: UIButton!
     @IBOutlet weak var checkTextField: AuthTextField!
@@ -19,10 +19,12 @@ final class NewAuthViewController: UIViewController {
     @IBOutlet weak var resetButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
+    //MARK: Properties
     private let viewModel = NewAuthViewModel()
     private let disposeBag = DisposeBag()
     var phoneNumber = String()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +33,7 @@ final class NewAuthViewController: UIViewController {
         bindViewModel()
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = NewAuthViewModel.Input(phoneNum: Driver.just(phoneNumber),
                                            newPassword: newTextField.rx.text.orEmpty.asDriver(),
@@ -56,6 +59,7 @@ final class NewAuthViewController: UIViewController {
         output.errorIsHidden.drive(errorLabel.rx.isHidden).disposed(by: disposeBag)
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
     }

@@ -8,11 +8,13 @@
 import UIKit
 
 final class CategoryViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet var categorys: [UIButton]!
     
+    //MARK: Properties
     var delegate: DismissSendData?
     
+    //MARK: LifeCtcle
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -8,11 +8,13 @@
 import UIKit
 
 final class SettingViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var settingTableView: UITableView!
     
+    //MARK: Properties
     var settings = ["닉네임 수정", "배지", "비밀번호 변경", "정보", "로그아웃"]
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +32,7 @@ final class SettingViewController: UIViewController {
     }
 }
 
+//MARK: Extension
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5

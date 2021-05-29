@@ -10,14 +10,16 @@ import RxSwift
 import RxCocoa
 
 final class ScrapViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var scrapTableView: UITableView!
     
+    //MARK: Properties
     private let viewModel = ScarpViewModel()
     private let disposeBag = DisposeBag()
     private let getData = BehaviorRelay<Void>(value: ())
     private let selectScrap = PublishRelay<Int>()
 
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +39,7 @@ final class ScrapViewController: UIViewController {
         scrapTableView.separatorInset = .zero
     }
 
+    //MARK: Bind
     private func bindViewModel() {
         let input = ScarpViewModel.Input(getScarpPosts: getData.asSignal(onErrorJustReturn: ()),
                                          loadDetail: scrapTableView.rx.itemSelected.asSignal(),
@@ -60,7 +63,7 @@ final class ScrapViewController: UIViewController {
             scrapTableView.reloadData()
         }).disposed(by: disposeBag)
     }
-
+    
     private func setTableView() {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         scrapTableView.register(nib, forCellReuseIdentifier: "mainCell")

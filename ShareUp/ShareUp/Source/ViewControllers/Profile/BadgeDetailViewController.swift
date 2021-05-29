@@ -12,16 +12,16 @@ import PanModal
 import CollectionViewPagingLayout
 
 final class BadgeDetailViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var badgeLevelCollectionView: UICollectionView!
     @IBOutlet weak var badgeNameLabel: UILabel!
     @IBOutlet weak var badgeLabel: UILabel!
     @IBOutlet weak var badgeCountLabel: UILabel!
     @IBOutlet weak var badgeSetButton: UIButton!
     
+    //MARK: Properties
     var category = String()
     var level = Int()
-    
     private let layout = CollectionViewPagingLayout()
     private var badgeAcheive = [String](repeating: "0", count: 3)
     private let viewModel = BadgeDetailViewModel()
@@ -29,6 +29,7 @@ final class BadgeDetailViewController: UIViewController {
     private var currentLevel = BehaviorRelay<Int>(value: 0)
     private var currentName = PublishRelay<String>()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +50,7 @@ final class BadgeDetailViewController: UIViewController {
         bindViewModel()
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = BadgeDetailViewModel.Input(category: .just(category),
                                                level: currentLevel.asDriver(),
@@ -61,6 +63,7 @@ final class BadgeDetailViewController: UIViewController {
     }
 }
 
+//MARK: Extension
 extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if category == "default" || category == "first" {

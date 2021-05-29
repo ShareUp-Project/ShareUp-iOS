@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class CertifyViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var countCertifyLabel: UILabel!
     @IBOutlet weak var certifyRequestButton: UIButton!
     @IBOutlet weak var numberTextField: AuthTextField!
@@ -19,6 +19,7 @@ final class CertifyViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var certifyButton: HighlightedButton!
     
+    //MARK: Properties
     private let viewModel = CertifyViewModel()
     private var disposeBag = DisposeBag()
     private var countDown: Int = 180 {
@@ -28,6 +29,7 @@ final class CertifyViewController: UIViewController {
         }
     }
 
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,6 +44,7 @@ final class CertifyViewController: UIViewController {
         countDown = 0
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = CertifyViewModel.Input(phoneNum: numberTextField.rx.text.orEmpty.asDriver(),
                                            phoneRequest: certifyRequestButton.rx.tap.asDriver(),
@@ -68,10 +71,12 @@ final class CertifyViewController: UIViewController {
                            onCompleted: {[unowned self] in
                             let vc = storyboard?.instantiateViewController(withIdentifier: "signup") as! SignUpViewController
                             vc.phoneNumber = numberTextField.text!
+                            timer.invalidate()
                             navigationController?.pushViewController(vc, animated: true)
                            }).disposed(by: disposeBag)
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         certifyRequestButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             certifyRequestButton.setTitle("재요청", for: .normal)

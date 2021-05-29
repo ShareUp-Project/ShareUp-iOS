@@ -11,7 +11,7 @@ import RxCocoa
 import SPAlert
 
 final class SignUpViewController: UIViewController {
-
+    //MARK: UI
     @IBOutlet weak var nicknameTextField: AuthTextField!
     @IBOutlet weak var passwordTextField: AuthTextField!
     @IBOutlet weak var securityOnOffButton: UIButton!
@@ -19,10 +19,12 @@ final class SignUpViewController: UIViewController {
     @IBOutlet weak var duplicateLabel: UILabel!
     @IBOutlet weak var errorLabel: UILabel!
     
+    //MARK: Properties
     private let disposeBag = DisposeBag()
     private let viewModel = SignUpViewModel()
     var phoneNumber = String()
     
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +34,7 @@ final class SignUpViewController: UIViewController {
         passwordTextField.disableAutoFill()
     }
     
+    //MARK: Bind
     private func bindViewModel() {
         let input = SignUpViewModel.Input(phone: Driver.just(phoneNumber),
                                           nickname: nicknameTextField.rx.text.orEmpty.asDriver(),
@@ -60,6 +63,7 @@ final class SignUpViewController: UIViewController {
         
     }
     
+    //MARK: Rx Action
     private func managerTrait() {
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
     }

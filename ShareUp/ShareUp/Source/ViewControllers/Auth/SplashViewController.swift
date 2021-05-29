@@ -8,10 +8,12 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        TokenManager.removeToken()
+        UserDefaults.standard.removeObject(forKey: "isAutoLogin")
         navigationBarHidden()
     }
     
