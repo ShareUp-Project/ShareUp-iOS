@@ -46,6 +46,7 @@ final class CategorySearchViewController: UIViewController {
         navigationItem.rightBarButtonItems = [cancelButton, UIBarButtonItem(customView: searchBar)]
         weeklyBestTableView.separatorStyle = .none
         navigationBackCustom()
+        searchTableView.tableFooterView = UIView()
     }
     
     //MARK: Bind
