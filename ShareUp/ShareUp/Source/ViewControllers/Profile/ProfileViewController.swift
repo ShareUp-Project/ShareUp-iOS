@@ -15,6 +15,8 @@ final class ProfileViewController: UIViewController {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var myPostsTableView: UITableView!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var infoView: UIView!
     
     //MARK: Properties
     private let disposeBag = DisposeBag()
@@ -35,7 +37,8 @@ final class ProfileViewController: UIViewController {
         bindViewModel()
         setupTableView()
         managerTrait()
-        
+        scrollView.delegate = self
+
         if !otherProfile.value.isEmpty {
             navigationBackCustom()
         }
@@ -52,6 +55,7 @@ final class ProfileViewController: UIViewController {
         tabBarController?.navigationItem.rightBarButtonItem = settingButton
         tabBarController?.navigationItem.leftBarButtonItems = []
         tabBarController?.navigationController?.navigationBar.topItem?.title = "프로필"
+        title = "프로필"
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,6 +77,7 @@ final class ProfileViewController: UIViewController {
             nicknameLabel.text = data?.nickname}.disposed(by: disposeBag)
         
         output.myPosts.asObservable().bind(to: myPostsTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
+            print(data)
             cell.configCell(data)
         }.disposed(by: disposeBag)
         
@@ -85,7 +90,7 @@ final class ProfileViewController: UIViewController {
     
     //MARK: Rx Action
     private func managerTrait() {
-        settingButton.rx.tap.subscribe(onNext: { _ in
+        settingButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             self.pushViewController("setting")
         }).disposed(by: disposeBag)
     }
@@ -107,3 +112,12 @@ final class ProfileViewController: UIViewController {
     }
 }
 
+extension ProfileViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let yPosition = scrollView.contentOffset.y + 40
+        var eimageViewFrame = badgeImageView.frame
+        eimageViewFrame.origin.y = yPosition
+        nicknameLabel.frame.origin.y = yPosition
+        badgeImageView.frame = eimageViewFrame
+    }
+}
