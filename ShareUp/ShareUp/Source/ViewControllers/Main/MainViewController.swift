@@ -21,10 +21,10 @@ final class MainViewController: UIViewController {
     private let getData = PublishRelay<Void>()
     private let selectScrap = PublishRelay<Int>()
     private let selectProfile = PublishRelay<Int>()
+    private var pagingation = PublishRelay<Void>()
     
     lazy var shareUpButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "ShareUp", style: .plain, target: self, action: nil)
-        button.isEnabled = false
         button.tintColor = .black
         return button
     }()
@@ -33,7 +33,7 @@ final class MainViewController: UIViewController {
         let button = UIBarButtonItem(image: UIImage(named: "search"), style: .done, target: self, action: nil)
         return button
     }()
-    
+        
     //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,14 +41,16 @@ final class MainViewController: UIViewController {
         bindViewModel()
         setupTableView()
         managerTrait()
-        mainTableView.tableFooterView = UIView()
+        setupRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
         getData.accept(())
+        pagingation.accept(())
         mainTableView.reloadData()
+        mainTableView.tableFooterView = UIView()
         
         tabBarController?.navigationItem.leftBarButtonItem = shareUpButton
         tabBarController?.navigationItem.rightBarButtonItem = searchBarButton
@@ -63,7 +65,8 @@ final class MainViewController: UIViewController {
                                         loadDetail: mainTableView.rx.itemSelected.asSignal(),
                                         postScrap: selectScrap.asSignal(),
                                         getMorePosts: mainTableView.reachedBottom.asSignal(onErrorJustReturn: ()),
-                                        getOtherProfile: selectProfile.asSignal())
+                                        getOtherProfile: selectProfile.asSignal(),
+                                        resetScroll: pagingation.asDriver(onErrorJustReturn: ()))
         let output = viewModel.transform(input)
             
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
@@ -74,7 +77,7 @@ final class MainViewController: UIViewController {
                 selectScrap.accept(row)
             }).disposed(by: cell.disposeBag)
             
-            cell.nicknameButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+            cell.profileTouchArea.rx.tap.subscribe(onNext: {[unowned self] _ in
                 selectProfile.accept(row)
             }).disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
@@ -109,5 +112,18 @@ final class MainViewController: UIViewController {
         mainTableView.register(nib, forCellReuseIdentifier: "mainCell")
         mainTableView.rowHeight = UITableView.automaticDimension
         mainTableView.estimatedRowHeight = 350
+    }
+    
+    private func setupRefresh() {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(actionRefresh), for: .valueChanged)
+        mainTableView.refreshControl = refreshControl
+    }
+    
+    @objc func actionRefresh(refresh: UIRefreshControl) {
+        refresh.endRefreshing()
+        getData.accept(())
+        pagingation.accept(())
+        mainTableView.reloadData()
     }
 }

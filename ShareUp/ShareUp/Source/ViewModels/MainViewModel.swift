@@ -18,6 +18,7 @@ final class MainViewModel: ViewModelType {
         let postScrap: Signal<Int>
         let getMorePosts: Signal<Void>
         let getOtherProfile: Signal<Int>
+        let resetScroll: Driver<Void>
     }
     
     struct Output{
@@ -51,10 +52,9 @@ final class MainViewModel: ViewModelType {
             }).disposed(by: disposeBag)
         
         input.getMorePosts.asObservable()
-            .map { pagination += 1 }
+            .map { pagination += 1}
             .flatMap { _ in api.getPosts(pagination)}
             .subscribe(onNext: { data, response in
-                print(response)
                 switch response {
                 case .ok:
                     for i in data!.data {
@@ -103,6 +103,11 @@ final class MainViewModel: ViewModelType {
                 }).disposed(by: self.disposeBag)
             }
         }).disposed(by: disposeBag)
+        
+        input.resetScroll.asObservable()
+            .subscribe(onNext: { _ in
+                pagination = 0
+            }).disposed(by: disposeBag)
         
         return Output(getPosts: getPostsData.asDriver(onErrorJustReturn: []),
                       detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: ""),
