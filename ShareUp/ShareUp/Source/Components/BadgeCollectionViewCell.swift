@@ -37,9 +37,9 @@ final class BadgeCollectionViewCell: UICollectionViewCell {
         case 4:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
-                badgeImageView.image = UIImage(named: "can\(data)")
+                badgeImageView.image = UIImage(named: "glass\(data)")
             }
-            badgeNameLabel.text = "캔"
+            badgeNameLabel.text = "유리"
         case 5:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
@@ -49,22 +49,21 @@ final class BadgeCollectionViewCell: UICollectionViewCell {
         case 6:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
-                badgeImageView.image = UIImage(named: "glass\(data)")
+                badgeImageView.image = UIImage(named: "can\(data)")
             }
-            badgeNameLabel.text = "유리"
+            badgeNameLabel.text = "캔"
         case 7:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
                 badgeImageView.image = UIImage(named: "styrofoam\(data)")
             }
             badgeNameLabel.text = "스티로폼"
-
         case 8:
             if data == 0 { badgeImageView.image = UIImage(named: "0") }
             else {
                 badgeImageView.image = UIImage(named: "clothing\(data)")
             }
-            badgeNameLabel.text = "옷"
+            badgeNameLabel.text = "의류"
         default:
             print("no more badge")
         }

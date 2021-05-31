@@ -46,9 +46,9 @@ struct ShareUpFilter {
         case 1: return "first"
         case 2 : return "paper"
         case 3 : return "vinyl"
-        case 4 : return "can"
+        case 4 : return "glass"
         case 5 : return "plastic"
-        case 6 : return "glass"
+        case 6 : return "can"
         case 7 : return "styrofoam"
         case 8 : return "clothing"
         default: return ""
@@ -61,9 +61,9 @@ struct ShareUpFilter {
         case "first": return 1
         case "paper" : return 2
         case "vinyl" : return 3
-        case "can" : return 4
+        case "glass" : return 4
         case "plastic" : return 5
-        case "glass" : return 6
+        case "can" : return 6
         case "styrofoam" : return 7
         case "clothing": return 8
         default: return 0
