@@ -95,7 +95,13 @@ final class DetailViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         output.scrapResult.asObservable().bind(to: loadData).disposed(by: disposeBag)
-
+        
+        output.profileResult.asObservable().subscribe(onNext: {[unowned self] profile in
+            guard let vc = storyboard?.instantiateViewController(identifier: "profile") as? ProfileViewController else { return }
+            vc.otherProfile.accept(profile)
+            navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+        
         output.result.emit(onCompleted : { self.navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
         
         profileTouchArea.rx.tap.bind(to: profileIndex).disposed(by: disposeBag)

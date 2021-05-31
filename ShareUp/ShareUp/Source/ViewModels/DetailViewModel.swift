@@ -85,7 +85,7 @@ final class DetailViewModel: ViewModelType {
         input.getOtherProfile.asObservable()
             .subscribe(onNext: { _ in
                 let value = getDetailData.value
-                profileIndexPath.onNext(String(value!.id))
+                profileIndexPath.onNext(String(value!.user.id))
             }).disposed(by: disposeBag)
         
         return Output(getDetail: getDetailData.asDriver(), scrapResult: scrapResult.asDriver(onErrorJustReturn: ()), result: result.asSignal(onErrorJustReturn: ""), profileResult: profileIndexPath.asDriver(onErrorJustReturn: ""))
