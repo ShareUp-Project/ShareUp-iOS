@@ -58,6 +58,7 @@ final class SignUpViewController: UIViewController {
                 errorLabel.isHidden = false
                 errorLabel.text = error
             }, onCompleted: {
+                view.endEditing(true)
                 let alertView = SPAlertView(title: "성공", message: "회원가입이 완료되었습니다.", preset: .done)
                 alertView.present(duration: 1.5, haptic: .success) {
                     pushViewController("signin")
@@ -72,6 +73,7 @@ final class SignUpViewController: UIViewController {
     //MARK: Rx Action
     private func managerTrait() {
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
+        
     }
     
     private func updateCurrentStatus() {

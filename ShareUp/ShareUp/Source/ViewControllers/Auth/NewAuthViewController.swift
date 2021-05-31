@@ -56,6 +56,7 @@ final class NewAuthViewController: UIViewController {
             errorLabel.isHidden = false
             errorLabel.text = error
         },onCompleted: { [unowned self] in
+            view.endEditing(true)
             let alertView = SPAlertView(title: "성공", message: "초기화가 완료되었습니다.", preset: .done)
             alertView.present(duration: 1.5, haptic: .success) {
                 pushViewController("signin")
