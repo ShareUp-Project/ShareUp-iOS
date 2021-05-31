@@ -24,6 +24,6 @@ struct WritePost: Codable {
 }
 
 struct BadgeInfo: Codable {
-    let category: String
-    let level: Int
+    let category: String?
+    let level: Int?
 }

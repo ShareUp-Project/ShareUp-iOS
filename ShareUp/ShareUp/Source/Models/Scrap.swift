@@ -14,6 +14,8 @@ struct ScrapPost: Codable {
     let user: User
     let hashtags: [String]
     let images: [String]
+    let scraps: Int
+    let views: Int
 }
 
 struct Scrap: Codable {
