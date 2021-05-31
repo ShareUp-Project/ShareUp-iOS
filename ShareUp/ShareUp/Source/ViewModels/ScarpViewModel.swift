@@ -17,6 +17,7 @@ final class ScarpViewModel: ViewModelType {
         let loadDetail: Signal<IndexPath>
         let deleteScarp: Signal<Int>
         let getMoreScrapPosts: Signal<Void>
+        let getOtherProfile: Signal<Int>
     }
     
     struct Output{
@@ -24,6 +25,7 @@ final class ScarpViewModel: ViewModelType {
         let detailIndexPath: Signal<String>
         let scrapResult: Driver<Void>
         let result: Signal<String>
+        let profileIndexPath: Driver<String>
     }
     
     func transform(_ input: Input) -> Output {
@@ -33,6 +35,7 @@ final class ScarpViewModel: ViewModelType {
         let getDetailRow = PublishSubject<String>()
         let scrapResult = PublishRelay<Void>()
         let scrapInfo = Signal.combineLatest(input.deleteScarp, getScarpData.asSignal(onErrorJustReturn: []))
+        let profileIndexPath = PublishSubject<String>()
         var pagination = 0
         
         input.getScarpPosts.asObservable()
@@ -50,7 +53,6 @@ final class ScarpViewModel: ViewModelType {
             .map { pagination += 1 }
             .flatMap { _ in api.getScrapPosts(pagination)}
             .subscribe(onNext: { data, response in
-                print(response)
                 switch response {
                 case .ok:
                     for i in data!.data {
@@ -69,7 +71,7 @@ final class ScarpViewModel: ViewModelType {
         
         input.deleteScarp.asObservable()
             .withLatestFrom(scrapInfo)
-            .flatMap { row, data in api.scrapPost(data[row].id)}
+            .flatMap { row, data in api.scrapDelete(data[row].id)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {
@@ -82,9 +84,15 @@ final class ScarpViewModel: ViewModelType {
                 }
             }).disposed(by: disposeBag)
         
+        input.getOtherProfile.asObservable()
+            .subscribe(onNext: { row in
+                let value = getScarpData.value
+                profileIndexPath.onNext(String(value[row].user.id))
+            }).disposed(by: disposeBag)
+        
         return Output(getScarpPosts: getScarpData.asDriver(onErrorJustReturn: []),
                       detailIndexPath: getDetailRow.asSignal(onErrorJustReturn: ""),
                       scrapResult: scrapResult.asDriver(onErrorJustReturn: ()),
-                      result: result.asSignal(onErrorJustReturn: ""))
+                      result: result.asSignal(onErrorJustReturn: ""), profileIndexPath: profileIndexPath.asDriver(onErrorJustReturn: ""))
     }
 }
