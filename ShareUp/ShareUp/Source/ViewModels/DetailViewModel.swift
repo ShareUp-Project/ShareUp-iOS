@@ -17,20 +17,23 @@ final class DetailViewModel: ViewModelType {
         let detailPostId: String
         let postScrap: Driver<Void>
         let deletePost: Driver<Void>
+        let getOtherProfile: Signal<Void>
     }
     
     struct Output {
-        let getDetail: PublishRelay<DetailPost>
+        let getDetail: Driver<DetailPost?>
         let scrapResult: Driver<Void>
         let result: Signal<String>
+        let profileResult: Driver<String>
     }
     
     func transform(_ input: Input) -> Output {
         let api = Service()
         let result = PublishSubject<String>()
-        let getDetailData = PublishRelay<DetailPost>()
+        let getDetailData = BehaviorRelay<DetailPost?>(value: nil)
         let scrapResult = PublishRelay<Void>()
-        
+        let profileIndexPath = PublishSubject<String>()
+
         input.getDetail.asObservable()
             .flatMap { api.detailPost(input.detailPostId) }
             .subscribe(onNext: { data, response in
@@ -44,9 +47,9 @@ final class DetailViewModel: ViewModelType {
         
         input.postScrap.asObservable().withLatestFrom(getDetailData).subscribe(onNext: {[weak self] data in
             guard let self = self else { return }
-            let postId = data.id
-            if !data.isScrap {
-                api.scrapPost(postId).subscribe(onNext: { response in
+            let postId = data?.id
+            if !data!.isScrap {
+                api.scrapPost(postId!).subscribe(onNext: { response in
                     switch response {
                     case .ok:
                         scrapResult.accept(())
@@ -57,7 +60,7 @@ final class DetailViewModel: ViewModelType {
                     }
                 }).disposed(by: self.disposeBag)
             } else {
-                api.scrapDelete(postId).subscribe(onNext: { response in
+                api.scrapDelete(postId!).subscribe(onNext: { response in
                     switch response {
                     case .ok:
                         scrapResult.accept(())
@@ -79,6 +82,12 @@ final class DetailViewModel: ViewModelType {
                 }
         }).disposed(by: disposeBag)
         
-        return Output(getDetail: getDetailData, scrapResult: scrapResult.asDriver(onErrorJustReturn: ()), result: result.asSignal(onErrorJustReturn: ""))
+        input.getOtherProfile.asObservable()
+            .subscribe(onNext: { _ in
+                let value = getDetailData.value
+                profileIndexPath.onNext(String(value!.id))
+            }).disposed(by: disposeBag)
+        
+        return Output(getDetail: getDetailData.asDriver(), scrapResult: scrapResult.asDriver(onErrorJustReturn: ()), result: result.asSignal(onErrorJustReturn: ""), profileResult: profileIndexPath.asDriver(onErrorJustReturn: ""))
     }
 }

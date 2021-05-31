@@ -24,6 +24,7 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var contentTextView: ActiveLabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var scrapsLabel: UILabel!
+    @IBOutlet weak var profileTouchArea: UIButton!
     
     //MARK: Properties
     var detailId = String()
@@ -31,7 +32,8 @@ final class DetailViewController: UIViewController {
     private let viewModel = DetailViewModel()
     private var loadData = BehaviorRelay<Void>(value: ())
     private var showDetailImages = [String]()
-
+    private var profileIndex = PublishRelay<Void>()
+    
     lazy var deletePostButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "삭제", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.red
@@ -73,10 +75,13 @@ final class DetailViewController: UIViewController {
     private func bindViewModel() {
         let input = DetailViewModel.Input(getDetail: loadData.asSignal(onErrorJustReturn: ()),
                                           detailPostId: detailId, postScrap: scrapButton.rx.tap.asDriver(),
-                                          deletePost: deletePostButton.rx.tap.asDriver())
+                                          deletePost: deletePostButton.rx.tap.asDriver(),
+                                          getOtherProfile: profileIndex.asSignal())
         let output = viewModel.transform(input)
         
-        output.getDetail.bind {[unowned self] data in
+        output.getDetail.asObservable().bind {[unowned self] data in
+            guard let data = data else { return }
+            badgeImageView.image = UIImage(named: data.user.badgeCategory + String(data.user.badgeLevel))
             showDetailImages = data.images
             titleLabel.text = data.title
             nicknameButton.setTitle(data.user.nickname, for: .normal)
@@ -86,13 +91,14 @@ final class DetailViewController: UIViewController {
             scrapsLabel.text = String(data.scraps)
             if data.isMine { navigationItem.rightBarButtonItem = deletePostButton }
             pageController.numberOfPages = data.images.count
-            
             pictureCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
         output.scrapResult.asObservable().bind(to: loadData).disposed(by: disposeBag)
-        
+
         output.result.emit(onCompleted : { self.navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
+        
+        profileTouchArea.rx.tap.bind(to: profileIndex).disposed(by: disposeBag)
     }
     
     private func setupConstraint() {
