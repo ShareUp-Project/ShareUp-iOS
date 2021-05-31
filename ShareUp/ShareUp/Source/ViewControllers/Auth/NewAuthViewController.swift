@@ -33,6 +33,12 @@ final class NewAuthViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        title = "비밀번호 초기화"
+    }
+    
     //MARK: Bind
     private func bindViewModel() {
         let input = NewAuthViewModel.Input(phoneNum: Driver.just(phoneNumber),

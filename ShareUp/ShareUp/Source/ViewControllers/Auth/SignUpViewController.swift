@@ -34,6 +34,12 @@ final class SignUpViewController: UIViewController {
         passwordTextField.disableAutoFill()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        title = "회원가입"
+    }
+    
     //MARK: Bind
     private func bindViewModel() {
         let input = SignUpViewModel.Input(phone: Driver.just(phoneNumber),
