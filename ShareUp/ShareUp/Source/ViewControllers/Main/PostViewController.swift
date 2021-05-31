@@ -45,6 +45,8 @@ final class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        contentTextView.delegate = self
+        
         managerTrait()
         bindViewModel()
     }
@@ -68,7 +70,7 @@ final class PostViewController: UIViewController {
         
         output.result.asObservable().subscribe(onNext: {[unowned self] data in
             if let badgeAcheive = data {
-                let alertView = SPAlertView(title: "배지 획득", message: "\(badgeAcheive.category) 배지를 획득했습니다.", preset: .done)
+                let alertView = SPAlertView(title: "배지 획득", message: "\(String(describing: badgeAcheive.category)) 배지를 획득했습니다.", preset: .done)
                 alertView.present(duration: 2.0, haptic: .success) {
                     pushViewController("main")
                 }
@@ -148,5 +150,14 @@ extension PostViewController: DismissSendData {
     func dismissData(_ data: String) {
         categoryButton[0].setTitle(" " + data, for: .normal)
         categoryTraking.accept(data)
+    }
+}
+
+extension PostViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let currentText = textView.text ?? ""
+        guard let stringRange = Range(range, in: currentText) else { return false }
+        let changedText = currentText.replacingCharacters(in: stringRange, with: text)
+        return changedText.count <= 500
     }
 }
