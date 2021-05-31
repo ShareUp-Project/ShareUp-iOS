@@ -86,10 +86,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lL2-pj-h5c">
-                        <rect key="frame" x="348" y="11.5" width="33" height="33"/>
+                        <rect key="frame" x="345" y="10" width="36" height="36"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="33" id="LTC-Yu-gl3"/>
-                            <constraint firstAttribute="width" constant="33" id="nkf-2n-Wmv"/>
+                            <constraint firstAttribute="height" constant="36" id="LTC-Yu-gl3"/>
+                            <constraint firstAttribute="width" constant="36" id="nkf-2n-Wmv"/>
                         </constraints>
                         <state key="normal" image="Vector"/>
                         <state key="selected" image="SelectVector"/>
@@ -103,6 +103,10 @@
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eES-hw-Zi1">
+                        <rect key="frame" x="10" y="10" width="108" height="36"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="WQr-Tk-2L2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="0FS-mg-Bdo"/>
@@ -146,6 +150,7 @@
                 <outlet property="badgeImageView" destination="WQr-Tk-2L2" id="fmA-Hj-6ia"/>
                 <outlet property="hashtagLabel" destination="nDU-cV-g8L" id="EEN-zd-fxZ"/>
                 <outlet property="nicknameButton" destination="frw-cd-5SP" id="wIJ-pm-GWU"/>
+                <outlet property="profileTouchArea" destination="eES-hw-Zi1" id="emP-wd-jDa"/>
                 <outlet property="scrapButton" destination="lL2-pj-h5c" id="bJZ-q4-uf4"/>
                 <outlet property="scrapLabel" destination="s3q-2p-Jlf" id="jUC-6K-EOM"/>
                 <outlet property="scrapsLabel" destination="uKm-UY-3D2" id="csh-UZ-h5j"/>

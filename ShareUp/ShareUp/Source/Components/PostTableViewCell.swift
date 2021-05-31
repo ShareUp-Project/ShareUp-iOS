@@ -14,6 +14,7 @@ import RxCocoa
 
 final class PostTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var profileTouchArea: UIButton!
     @IBOutlet weak var badgeImageView: UIImageView!
     @IBOutlet weak var nicknameButton: UIButton!
     @IBOutlet weak var scrapButton: UIButton!
@@ -24,6 +25,7 @@ final class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var scrapsLabel: UILabel!
     @IBOutlet weak var viewLabel: UILabel!
     @IBOutlet weak var scrapLabel: UILabel!
+    
     private let animationView = AnimationView(name: "bookmark-animation").then {
         $0.contentMode = .scaleAspectFit
         $0.isHidden = true
@@ -68,17 +70,14 @@ final class PostTableViewCell: UITableViewCell {
     
     func scrapConfigCell(_ data: ScrapPost) {
         badgeImageView.image = UIImage(named: data.user.badgeCategory + "\(String(describing: data.user.badgeLevel))")
-        print(data.user.badgeCategory + "\(String(describing: data.user.badgeLevel))")
         nicknameButton.setTitle(data.user.nickname, for: .normal)
         scrapButton.isSelected = true
         shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)
         titleLabel.text = data.title
         hashtagLabel.text = ""
         for i in 0..<data.hashtags.count { hashtagLabel.text! += "#\(data.hashtags[i]) " }
-        viewsLabel.isHidden = true
-        scrapsLabel.isHidden = true
-        viewLabel.isHidden = true
-        scrapLabel.isHidden = true
+        viewsLabel.text = String(data.views)
+        scrapsLabel.text = String(data.scraps)
     }
     
     func doubleTapped() {
