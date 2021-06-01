@@ -105,6 +105,14 @@ final class MainViewController: UIViewController {
         searchBarButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             pushViewController("search")
         }).disposed(by: disposeBag)
+        
+        mainTableView.rx.didScroll.subscribe(onNext: {[unowned self] _ in
+            if mainTableView.panGestureRecognizer.translation(in: mainTableView).y < 0 {
+                navigationController?.setNavigationBarHidden(true, animated: true)
+            } else {
+                navigationController?.setNavigationBarHidden(false, animated: true)
+            }
+        }).disposed(by: disposeBag)
     }
 
     private func setupTableView() {

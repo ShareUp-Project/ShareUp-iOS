@@ -93,6 +93,14 @@ final class ProfileViewController: UIViewController {
         settingButton.rx.tap.subscribe(onNext: {[unowned self] _ in
             self.pushViewController("setting")
         }).disposed(by: disposeBag)
+        
+        myPostsTableView.rx.didScroll.subscribe(onNext: {[unowned self] _ in
+            if myPostsTableView.panGestureRecognizer.translation(in: myPostsTableView).y < 0 {
+                navigationController?.setNavigationBarHidden(true, animated: true)
+            } else {
+                navigationController?.setNavigationBarHidden(false, animated: true)
+            }
+        }).disposed(by: disposeBag)
     }
     
     private func setupTableView() {
