@@ -84,7 +84,6 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
         }else {
             cell.badgeImageView.image = UIImage(named: badgeAcheive[indexPath.row])
         }
-        
         return cell
     }
     
@@ -96,7 +95,7 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
         currentLevel.accept(currentPage+1)
         
         badgeSetButton.isEnabled = badgeAcheive[currentPage] == "0" ? false : true
-        badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠금", for: .normal)
+        badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠김", for: .normal)
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -111,7 +110,7 @@ extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UIColle
             badgeCountLabel.text = info?[2]
             
             badgeSetButton.isEnabled = badgeAcheive[0] == "0" ? false : true
-            badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠금", for: .normal)
+            badgeSetButton.setTitle(badgeSetButton.isEnabled ? "배지 설정" : "잠김", for: .normal)
             
             currentLevel.accept(1)
         }
