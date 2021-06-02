@@ -52,7 +52,8 @@ final class MainViewModel: ViewModelType {
             }).disposed(by: disposeBag)
         
         input.getMorePosts.asObservable()
-            .map { pagination += 1}
+            .throttle(RxTimeInterval.seconds(5), latest: true, scheduler: MainScheduler.instance)
+            .map { pagination += 1 }
             .flatMap { _ in api.getPosts(pagination)}
             .subscribe(onNext: { data, response in
                 switch response {
