@@ -15,6 +15,7 @@ extension String {
     func getHashtags() -> [String] {
         var words = components(separatedBy: "#")
         var hashTags = [String]()
+        var hashTag = [String]()
         let shouldRemoveFirstWord = !words[0].hasPrefix("#")
         if shouldRemoveFirstWord {
             words.removeFirst()
@@ -26,6 +27,14 @@ extension String {
             let hashtag = firstWord[0]
             hashTags.append(String(hashtag))
         }
+        
+        for word in hashTags{
+            if word.hasPrefix("#"){
+                let hashtag = word.dropFirst()
+                hashTag.append(String(hashtag))
+            }
+        }
+        
         return hashTags
     }
 }
