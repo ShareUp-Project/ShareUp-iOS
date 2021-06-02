@@ -39,15 +39,23 @@ final class SearchViewModel: ViewModelType {
         
         input.searchTap.asObservable()
             .withLatestFrom(input.searchContent)
-            .flatMap { word in api.searchPosts(word!, 0)}
-            .subscribe(onNext: { data, response in
-                print(response)
-                switch response {
-                case .ok:
-                    getCategoryPosts.accept(data!.data)
-                default:
-                    result.onNext("서버 오류")
-                }
+            .subscribe(onNext: { word in
+                var savedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
+                if savedSearches.count == 10 { savedSearches.removeFirst() }
+                var newSearches = [String]()
+                newSearches = savedSearches
+                newSearches.append(word!)
+                UserDefaults.standard.set(newSearches, forKey: "recentSearches")
+                UserDefaults.standard.synchronize()
+                
+                api.searchPosts(word!, 0).subscribe(onNext: {data, response in
+                    switch response {
+                    case .ok:
+                        getCategoryPosts.accept(data!.data)
+                    default:
+                        result.onNext("서버 오류")
+                    }
+                }).disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
         
         input.loadWeeklyPost.asObservable()
