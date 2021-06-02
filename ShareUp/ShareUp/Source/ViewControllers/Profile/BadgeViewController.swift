@@ -30,7 +30,7 @@ final class BadgeViewController: UIViewController {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 8
         flowLayout.minimumInteritemSpacing = 15
-        flowLayout.itemSize = CGSize(width: 120, height: 132)
+        flowLayout.itemSize = CGSize(width: view.frame.width/4, height: badgeCollectionView.frame.width/3)
         
         badgeCollectionView.collectionViewLayout = flowLayout
         
@@ -68,7 +68,6 @@ final class BadgeViewController: UIViewController {
                 currentBadgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
                 currentBadgeNameLabel.text = Category(rawValue: data!.badgeCategory + "\(data!.badgeLevel)")?.toDescription()[0]
             }
-            
             getCategory.accept(data!.badgeCategory)
         }.disposed(by: disposeBag)
         

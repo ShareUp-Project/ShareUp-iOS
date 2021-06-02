@@ -87,12 +87,15 @@ final class Service {
     }
     
     func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String) -> Observable<(WritePost?, StatusRules)> {
+        print(category)
         return provider.rx.request(.wirtePost(content, category, tags, images, title))
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map(WritePost.self)
             .map { return ($0, .ok) }
             .catchError { errer in
+                print(errer)
+                print(errer.localizedDescription)
                return .just((nil, .fail))
             }
     }
@@ -125,6 +128,7 @@ final class Service {
         return provider.rx.request(.getPosts(page))
             .filterSuccessfulStatusCodes()
             .asObservable()
+            
             .map(Posts.self)
             .map { return ($0, .ok) }
             .catchError { errer in
@@ -161,17 +165,7 @@ final class Service {
             .filterSuccessfulStatusCodes()
             .asObservable()
             .map (Posts.self)
-            .map { data in
-                var savedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
-                if savedSearches.count == 10 { savedSearches.removeFirst() }
-                var newSearches = [String]()
-                newSearches = savedSearches
-                newSearches.append(tags)
-                UserDefaults.standard.set(newSearches, forKey: "recentSearches")
-                UserDefaults.standard.synchronize()
-                
-                return (data, .ok)
-            }
+            .map { data in return (data, .ok) }
             .catchError { error in
                 print(self.setNetworkError(error))
                 return .just((nil, .fail))

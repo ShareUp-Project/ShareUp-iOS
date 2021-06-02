@@ -34,6 +34,7 @@ final class BadgeListViewModel: ViewModelType {
         input.loadData.asObservable()
             .flatMap { _ in api.getBadgeList() }
             .subscribe(onNext: { data, response in
+                print(data)
                 switch response {
                 case .ok:
                     var array = [Int]()

@@ -30,7 +30,6 @@ final class CategoryViewController: UIViewController {
         delegate?.dismissData((sender.titleLabel?.text)!)
         navigationController?.popViewController(animated: true)
     }
-
 }
 
 protocol DismissSendData {

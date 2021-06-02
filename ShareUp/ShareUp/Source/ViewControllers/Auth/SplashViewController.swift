@@ -22,5 +22,4 @@ final class SplashViewController: UIViewController {
         
         navigationBarHidden()
     }
-    
 }

@@ -35,7 +35,6 @@ enum ShareUpAPI {
     case getEditorPosts(_ page: Int)
     case changeNickname(_ name: String)
     case weeklyPost
-    
 }
 
 extension ShareUpAPI: TargetType {
