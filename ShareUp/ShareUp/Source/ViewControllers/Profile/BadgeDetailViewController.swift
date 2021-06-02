@@ -66,11 +66,8 @@ final class BadgeDetailViewController: UIViewController {
 //MARK: Extension
 extension BadgeDetailViewController: CollectionViewPagingLayoutDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if category == "default" || category == "first" {
-            return 1
-        }else {
-            return 3
-        }
+        if category == "default" || category == "first" { return 1 }
+        else { return 3 }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
