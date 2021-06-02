@@ -23,9 +23,10 @@ final class ProfileViewController: UIViewController {
     private let viewModel = ProfileViewModel()
     private let loadProfile = BehaviorRelay<Void>(value: ())
     var otherProfile = BehaviorRelay<String>(value: "")
-    
+    private let selectScrap = PublishRelay<Int>()
+
     lazy var settingButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "설정", style: .done, target: self, action: nil)
+        let button = UIBarButtonItem(title: "설정", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.primaryGreen
         return button
     }()
@@ -37,11 +38,24 @@ final class ProfileViewController: UIViewController {
         bindViewModel()
         setupTableView()
         managerTrait()
-        scrollView.delegate = self
+        addBottomShadow()
 
         if !otherProfile.value.isEmpty {
             navigationBackCustom()
         }
+    }
+    
+    func addBottomShadow() {
+        infoView.layer.masksToBounds = false
+        infoView.layer.shadowRadius = 4
+        infoView.layer.shadowOpacity = 1
+        infoView.layer.shadowColor = MainColor.shadowGray.cgColor
+        infoView.layer.shadowOpacity = 0.2
+        infoView.layer.shadowOffset = CGSize(width: 0 , height: 2)
+        infoView.layer.shadowPath = UIBezierPath(rect: CGRect(x: 0,
+                                                              y: infoView.bounds.maxY - infoView.layer.shadowRadius,
+                                                              width: infoView.bounds.width,
+                                                              height: infoView.layer.shadowRadius)).cgPath
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -132,15 +146,5 @@ final class ProfileViewController: UIViewController {
                 self.tableViewHeight.constant = newSize.height
             }
         }
-    }
-}
-
-extension ProfileViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let yPosition = scrollView.contentOffset.y + 40
-        var eimageViewFrame = badgeImageView.frame
-        eimageViewFrame.origin.y = yPosition
-        nicknameLabel.frame.origin.y = yPosition
-        badgeImageView.frame = eimageViewFrame
     }
 }
