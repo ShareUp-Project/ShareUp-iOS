@@ -24,12 +24,14 @@ final class ChangeNameViewController: UIViewController {
         super.viewDidLoad()
 
         bindViewModel()
+        
+        nicknameTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in nicknameTextField.checkNicknameCount(text)}).disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tabBarController?.navigationController?.navigationItem.title = "닉네임 수정"
+        title = "닉네임 수정"
         navigationBackCustom()
     }
     
