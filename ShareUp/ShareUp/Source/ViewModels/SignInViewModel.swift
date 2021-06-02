@@ -62,7 +62,7 @@ final class SignInViewModel: ViewModelType {
                 case .notFound:
                     result.onNext("전화번호 또는 비밀번호가 일치하지 않습니다.")
                 default:
-                    result.onNext("로그인을 다시 시도해보세요.")
+                    result.onNext("존재하지 않는 계정입니다.")
                 }
             }).disposed(by: disposeBag)
     

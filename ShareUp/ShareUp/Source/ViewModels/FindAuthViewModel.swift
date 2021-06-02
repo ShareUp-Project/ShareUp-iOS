@@ -55,7 +55,7 @@ final class FindAuthViewModel: ViewModelType {
                 case .unauthorized:
                     result.onNext("인증번호가 올바르지 않습니다.")
                 default:
-                    result.onNext("인증번호가 올ㄹ바르지 않습니다.")
+                    result.onNext("인증번호가 올바르지 않습니다.")
                 }
             }).disposed(by: disposeBag)
         

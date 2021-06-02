@@ -37,7 +37,7 @@ final class ChangeNameViewModel: ViewModelType {
                 case .conflict:
                     duplicate.onNext("중복")
                 default:
-                    duplicate.onNext("에러")
+                    duplicate.onNext("글자형식 오류")
                 }
             }).disposed(by: disposeBag)
         
