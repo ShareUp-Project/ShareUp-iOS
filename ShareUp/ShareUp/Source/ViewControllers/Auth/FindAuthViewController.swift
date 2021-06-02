@@ -67,7 +67,7 @@ final class FindAuthViewController: UIViewController {
         
         output.result.emit(onNext: { [unowned self] error in
                             errorLabel.text = error
-                            errorLabel.isHidden.toggle()},
+                            errorLabel.isHidden = false},
                            onCompleted: {[unowned self] in
                             let vc = storyboard?.instantiateViewController(withIdentifier: "newPassword") as! NewAuthViewController
                             vc.phoneNumber = numberTextField.text!

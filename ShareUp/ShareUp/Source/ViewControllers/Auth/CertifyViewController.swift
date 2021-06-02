@@ -66,9 +66,11 @@ final class CertifyViewController: UIViewController {
                          }).disposed(by: disposeBag)
         
         output.result.emit(onNext: { [unowned self] error in
+                            errorLabel.isHidden = false
                             errorLabel.text = error
-                            errorLabel.isHidden.toggle()},
+                            },
                            onCompleted: {[unowned self] in
+                            errorLabel.isHidden = true
                             let vc = storyboard?.instantiateViewController(withIdentifier: "signup") as! SignUpViewController
                             vc.phoneNumber = numberTextField.text!
                             timer.invalidate()
@@ -82,6 +84,7 @@ final class CertifyViewController: UIViewController {
             certifyRequestButton.setTitle("재요청", for: .normal)
             countDown = 180
         }).disposed(by: disposeBag)
+        numberTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in numberTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
