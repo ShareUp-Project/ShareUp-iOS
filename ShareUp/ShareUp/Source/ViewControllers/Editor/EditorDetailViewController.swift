@@ -33,7 +33,7 @@ final class EditorDetailViewController: UIViewController {
 
     private func bind() {
         if let image = editorDetailData?.image {
-            addGradientMask(targetView: editorImageView, 0.5)
+            addGradientMask(targetView: editorImageView, 0.3)
             editorImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + image))
         }else {
             addGradientMask(targetView: editorImageView, 0.1)

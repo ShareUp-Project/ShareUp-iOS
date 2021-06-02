@@ -30,6 +30,10 @@ final class EditorViewController: UIViewController {
         super.viewWillAppear(animated)
         
         editorTableView.separatorInset = .zero
+        loadData.accept(())
+        editorTableView.reloadData()
+        editorTableView.tableFooterView = UIView()
+        
         navigationController?.navigationBar.topItem?.title = "에디터의 글"
         tabBarController?.navigationItem.rightBarButtonItems = []
         tabBarController?.navigationItem.leftBarButtonItems = []
