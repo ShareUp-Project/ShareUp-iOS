@@ -18,14 +18,16 @@ final class MainViewController: UIViewController {
     //MARK: Properties
     private let viewModel = MainViewModel()
     private let disposeBag = DisposeBag()
-    private let getData = PublishRelay<Void>()
+    private let getData = BehaviorRelay<Void>(value: ())
     private let selectScrap = PublishRelay<Int>()
     private let selectProfile = PublishRelay<Int>()
     private var pagingation = PublishRelay<Void>()
+    private var selectPage = PublishRelay<Void>()
     
     lazy var shareUpButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "ShareUp", style: .plain, target: self, action: nil)
         button.tintColor = .black
+        button.setTitleTextAttributes([ NSAttributedString.Key.font: UIFont(name: Font.nsM.rawValue, size: 18)!], for: .normal)
         return button
     }()
     
@@ -43,20 +45,30 @@ final class MainViewController: UIViewController {
         managerTrait()
         setupRefresh()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
         getData.accept(())
-        pagingation.accept(())
         mainTableView.reloadData()
         mainTableView.tableFooterView = UIView()
-        
+        mainTableView.separatorInset = .zero
+
         tabBarController?.navigationItem.leftBarButtonItem = shareUpButton
         tabBarController?.navigationItem.rightBarButtonItem = searchBarButton
-        mainTableView.separatorInset = .zero
-        tabBarController?.navigationController?.navigationItem.hidesSearchBarWhenScrolling = true
         tabBarController?.navigationController?.navigationBar.topItem?.title = ""
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     //MARK: Bind
@@ -71,12 +83,10 @@ final class MainViewController: UIViewController {
             
         output.getPosts.asObservable().bind(to: mainTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
-            
             cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in
                 cell.doubleTapped()
                 selectScrap.accept(row)
             }).disposed(by: cell.disposeBag)
-            
             cell.profileTouchArea.rx.tap.subscribe(onNext: {[unowned self] _ in
                 selectProfile.accept(row)
             }).disposed(by: cell.disposeBag)
@@ -90,13 +100,16 @@ final class MainViewController: UIViewController {
         
         output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
             getData.accept(())
-            mainTableView.reloadData()
         }).disposed(by: disposeBag)
         
         output.profileIndexPath.asObservable().subscribe(onNext: {[unowned self] profile in
             guard let vc = storyboard?.instantiateViewController(identifier: "profile") as? ProfileViewController else { return }
             vc.otherProfile.accept(profile)
             navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+        
+        output.result.emit(onNext: { text in
+            print(text)
         }).disposed(by: disposeBag)
     }
     
