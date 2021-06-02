@@ -15,6 +15,7 @@ import SPAlert
 final class PostViewController: UIViewController {
     //MARK: UI
     @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var cameraTouchArea: UIButton!
     @IBOutlet weak var cameraBoxView: UIView!
     @IBOutlet weak var numOfPictureLabel: UILabel!
     @IBOutlet weak var pickerCollectionView: UICollectionView!
@@ -40,6 +41,10 @@ final class PostViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -69,8 +74,11 @@ final class PostViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.result.asObservable().subscribe(onNext: {[unowned self] data in
-            if let badgeAcheive = data {
-                let alertView = SPAlertView(title: "배지 획득", message: "\(String(describing: badgeAcheive.category)) 배지를 획득했습니다.", preset: .done)
+            if let response = data?.category {
+                print("badge")
+                view.endEditing(true)
+                let badge = response == "first" ? response : response + String((data!.level)!)
+                let alertView = SPAlertView(title: "배지 획득", message: "\(String(describing: Category(rawValue: badge)!.toDescription()[0])) 배지를 획득했습니다.", preset: .done)
                 alertView.present(duration: 2.0, haptic: .success) {
                     pushViewController("main")
                 }
@@ -79,12 +87,32 @@ final class PostViewController: UIViewController {
             }
         }).disposed(by: disposeBag)
         
+        output.stopIndicator.emit(onNext: { message in
+            self.loadingView.stopAnimating()
+            self.postButton.isEnabled = true
+        }).disposed(by: disposeBag)
+        
         output.isEnable.drive(postButton.rx.isEnabled).disposed(by: disposeBag)
+    }
+    
+    func keyboardHeight() -> Observable<CGFloat> {
+        return Observable
+                .from([
+                    NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+                                .map { notification -> CGFloat in
+                                    (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
+                                },
+                    NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+                                .map { _ -> CGFloat in
+                                    0
+                                }
+                ])
+                .merge()
     }
     
     //MARK: Rx Action
     private func managerTrait() {
-        cameraButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+        cameraTouchArea.rx.tap.subscribe(onNext: {[unowned self] _ in
             let imagePicker = ImagePickerController()
             imagePicker.settings.selection.max = 8
             imagePicker.settings.theme.selectionStyle = .numbered
@@ -108,10 +136,20 @@ final class PostViewController: UIViewController {
         
         cameraBoxView.layer.borderColor = MainColor.gray03.cgColor
         
-        postButton.rx.tap.subscribe(onNext: { _ in
-            self.loadingView.isHidden = false
-            self.loadingView.startAnimating()
+        postButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+            loadingView.isHidden = false
+            postButton.isEnabled = false
+            loadingView.startAnimating()
         }).disposed(by: disposeBag)
+        
+        keyboardHeight().observeOn(MainScheduler.instance)
+            .subscribe(onNext: { keyboardHeight in
+                if keyboardHeight > 0 {
+                    self.contentTextView.isScrollEnabled = true
+                } else {
+                    self.contentTextView.isScrollEnabled = false
+                }
+            }).disposed(by: disposeBag)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
