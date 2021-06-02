@@ -45,7 +45,7 @@ final class AuthTextField: UITextField {
         layer.borderWidth = 1
         backgroundColor = .white
     }
-    
+
     private func endEditingTextField() {
         backgroundColor = MainColor.gray01
         layer.borderColor = MainColor.gray02.cgColor

@@ -11,6 +11,7 @@ import Then
 import Hashtags
 
 final class RecentlySearch: UIView {
+    
     let recentlyLabel = UILabel().then {
         $0.font = UIFont(name: Font.nsM.rawValue, size: 16)
     }
@@ -27,7 +28,7 @@ final class RecentlySearch: UIView {
         addSubview(recentlyLabel)
         
         recentlyTag.delegate = self
-
+        
         setupRecentlyText()
     }
     
@@ -55,7 +56,7 @@ final class RecentlySearch: UIView {
     }
 }
 
-extension RecentlySearch: HashtagViewDelegate {
+extension RecentlySearch: HashtagViewDelegate, UICollectionViewDelegate {
     func hashtagRemoved(hashtag: HashTag) {
         var removedSearches = UserDefaults.standard.array(forKey: "recentSearches") as! [String]
         hashtag.text.removeFirst()
@@ -67,4 +68,5 @@ extension RecentlySearch: HashtagViewDelegate {
     func viewShouldResizeTo(size: CGSize) {
         print("resizing")
     }
+    
 }
