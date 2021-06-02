@@ -314,7 +314,6 @@
 				EBDA2BC6260AFFC60093D3AE /* Supporting File */,
 				EBDA2BC5260AFFC20093D3AE /* Source */,
 				EBDA2BC4260AFFBB0093D3AE /* Resource */,
-				EBDA2BBD260AFF780093D3AE /* Info.plist */,
 			);
 			path = ShareUp;
 			sourceTree = "<group>";
@@ -352,6 +351,7 @@
 		EBDA2BC6260AFFC60093D3AE /* Supporting File */ = {
 			isa = PBXGroup;
 			children = (
+				EBDA2BBD260AFF780093D3AE /* Info.plist */,
 			);
 			path = "Supporting File";
 			sourceTree = "<group>";
@@ -805,7 +805,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 43892VQKJ3;
-				INFOPLIST_FILE = ShareUp/Info.plist;
+				INFOPLIST_FILE = "ShareUp/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -825,7 +825,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 43892VQKJ3;
-				INFOPLIST_FILE = ShareUp/Info.plist;
+				INFOPLIST_FILE = "ShareUp/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
