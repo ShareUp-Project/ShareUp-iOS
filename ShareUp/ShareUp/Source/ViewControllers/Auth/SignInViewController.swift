@@ -18,7 +18,8 @@ final class SignInViewController: UIViewController {
     @IBOutlet weak var autoAuthButton: UIButton!
     @IBOutlet weak var securityOnOffButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
-    
+    @IBOutlet weak var securityTextButton: UIButton!
+
     //MARK: Properties
     private let disposeBag = DisposeBag()
     private let viewModel = SignInViewModel()
@@ -63,6 +64,11 @@ final class SignInViewController: UIViewController {
         autoAuthButton.rx.tap.subscribe(onNext:{ [unowned self] in
             autoIsSelect.accept(autoAuthButton.isSelected)
         }).disposed(by: disposeBag)
+        securityTextButton.rx.tap.subscribe(onNext: { [unowned self] in
+            autoIsSelect.accept(autoAuthButton.isSelected)
+        }).disposed(by: disposeBag)
+        securityTextButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle() }).disposed(by: disposeBag)
+
     }
     
     private func updateCurrentStatus() {
