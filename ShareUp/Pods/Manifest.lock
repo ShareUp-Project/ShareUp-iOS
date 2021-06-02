@@ -23,6 +23,9 @@ PODS:
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
+  - RxFlow (2.11.0):
+    - RxCocoa (>= 5.1.1)
+    - RxSwift (>= 5.1.1)
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.1)
@@ -46,6 +49,7 @@ DEPENDENCIES:
   - Moya/RxSwift (~> 14.0)
   - PanModal
   - RxCocoa (~> 5)
+  - RxFlow
   - RxSwift (~> 5)
   - SkeletonView
   - SnapKit (~> 5.0.0)
@@ -68,6 +72,7 @@ SPEC REPOS:
     - Moya
     - PanModal
     - RxCocoa
+    - RxFlow
     - RxRelay
     - RxSwift
     - SkeletonView
@@ -90,6 +95,7 @@ SPEC CHECKSUMS:
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxFlow: c5242626a73a03d0a0163f0ab795538c467b791f
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   SkeletonView: cac18a3ac4f893b09d99e65072d806ef08377aae
@@ -98,6 +104,6 @@ SPEC CHECKSUMS:
   SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
 
-PODFILE CHECKSUM: d55b572407ba742dc54d7aaed6b07daeeb14c7af
+PODFILE CHECKSUM: ababf1f0f33541d25328e873ef3dfae3ec4068ad
 
 COCOAPODS: 1.10.1

@@ -83,6 +83,7 @@ struct ActiveBuilder {
         for match in matches where match.range.length > 2 {
             let range = NSRange(location: match.range.location + 1, length: match.range.length - 1)
             var word = nsstring.substring(with: range)
+
             if word.hasPrefix("@") {
                 word.remove(at: word.startIndex)
             }

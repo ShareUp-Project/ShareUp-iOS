@@ -8,6 +8,7 @@ target 'ShareUp' do
 #Rx
 pod ‘RxSwift’, ‘~> 5’
 pod ‘RxCocoa’, ‘~> 5’
+pod 'RxFlow'
 
 #Networking
 pod ‘Alamofire’, ‘~> 5.2’
