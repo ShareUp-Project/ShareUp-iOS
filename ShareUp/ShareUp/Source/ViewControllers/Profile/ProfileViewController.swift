@@ -69,22 +69,37 @@ final class ProfileViewController: UIViewController {
         let input = ProfileViewModel.Input(otherProfileId: otherProfile.asDriver(onErrorJustReturn: ""),
                                            loadProfile: loadProfile.asSignal(onErrorJustReturn: ()),
                                            loadMoreProfile: myPostsTableView.reachedBottom.asSignal(onErrorJustReturn: ()),
-                                           loadDetail: myPostsTableView.rx.itemSelected.asSignal())
+                                           loadDetail: myPostsTableView.rx.itemSelected.asSignal(),
+                                           postScrap: selectScrap.asSignal())
         let output = viewModel.transform(input)
         
         output.myNickname.asObservable().bind {[unowned self] data in
-            badgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
-            nicknameLabel.text = data?.nickname}.disposed(by: disposeBag)
+            if data?.badgeCategory == "first" {
+                badgeImageView.image = UIImage(named: data!.badgeCategory)
+                nicknameLabel.text = data?.nickname
+            }else {
+                badgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
+                nicknameLabel.text = data?.nickname
+            }
+        }.disposed(by: disposeBag)
         
         output.myPosts.asObservable().bind(to: myPostsTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
-            print(data)
             cell.configCell(data)
+            cell.scrapButton.rx.tap.subscribe(onNext: {[unowned self] _ in
+                cell.doubleTapped()
+                selectScrap.accept(row)
+            }).disposed(by: cell.disposeBag)
         }.disposed(by: disposeBag)
         
         output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
             guard let vc = storyboard?.instantiateViewController(identifier: "detail") as? DetailViewController else { return }
             vc.detailId = detail
             navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+    
+        output.scrapResult.asObservable().subscribe(onNext: {[unowned self] _ in
+            loadProfile.accept(())
+            myPostsTableView.reloadData()
         }).disposed(by: disposeBag)
     }
     

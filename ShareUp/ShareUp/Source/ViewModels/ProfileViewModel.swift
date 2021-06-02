@@ -17,12 +17,14 @@ final class ProfileViewModel: ViewModelType {
         let loadProfile: Signal<Void>
         let loadMoreProfile: Signal<Void>
         let loadDetail: Signal<IndexPath>
+        let postScrap: Signal<Int>
     }
     
     struct Output {
         let myNickname: Driver<Nickname?>
         let myPosts: Driver<[Post]>
         let detailIndexPath: Driver<String>
+        let scrapResult: Driver<Void>
     }
     
     func transform(_ input: Input) -> Output {
@@ -31,11 +33,13 @@ final class ProfileViewModel: ViewModelType {
         let nickname = PublishRelay<Nickname?>()
         let getMyPost = BehaviorRelay<[Post]>(value: [])
         let getDetailRow = PublishSubject<String>()
+        let scrapResult = PublishRelay<Void>()
+        let scrapInfo = Signal.combineLatest(input.postScrap, getMyPost.asSignal(onErrorJustReturn: []))
         var pagination = 0
         
         input.loadProfile.asObservable()
             .withLatestFrom(input.otherProfileId)
-            .flatMap { id in api.getNickname(id)}
+            .flatMap { id in api.getNickname(id) }
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -60,7 +64,8 @@ final class ProfileViewModel: ViewModelType {
         
         input.loadMoreProfile.asObservable()
             .map { pagination += 1}
-            .flatMap { _ in api.getUserPosts("", pagination)}
+            .withLatestFrom(input.otherProfileId)
+            .flatMap { id in api.getUserPosts(id, pagination)}
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -79,6 +84,33 @@ final class ProfileViewModel: ViewModelType {
                 getDetailRow.onNext(String(value[indexPath.row].id))
             }).disposed(by: disposeBag)
         
-        return Output(myNickname: nickname.asDriver(onErrorJustReturn: nil), myPosts: getMyPost.asDriver(onErrorJustReturn: []), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: ""))
+        input.postScrap.asObservable()
+            .withLatestFrom(scrapInfo)
+            .subscribe(onNext: {[weak self] row, data in
+                guard let self = self else { return }
+                let postId = data[row].id
+                if !data[row].isScrap {
+                    api.scrapPost(postId).subscribe(onNext: { response in
+                        switch response {
+                         case .ok:
+                            scrapResult.accept(())
+                        case .conflict:
+                            result.onNext("이미 스크랩 된 글")
+                        default:
+                            result.onNext("서버 오류")
+                        }
+                    }).disposed(by: self.disposeBag)
+                } else {
+                    api.scrapDelete(postId).subscribe(onNext: { response in
+                        switch response {
+                        case .ok:
+                            scrapResult.accept(())
+                        default:
+                            result.onNext("서버 오류")
+                        }
+                    }).disposed(by: self.disposeBag)
+                }
+            })
+        return Output(myNickname: nickname.asDriver(onErrorJustReturn: nil), myPosts: getMyPost.asDriver(onErrorJustReturn: []), detailIndexPath: getDetailRow.asDriver(onErrorJustReturn: ""), scrapResult: scrapResult.asDriver(onErrorJustReturn: ()))
     }
 }
