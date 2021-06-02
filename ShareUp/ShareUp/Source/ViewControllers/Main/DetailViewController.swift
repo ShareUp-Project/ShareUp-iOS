@@ -81,7 +81,12 @@ final class DetailViewController: UIViewController {
         
         output.getDetail.asObservable().bind {[unowned self] data in
             guard let data = data else { return }
-            badgeImageView.image = UIImage(named: data.user.badgeCategory + String(data.user.badgeLevel))
+            if data.user.badgeCategory == "first" {
+                badgeImageView.image = UIImage(named: data.user.badgeCategory)
+            }else {
+                badgeImageView.image = UIImage(named: data.user.badgeCategory + String(data.user.badgeLevel))
+            }
+            
             showDetailImages = data.images
             titleLabel.text = data.title
             nicknameButton.setTitle(data.user.nickname, for: .normal)
