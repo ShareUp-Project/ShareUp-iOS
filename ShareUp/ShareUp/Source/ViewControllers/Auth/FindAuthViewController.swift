@@ -31,9 +31,17 @@ final class FindAuthViewController: UIViewController {
     //MARK: UI
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         bindViewModel()
         navigationBarColor(.white)
         managerTrait()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        countDown = 1
     }
     
     //MAKR: Bind
@@ -43,7 +51,10 @@ final class FindAuthViewController: UIViewController {
                                            phoneCertify: authNumberTextField.rx.text.orEmpty.asDriver(),
                                            certifyButton: certifyButton.rx.tap.asDriver())
         let output = viewModel.transform(input)
-        let timer = Timer.new(every: 1.second) {[unowned self] _ in countDown -= 1 }
+        let timer = Timer.new(every: 1.second) {[unowned self] time in
+            if countDown == 0 { time.invalidate() }
+            countDown -= 1
+        }
         
         output.wait.emit(onNext: { [unowned self] error in
                             errorLabel.text = error
@@ -71,6 +82,9 @@ final class FindAuthViewController: UIViewController {
             certifyRequestButton.setTitle("재요청", for: .normal)
             countDown = 180
         }).disposed(by: disposeBag)
+        
+        numberTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in numberTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
+
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
