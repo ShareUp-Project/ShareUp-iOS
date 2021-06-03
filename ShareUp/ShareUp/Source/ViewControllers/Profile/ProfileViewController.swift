@@ -88,13 +88,8 @@ final class ProfileViewController: UIViewController {
         let output = viewModel.transform(input)
         
         output.myNickname.asObservable().bind {[unowned self] data in
-            if data?.badgeCategory == "first" {
-                badgeImageView.image = UIImage(named: data!.badgeCategory)
-                nicknameLabel.text = data?.nickname
-            }else {
-                badgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
-                nicknameLabel.text = data?.nickname
-            }
+            badgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
+            nicknameLabel.text = data?.nickname
         }.disposed(by: disposeBag)
         
         output.myPosts.asObservable().bind(to: myPostsTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in

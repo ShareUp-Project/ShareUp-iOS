@@ -81,12 +81,7 @@ final class DetailViewController: UIViewController {
         
         output.getDetail.asObservable().bind {[unowned self] data in
             guard let data = data else { return }
-            if data.user.badgeCategory == "first" {
-                badgeImageView.image = UIImage(named: data.user.badgeCategory)
-            }else {
-                badgeImageView.image = UIImage(named: data.user.badgeCategory + String(data.user.badgeLevel))
-            }
-            
+            badgeImageView.image = UIImage(named: data.user.badgeCategory + "\(data.user.badgeLevel)")
             showDetailImages = data.images
             titleLabel.text = data.title
             nicknameButton.setTitle(data.user.nickname, for: .normal)
@@ -99,9 +94,8 @@ final class DetailViewController: UIViewController {
             pictureCollectionView.reloadData()
         }.disposed(by: disposeBag)
         
-        output.scrapResult.asObservable().bind(to: loadData).disposed(by: disposeBag)
-        
-        output.profileResult.asObservable().subscribe(onNext: {[unowned self] profile in
+        output.profileResult.asObservable()
+            .subscribe(onNext: {[unowned self] profile in
             guard let vc = storyboard?.instantiateViewController(identifier: "profile") as? ProfileViewController else { return }
             vc.otherProfile.accept(profile)
             navigationController?.pushViewController(vc, animated: true)
@@ -109,6 +103,7 @@ final class DetailViewController: UIViewController {
         
         output.result.emit(onCompleted : { self.navigationController?.popViewController(animated: true) }).disposed(by: disposeBag)
         
+        output.scrapResult.asObservable().bind(to: loadData).disposed(by: disposeBag)
         profileTouchArea.rx.tap.bind(to: profileIndex).disposed(by: disposeBag)
     }
     

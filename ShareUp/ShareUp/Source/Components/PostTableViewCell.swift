@@ -57,11 +57,7 @@ final class PostTableViewCell: UITableViewCell {
     }
     
     func configCell(_ data: Post) {
-        if data.user.badgeCategory == "first" {
-            badgeImageView.image = UIImage(named: data.user.badgeCategory)
-        }else {
-            badgeImageView.image = UIImage(named: data.user.badgeCategory + "\(data.user.badgeLevel)")
-        }
+        badgeImageView.image = UIImage(named: data.user.badgeCategory + "\(data.user.badgeLevel)")
         nicknameButton.setTitle(data.user.nickname, for: .normal)
         scrapButton.isSelected = data.isScrap
         shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + data.images[0]))
@@ -73,11 +69,7 @@ final class PostTableViewCell: UITableViewCell {
     }
     
     func scrapConfigCell(_ data: ScrapPost) {
-        if data.user.badgeCategory == "first" {
-            badgeImageView.image = UIImage(named: data.user.badgeCategory)
-        }else {
-            badgeImageView.image = UIImage(named: data.user.badgeCategory + "\(data.user.badgeLevel)")
-        }
+        badgeImageView.image = UIImage(named: data.user.badgeCategory + "\(data.user.badgeLevel)")
         nicknameButton.setTitle(data.user.nickname, for: .normal)
         scrapButton.isSelected = true
         shareImageView.kf.setImage(with: URL(string: "https://shareup-bucket.s3.ap-northeast-2.amazonaws.com/" + data.images[0])!)

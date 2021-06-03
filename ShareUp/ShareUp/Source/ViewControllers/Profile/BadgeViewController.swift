@@ -58,16 +58,8 @@ final class BadgeViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         output.loadBadgeData.asObservable().bind {[unowned self] data in
-            if data!.badgeCategory == "default" {
-                currentBadgeImageView.image = UIImage(named: "default0")
-                currentBadgeNameLabel.text = "첫 걸음"
-            }else if data!.badgeCategory == "first" {
-                currentBadgeImageView.image = UIImage(named: data!.badgeCategory)
-                currentBadgeNameLabel.text = "삐약삐약"
-            }else {
-                currentBadgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
-                currentBadgeNameLabel.text = Category(rawValue: data!.badgeCategory + "\(data!.badgeLevel)")?.toDescription()[0]
-            }
+            currentBadgeImageView.image = UIImage(named: data!.badgeCategory + "\(data!.badgeLevel)")
+            currentBadgeNameLabel.text = Category(rawValue: data!.badgeCategory + "\(data!.badgeLevel)")?.toDescription()[0]
             getCategory.accept(data!.badgeCategory)
         }.disposed(by: disposeBag)
         
