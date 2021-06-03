@@ -60,7 +60,7 @@ extension EditorDetailViewController: UIScrollViewDelegate {
         var eimageViewFrame = editorImageView.frame
         titleLabel.alpha = (240 - yPosition) / 200
         eimageViewFrame.origin.y = yPosition
-        titleLabel.frame.origin.y = yPosition + 169
+        titleLabel.frame.origin.y = yPosition 
         editorImageView.frame = eimageViewFrame
     }
 }

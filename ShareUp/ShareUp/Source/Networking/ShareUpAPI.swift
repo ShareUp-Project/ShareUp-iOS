@@ -9,6 +9,7 @@ import Foundation
 import Moya
 
 enum ShareUpAPI {
+    //Auth
     case signUp(_ phoneNum: String, _ nickname: String, _ password: String)
     case phoneCertify(_ phoneNum: String)
     case nicknameCheck(_ nickname: String)
@@ -18,6 +19,7 @@ enum ShareUpAPI {
     case certifyPassword(_ phoneNum: String)
     case autoLogin
     
+    //Post
     case getPosts(_ page: Int)
     case wirtePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String)
     case scrapPost(_ id: String)
@@ -26,15 +28,19 @@ enum ShareUpAPI {
     case removePost(_ id: String)
     case scrapDelete(_ id: String)
     case searchPosts(_ tags: String, _ page: Int)
-    
+    case weeklyPost
+
+    //Profile
     case getNickname(_ id: String?)
     case getCategorySearch(_ page: Int, _ category: String)
     case getUserPosts(_ id: String?, _ page: Int)
     case getBadgeList
     case postBadge(_ category: String, _ level: Int)
-    case getEditorPosts(_ page: Int)
     case changeNickname(_ name: String)
-    case weeklyPost
+    
+    //Editor
+    case getEditorPosts(_ page: Int)
+    
 }
 
 extension ShareUpAPI: TargetType {
@@ -106,10 +112,6 @@ extension ShareUpAPI: TargetType {
         }
     }
     
-    var sampleData: Data {
-        return Data()
-    }
-    
     var task: Task {
         switch self {
         case .signIn(let phoneNum, let password):
@@ -162,6 +164,10 @@ extension ShareUpAPI: TargetType {
             guard let token = TokenManager.currentToken?.accessToken else { return nil }
             return ["Authorization" : "Bearer " + token ]
         }
+    }
+    
+    var sampleData: Data {
+        return Data()
     }
 }
                                                                             

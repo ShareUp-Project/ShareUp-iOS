@@ -73,7 +73,6 @@ final class SignUpViewController: UIViewController {
     //MARK: Rx Action
     private func managerTrait() {
         securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
-        
     }
     
     private func updateCurrentStatus() {

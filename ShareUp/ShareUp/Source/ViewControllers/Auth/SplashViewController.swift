@@ -12,11 +12,9 @@ final class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TokenManager.removeToken()
-        UserDefaults.standard.removeObject(forKey: "isAutoLogin")
         navigationBarHidden()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         

@@ -38,11 +38,6 @@ final class CertifyViewController: UIViewController {
         managerTrait()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        countDown = 0
-    }
     
     //MARK: Bind
     private func bindViewModel() {

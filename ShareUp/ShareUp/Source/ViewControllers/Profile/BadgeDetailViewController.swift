@@ -37,16 +37,8 @@ final class BadgeDetailViewController: UIViewController {
             badgeAcheive[i] = (category + "\(i+1)")
         }
         
-        layout.numberOfVisibleItems = 3
-        badgeLevelCollectionView.collectionViewLayout = layout
-        badgeLevelCollectionView.isPagingEnabled = true
-        badgeLevelCollectionView.indicatorStyle = .white
-        
-        
-        layout.delegate = self
-        badgeLevelCollectionView.dataSource = self
-        badgeLevelCollectionView.delegate = self
         currentName.accept(category)
+        setupCollectionView()
         bindViewModel()
     }
     
@@ -60,6 +52,17 @@ final class BadgeDetailViewController: UIViewController {
         output.result.emit(onCompleted: {
             self.dismiss(animated: true, completion: nil)
         }).disposed(by: disposeBag)
+    }
+    
+    private func setupCollectionView() {
+        layout.numberOfVisibleItems = 3
+        badgeLevelCollectionView.collectionViewLayout = layout
+        badgeLevelCollectionView.isPagingEnabled = true
+        badgeLevelCollectionView.indicatorStyle = .white
+        
+        layout.delegate = self
+        badgeLevelCollectionView.dataSource = self
+        badgeLevelCollectionView.delegate = self
     }
 }
 

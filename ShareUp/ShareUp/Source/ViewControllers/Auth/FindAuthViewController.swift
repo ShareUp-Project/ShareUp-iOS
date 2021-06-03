@@ -84,7 +84,6 @@ final class FindAuthViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         numberTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in numberTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
-
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

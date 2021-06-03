@@ -34,17 +34,12 @@ final class PostViewController: UIViewController {
             if selectMultiImage.count != 0 { numOfPictureLabel.textColor = MainColor.primaryGreen }
         }
     }
-    
     lazy var postButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
         button.tintColor = MainColor.primaryGreen
         button.isEnabled = false
         return button
     }()
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
     
     //MARK: LifeCycle
     override func viewDidLoad() {
@@ -73,7 +68,8 @@ final class PostViewController: UIViewController {
                                         isCategory: categoryTraking.asDriver(onErrorJustReturn: ""))
         let output = viewModel.transform(input)
         
-        output.result.asObservable().subscribe(onNext: {[unowned self] data in
+        output.result.asObservable()
+            .subscribe(onNext: {[unowned self] data in
             if let response = data?.category {
                 print("badge")
                 view.endEditing(true)
@@ -87,9 +83,9 @@ final class PostViewController: UIViewController {
             }
         }).disposed(by: disposeBag)
         
-        output.stopIndicator.emit(onNext: { message in
-            self.loadingView.stopAnimating()
-            self.postButton.isEnabled = true
+        output.stopIndicator.emit(onNext: {[unowned self] message in
+            loadingView.stopAnimating()
+            postButton.isEnabled = true
         }).disposed(by: disposeBag)
         
         output.isEnable.drive(postButton.rx.isEnabled).disposed(by: disposeBag)

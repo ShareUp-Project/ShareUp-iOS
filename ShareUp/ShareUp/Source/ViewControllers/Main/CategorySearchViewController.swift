@@ -44,9 +44,11 @@ final class CategorySearchViewController: UIViewController {
         
         searchBar.placeholder = "검색"
         navigationItem.rightBarButtonItems = [cancelButton, UIBarButtonItem(customView: searchBar)]
+        
         weeklyBestTableView.separatorStyle = .none
-        navigationBackCustom()
         searchTableView.tableFooterView = UIView()
+
+        navigationBackCustom()
     }
     
     //MARK: Bind
@@ -61,19 +63,23 @@ final class CategorySearchViewController: UIViewController {
 
         output.isRecentlyOn.drive(recentlySearchView.rx.isHidden).disposed(by: disposeBag)
         
-        output.getCategoryPosts.asObservable().bind(to: searchTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
+        output.getCategoryPosts.asObservable()
+            .bind(to: searchTableView.rx.items(cellIdentifier: "mainCell", cellType: PostTableViewCell.self)) { row, data, cell in
             cell.configCell(data)
         }.disposed(by: disposeBag)
         
-        output.getWeeklyPosts.asObservable().bind(to: weeklyBestTableView.rx.items(cellIdentifier: "weeklyCell", cellType: WeeklyTableViewCell.self)) { row, data, cell in
+        output.getWeeklyPosts.asObservable()
+            .bind(to: weeklyBestTableView.rx.items(cellIdentifier: "weeklyCell", cellType: WeeklyTableViewCell.self)) { row, data, cell in
             cell.bestPostLabel.text = data.title
         }.disposed(by: disposeBag)
         
-        output.getCategoryPosts.asObservable().subscribe(onNext: { _ in
-            self.searchTableView.isHidden = false
+        output.getCategoryPosts.asObservable()
+            .subscribe(onNext: {[unowned self] _ in
+            searchTableView.isHidden = false
         }).disposed(by: disposeBag)
         
-        output.detailIndexPath.asObservable().subscribe(onNext: { [unowned self] detail in
+        output.detailIndexPath.asObservable()
+            .subscribe(onNext: { [unowned self] detail in
             guard let vc = storyboard?.instantiateViewController(identifier: "detail") as? DetailViewController else { return }
             vc.detailId = detail
             navigationController?.pushViewController(vc, animated: true)

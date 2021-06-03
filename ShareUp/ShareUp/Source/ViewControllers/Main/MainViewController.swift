@@ -107,10 +107,6 @@ final class MainViewController: UIViewController {
             vc.otherProfile.accept(profile)
             navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
-        
-        output.result.emit(onNext: { text in
-            print(text)
-        }).disposed(by: disposeBag)
     }
     
     //MARK: Rx Action
@@ -120,11 +116,7 @@ final class MainViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         mainTableView.rx.didScroll.subscribe(onNext: {[unowned self] _ in
-            if mainTableView.panGestureRecognizer.translation(in: mainTableView).y < 0 {
-                navigationController?.setNavigationBarHidden(true, animated: true)
-            } else {
-                navigationController?.setNavigationBarHidden(false, animated: true)
-            }
+            navigationController?.setNavigationBarHidden( mainTableView.panGestureRecognizer.translation(in: mainTableView).y < 0 ? true : false, animated: true)
         }).disposed(by: disposeBag)
     }
 

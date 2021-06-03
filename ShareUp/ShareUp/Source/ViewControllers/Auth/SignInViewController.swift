@@ -35,6 +35,11 @@ final class SignInViewController: UIViewController {
         managerTrait()
     }
     
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     //MARK: Bind
     private func bindViewModel() {
         let input = SignInViewModel.Input(setAutoLogin: setAutoLogin.asDriver(),
@@ -58,19 +63,22 @@ final class SignInViewController: UIViewController {
     
     //MARK: Rx Action
     private func managerTrait() {
-        securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus() }).disposed(by: disposeBag)
-        autoAuthButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle() }).disposed(by: disposeBag)
-        authTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in authTextField.checkPhoneCount(text)}).disposed(by: disposeBag)
+        securityOnOffButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.updateCurrentStatus()
+        }).disposed(by: disposeBag)
+        autoAuthButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle()
+        }).disposed(by: disposeBag)
+        authTextField.rx.text.orEmpty.subscribe(onNext: {[unowned self] text in authTextField.checkPhoneCount(text)
+        }).disposed(by: disposeBag)
         autoAuthButton.rx.tap.subscribe(onNext:{ [unowned self] in
             autoIsSelect.accept(autoAuthButton.isSelected)
         }).disposed(by: disposeBag)
         securityTextButton.rx.tap.subscribe(onNext: { [unowned self] in
             autoIsSelect.accept(autoAuthButton.isSelected)
         }).disposed(by: disposeBag)
-        securityTextButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle() }).disposed(by: disposeBag)
-
+        securityTextButton.rx.tap.asDriver{ _ in .never() }.drive(onNext: { [weak self] in self?.autoAuthButton.isSelected.toggle()
+        }).disposed(by: disposeBag)
     }
-    
+
     private func updateCurrentStatus() {
         passwordTextField.isSecureTextEntry.toggle()
         securityOnOffButton.setTitle(passwordTextField.isSecureTextEntry ? "보기" : "숨기기", for: .normal)
