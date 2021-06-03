@@ -26,17 +26,9 @@ final class BadgeLevelCollectionViewCell: UICollectionViewCell, ScaleTransformVi
         case "default":
             return ["default0"]
         case "first":
-            return ["first"]
+            return ["first0"]
         default:
             return [""]
-        }
-    }
-    
-    func setBadgeButtonEnable(_ isLock: String) -> Bool{
-        if isLock == "0" {
-            return false
-        }else{
-            return true
         }
     }
 }
