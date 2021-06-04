@@ -30,11 +30,10 @@ extension UIViewController {
         let backButton: UIBarButtonItem = UIBarButtonItem()
         backButton.title = "뒤로"
         backButton.tintColor = MainColor.primaryGreen
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.backgroundColor = color
-        navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
     }
     
     func navigationBarHidden() {
