@@ -15,6 +15,7 @@
 		EB0E7F56261AB328009C6589 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0E7F54261AB328009C6589 /* PostTableViewCell.swift */; };
 		EB0E7F57261AB328009C6589 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB0E7F55261AB328009C6589 /* PostTableViewCell.xib */; };
 		EB13A4C9263920CD00B906AF /* RecentlySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB13A4C8263920CD00B906AF /* RecentlySearch.swift */; };
+		EB14B477266F5DED0011AC3C /* ServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB14B476266F5DED0011AC3C /* ServiceType.swift */; };
 		EB18AD562615A81E00A60CF0 /* NewAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18AD552615A81E00A60CF0 /* NewAuthViewController.swift */; };
 		EB18AD592615A93E00A60CF0 /* NewAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB18AD582615A93E00A60CF0 /* NewAuthViewModel.swift */; };
 		EB23C03A26147E41005D5808 /* FindAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB23C03926147E41005D5808 /* FindAuthViewController.swift */; };
@@ -35,7 +36,6 @@
 		EB41BABF2637DDAC0034CB6C /* EditorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41BABE2637DDAC0034CB6C /* EditorTableViewCell.swift */; };
 		EB41BAC22637E9C50034CB6C /* CategorySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41BAC12637E9C50034CB6C /* CategorySearchViewController.swift */; };
 		EB41BAC62637EE630034CB6C /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB41BAC52637EE630034CB6C /* SearchViewModel.swift */; };
-		EB427E3C26622301009B15B1 /* ShareUpStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB427E3B26622301009B15B1 /* ShareUpStep.swift */; };
 		EB47D6EC262678A900EFA952 /* PickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB47D6EB262678A900EFA952 /* PickerCollectionViewCell.swift */; };
 		EB5227CB2611752C00B58D48 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5227CA2611752C00B58D48 /* Service.swift */; };
 		EB5227CF2611764900B58D48 /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5227CE2611764900B58D48 /* Tokens.swift */; };
@@ -101,6 +101,7 @@
 		EB0E7F54261AB328009C6589 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		EB0E7F55261AB328009C6589 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
 		EB13A4C8263920CD00B906AF /* RecentlySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlySearch.swift; sourceTree = "<group>"; };
+		EB14B476266F5DED0011AC3C /* ServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceType.swift; sourceTree = "<group>"; };
 		EB18AD552615A81E00A60CF0 /* NewAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAuthViewController.swift; sourceTree = "<group>"; };
 		EB18AD582615A93E00A60CF0 /* NewAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAuthViewModel.swift; sourceTree = "<group>"; };
 		EB23C03926147E41005D5808 /* FindAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAuthViewController.swift; sourceTree = "<group>"; };
@@ -121,7 +122,6 @@
 		EB41BABE2637DDAC0034CB6C /* EditorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTableViewCell.swift; sourceTree = "<group>"; };
 		EB41BAC12637E9C50034CB6C /* CategorySearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySearchViewController.swift; sourceTree = "<group>"; };
 		EB41BAC52637EE630034CB6C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
-		EB427E3B26622301009B15B1 /* ShareUpStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareUpStep.swift; sourceTree = "<group>"; };
 		EB47D6EB262678A900EFA952 /* PickerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB5227CA2611752C00B58D48 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		EB5227CE2611764900B58D48 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
@@ -249,14 +249,6 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
-		EB427E3A266222F0009B15B1 /* Flows */ = {
-			isa = PBXGroup;
-			children = (
-				EB427E3B26622301009B15B1 /* ShareUpStep.swift */,
-			);
-			path = Flows;
-			sourceTree = "<group>";
-		};
 		EB4C75F72651F4A800D841A2 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,7 +325,6 @@
 		EBDA2BC5260AFFC20093D3AE /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				EB427E3A266222F0009B15B1 /* Flows */,
 				EBC014092613FE44003F3930 /* Manager */,
 				EBA8F8B3260B0A160032A53D /* Util */,
 				EBDA2BCE260B007C0093D3AE /* ViewModels */,
@@ -430,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				EB5227CA2611752C00B58D48 /* Service.swift */,
+				EB14B476266F5DED0011AC3C /* ServiceType.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -595,7 +587,6 @@
 				EB6D0861262FECC600792C72 /* TabBarViewController.swift in Sources */,
 				EBC0140F2613FE84003F3930 /* TokenManager.swift in Sources */,
 				EB2A2070265A23A600D7780A /* Badge.swift in Sources */,
-				EB427E3C26622301009B15B1 /* ShareUpStep.swift in Sources */,
 				EB062A8D2615FAFF0040B4C0 /* FindAuthViewModel.swift in Sources */,
 				EBF3603A263FE68F00A48F9D /* EditorViewController.swift in Sources */,
 				EBB23F2C26538B8500A7E9E1 /* BadgeLevelCollectionViewCell.swift in Sources */,
@@ -642,6 +633,7 @@
 				EB93B5EA260FCCB300F1C86D /* CertifyViewController.swift in Sources */,
 				EB23C0402614ADDA005D5808 /* SplashViewController.swift in Sources */,
 				EB5227D226117BE100B58D48 /* CertifyViewModel.swift in Sources */,
+				EB14B477266F5DED0011AC3C /* ServiceType.swift in Sources */,
 				EBDA2BB0260AFF750093D3AE /* AppDelegate.swift in Sources */,
 				EBC014192614643E003F3930 /* SignUpViewController.swift in Sources */,
 				EBA8F8B5260B0A200032A53D /* Color.swift in Sources */,
@@ -804,16 +796,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43892VQKJ3;
+				DEVELOPMENT_TEAM = MP3B7M7JB3;
 				INFOPLIST_FILE = "ShareUp/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.develop.ShareUp;
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.develop.ShareUpiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -824,16 +817,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 43892VQKJ3;
+				DEVELOPMENT_TEAM = MP3B7M7JB3;
 				INFOPLIST_FILE = "ShareUp/Supporting File/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.develop.ShareUp;
+				MARKETING_VERSION = 1.0.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.develop.ShareUpiOS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

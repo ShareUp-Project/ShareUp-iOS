@@ -8,8 +8,8 @@
 import Foundation
 
 enum Category: String {
-    case defaultBadge = "default"
-    case first = "first0"
+    case default0 = "default"
+    case first = "first"
     case paper1 = "paper1"
     case paper2 = "paper2"
     case paper3 = "paper3"
@@ -36,7 +36,7 @@ enum Category: String {
 extension Category {
     func toDescription() -> [String] {
         switch self {
-        case .defaultBadge:
+        case .default0:
             return ["첫 걸음", "업사이클에 관심을 갖고 쉐어업 서비스를 이용해주셔서 감사드립니다!", " "]
         case .first:
             return ["삐약 삐약", "시작이 반이라고들 하죠. 당신의 첫 번째 업사이클을 축하드립니다!", "(첫 게시물 작성 시 달성)"]
