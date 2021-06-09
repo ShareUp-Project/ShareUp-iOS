@@ -34,7 +34,7 @@ final class SignUpViewModel: ViewModelType {
         
         input.doneTap.asObservable()
             .withLatestFrom(input.nickname)
-            .flatMap { nickname in api.nicknameCheck(nickname)}
+            .flatMap { nickname in api.nicknameCertify(nickname: nickname)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {
@@ -49,7 +49,7 @@ final class SignUpViewModel: ViewModelType {
             
         input.doneTap.asObservable()
             .withLatestFrom(info)
-            .flatMap { phone, nickname, password in api.signUp(phone, nickname: nickname, password: password)}
+            .flatMap { phone, nickname, password in api.signUp(phone, nickname, nickname: password)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {

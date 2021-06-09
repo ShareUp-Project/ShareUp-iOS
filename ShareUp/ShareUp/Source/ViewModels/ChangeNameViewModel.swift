@@ -29,7 +29,7 @@ final class ChangeNameViewModel: ViewModelType {
         
         input.doneTap.asObservable()
             .withLatestFrom(input.nickname)
-            .flatMap { name in api.changeNickname(name)}
+            .flatMap { name in api.changeNickname(name: name)}
             .subscribe(onNext: { response in
                 switch response {
                 case .ok:

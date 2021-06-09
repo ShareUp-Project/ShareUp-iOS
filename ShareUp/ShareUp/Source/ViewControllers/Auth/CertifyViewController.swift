@@ -38,6 +38,11 @@ final class CertifyViewController: UIViewController {
         managerTrait()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+    }
     
     //MARK: Bind
     private func bindViewModel() {

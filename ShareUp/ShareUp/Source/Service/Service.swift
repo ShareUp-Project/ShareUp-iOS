@@ -10,11 +10,11 @@ import RxSwift
 import RxCocoa
 import Moya
 
-final class Service {
-    
+final class Service: ServiceType {
+
     let provider = MoyaProvider<ShareUpAPI>()
     
-    func signIn(_ phone: String,_ password: String) -> Observable<(StatusRules)> {
+    func signIn(_ phone: String,_ password: String) -> ReturnState {
         return provider.rx.request(.signIn(phone, password))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -25,7 +25,7 @@ final class Service {
             }.catchError { [unowned self] in return .just(setNetworkError($0)) }
     }
     
-    func signUp(_ phone: String, nickname: String, password: String) -> Observable<(StatusRules)> {
+    func signUp(_ phone: String, _ nickname: String, nickname password: String) -> ReturnState {
         return provider.rx.request(.signUp(phone, nickname, password))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -33,7 +33,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func phoneCertify(_ phone: String) -> Observable<(StatusRules)> {
+    func phoneCertify(phone: String) -> ReturnState {
         return provider.rx.request(.phoneCertify(phone))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -41,7 +41,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func nicknameCheck(_ nickname: String) -> Observable<(StatusRules)> {
+    func nicknameCertify(nickname: String) -> ReturnState {
         return provider.rx.request(.nicknameCheck(nickname))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -49,7 +49,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func passwordReset(_ phone: String, _ password: String) -> Observable<(StatusRules)> {
+    func passwordReset(_ phone: String, _ password: String) -> ReturnState {
         return provider.rx.request(.passwordReset(phone, password))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -57,7 +57,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func checkCode(phone: String, _ code: String) -> Observable<(StatusRules)> {
+    func checkCode(_ phone: String, code: String) -> ReturnState {
         return provider.rx.request(.checkCode(phone, code))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -65,7 +65,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func certifyPassword(_ phone: String) -> Observable<(StatusRules)> {
+    func passwordCertify(phone: String) -> ReturnState {
         return provider.rx.request(.certifyPassword(phone))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -73,7 +73,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func autoLogin() -> Observable<(StatusRules)> {
+    func autoLogin() -> ReturnState {
         return provider.rx.request(.autoLogin)
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -86,8 +86,7 @@ final class Service {
             }
     }
     
-    func writePost(_ content: String, _ category: String, _ tags: [String], _ images: [Data], _ title: String) -> Observable<(WritePost?, StatusRules)> {
-        print(category)
+    func writePost(_ title: String, _ content: String, _ category: String, _ tags: [String], _ images: [Data]) -> WriteResult {
         return provider.rx.request(.wirtePost(content, category, tags, images, title))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -100,7 +99,7 @@ final class Service {
             }
     }
     
-    func scrapPost(_ id: String) -> Observable<(StatusRules)> {
+    func scrapPost(id: String) -> ReturnState {
         return provider.rx.request(.scrapPost(id))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -108,7 +107,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func scrapDelete(_ id: String) -> Observable<(StatusRules)> {
+    func scrapDelete(id: String) -> ReturnState {
         return provider.rx.request(.scrapDelete(id))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -116,7 +115,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func removePost(_ id: String) -> Observable<(StatusRules)> {
+    func removePost(id: String) -> ReturnState {
         return provider.rx.request(.removePost(id))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -124,7 +123,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func getPosts(_ page: Int) -> Observable<(Posts?, StatusRules)> {
+    func getPosts(_ page: Int) -> PostResult {
         return provider.rx.request(.getPosts(page))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -137,7 +136,7 @@ final class Service {
             }
     }
     
-    func getScrapPosts(_ page: Int) -> Observable<(Scrap?, StatusRules)> {
+    func getScrapPosts(_ page: Int) -> ScrapResult {
         return provider.rx.request(.getScrapPost(page))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -148,7 +147,7 @@ final class Service {
                 return .just((nil, .fail))}
     }
     
-    func detailPost(_ id: String) -> Observable<(Detail?, StatusRules)> {
+    func detailPost(id: String) -> DetailResult {
         return provider.rx.request(.detailPost(id))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -160,7 +159,7 @@ final class Service {
             }
     }
     
-    func searchPosts(_ tags: String, _ page: Int) -> Observable<(Posts?, StatusRules)> {
+    func searchPosts(tags: String, _ page: Int) -> PostResult {
         return provider.rx.request(.searchPosts(tags, page))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -172,7 +171,7 @@ final class Service {
             }
     }
     
-    func getNickname(_ id: String?) -> Observable<(Nickname?, StatusRules)> {
+    func getNickname(id: String?) -> NicknameResult {
         return provider.rx.request(.getNickname(id ?? ""))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -184,7 +183,7 @@ final class Service {
             }
     }
     
-    func getUserPosts(_ id: String, _ page: Int) -> Observable<(Posts?, StatusRules)> {
+    func getUserPosts(id: String, _ page: Int) -> PostResult {
         return provider.rx.request(.getUserPosts(id, page))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -196,7 +195,7 @@ final class Service {
             }
     }
     
-    func getCategorySearch(_ page: Int, _ category: String) -> Observable<(Posts?, StatusRules)> {
+    func getCategorySearch(category: String, _ page: Int) -> PostResult {
         return provider.rx.request(.getCategorySearch(page, category))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -208,7 +207,7 @@ final class Service {
             }
     }
     
-    func getEditorPosts(_ page: Int) -> Observable<(Editor?, StatusRules)> {
+    func getEditorPosts(_ page: Int) -> EditorResult {
         return provider.rx.request(.getEditorPosts(page))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -220,7 +219,7 @@ final class Service {
             }
     }
     
-    func changeNickname(_ name: String) -> Observable<(StatusRules)> {
+    func changeNickname(name: String) -> ReturnState {
         return provider.rx.request(.changeNickname(name))
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -228,7 +227,7 @@ final class Service {
             .catchError { [unowned self] in return .just(setNetworkError($0))}
     }
     
-    func weeklyPost() -> Observable<(WeeklyPost?, StatusRules)> {
+    func weeklyPosts() -> WeeklyResult {
         return provider.rx.request(.weeklyPost)
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -239,7 +238,7 @@ final class Service {
             }
     }
     
-    func getBadgeList() -> Observable<(Badge?, StatusRules)> {
+    func getBadgeList() -> BadgeResult {
         return provider.rx.request(.getBadgeList)
             .filterSuccessfulStatusCodes()
             .asObservable()
@@ -250,7 +249,7 @@ final class Service {
             }
     }
     
-    func postBadge(_ category: String, _ level: Int) -> Observable<StatusRules> {
+    func postBadge(category: String, level: Int) -> ReturnState {
         return provider.rx.request(.postBadge(category, level))
             .filterSuccessfulStatusCodes()
             .asObservable()

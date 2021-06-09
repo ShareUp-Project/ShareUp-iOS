@@ -48,7 +48,7 @@ final class SearchViewModel: ViewModelType {
                 UserDefaults.standard.set(newSearches, forKey: "recentSearches")
                 UserDefaults.standard.synchronize()
                 
-                api.searchPosts(word!, 0).subscribe(onNext: {data, response in
+                api.searchPosts(tags: word!, 0).subscribe(onNext: {data, response in
                     switch response {
                     case .ok:
                         getCategoryPosts.accept(data!.data)
@@ -59,7 +59,7 @@ final class SearchViewModel: ViewModelType {
             }).disposed(by: disposeBag)
         
         input.loadWeeklyPost.asObservable()
-            .flatMap { _ in api.weeklyPost()}
+            .flatMap { _ in api.weeklyPosts()}
             .subscribe(onNext: { data, response in
                 switch response{
                 case .ok:
@@ -70,7 +70,7 @@ final class SearchViewModel: ViewModelType {
             }).disposed(by: disposeBag)
         
         input.searchCategory.asObservable()
-            .flatMap { category in api.getCategorySearch(0, category)}
+            .flatMap { category in api.getCategorySearch(category: category, 0)}
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {

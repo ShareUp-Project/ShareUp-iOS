@@ -83,7 +83,7 @@ final class MainViewModel: ViewModelType {
             guard let self = self else { return }
             let postId = data[row].id
             if !data[row].isScrap {
-                api.scrapPost(postId).subscribe(onNext: { response in
+                api.scrapPost(id: postId).subscribe(onNext: { response in
                     switch response {
                      case .ok:
                         scrapResult.accept(())
@@ -94,7 +94,7 @@ final class MainViewModel: ViewModelType {
                     }
                 }).disposed(by: self.disposeBag)
             } else {
-                api.scrapDelete(postId).subscribe(onNext: { response in
+                api.scrapDelete(id: postId).subscribe(onNext: { response in
                     switch response {
                     case .ok:
                         scrapResult.accept(())

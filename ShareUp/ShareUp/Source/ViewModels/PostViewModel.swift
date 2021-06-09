@@ -39,7 +39,7 @@ final class PostViewModel: ViewModelType {
         input.postTap.asObservable()
             .withLatestFrom(info)
             .flatMap { images, category, title, content, hashtag in
-                api.writePost(content, category, hashtag, images, title)}
+                api.writePost(title, content, category, hashtag, images)}
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {

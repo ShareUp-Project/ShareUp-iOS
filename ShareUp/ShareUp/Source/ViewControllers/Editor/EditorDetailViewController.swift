@@ -45,10 +45,8 @@ final class EditorDetailViewController: UIViewController {
 
     private func addGradientMask(targetView: UIView, _ alpha: Double){
         let gradientMask = CAGradientLayer()
-
         gradientMask.frame = targetView.bounds
         gradientMask.colors = [UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0 / 255.0, alpha: 0.0).cgColor, UIColor(red: 0.0 / 255.0, green: 0.0 / 255.0, blue: 0 / 255.0, alpha: CGFloat(alpha)).cgColor]
-        
         gradientMask.locations = [0.0, 1.0]
         targetView.layer.insertSublayer(gradientMask, at: 0)
     }
@@ -60,7 +58,7 @@ extension EditorDetailViewController: UIScrollViewDelegate {
         var eimageViewFrame = editorImageView.frame
         titleLabel.alpha = (240 - yPosition) / 200
         eimageViewFrame.origin.y = yPosition
-        titleLabel.frame.origin.y = yPosition 
+        titleLabel.frame.origin.y = yPosition + 169
         editorImageView.frame = eimageViewFrame
     }
 }

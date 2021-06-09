@@ -54,7 +54,7 @@ final class BadgeListViewModel: ViewModelType {
                     getBadgeList.accept([])
                 }
                 
-                api.getNickname("").subscribe(onNext: { data, response in
+                api.getNickname(id: "").subscribe(onNext: { data, response in
                     switch response {
                     case .ok:
                         getMyBadge.accept(data)

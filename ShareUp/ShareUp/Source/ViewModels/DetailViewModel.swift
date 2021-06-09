@@ -35,7 +35,7 @@ final class DetailViewModel: ViewModelType {
         let profileIndexPath = PublishSubject<String>()
 
         input.getDetail.asObservable()
-            .flatMap { api.detailPost(input.detailPostId) }
+            .flatMap { api.detailPost(id: input.detailPostId) }
             .subscribe(onNext: { data, response in
                 switch response {
                 case .ok:
@@ -49,7 +49,7 @@ final class DetailViewModel: ViewModelType {
             guard let self = self else { return }
             let postId = data?.id
             if !data!.isScrap {
-                api.scrapPost(postId!).subscribe(onNext: { response in
+                api.scrapPost(id: postId!).subscribe(onNext: { response in
                     switch response {
                     case .ok:
                         scrapResult.accept(())
@@ -60,7 +60,7 @@ final class DetailViewModel: ViewModelType {
                     }
                 }).disposed(by: self.disposeBag)
             } else {
-                api.scrapDelete(postId!).subscribe(onNext: { response in
+                api.scrapDelete(id: postId!).subscribe(onNext: { response in
                     switch response {
                     case .ok:
                         scrapResult.accept(())
@@ -72,7 +72,7 @@ final class DetailViewModel: ViewModelType {
         }).disposed(by: disposeBag)
         
         input.deletePost.asObservable()
-            .flatMap { _ in api.removePost(input.detailPostId)}
+            .flatMap { _ in api.removePost(id: input.detailPostId)}
             .subscribe(onNext: { response in
                 switch response {
                 case .ok:

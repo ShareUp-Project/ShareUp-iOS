@@ -39,7 +39,7 @@ final class ProfileViewModel: ViewModelType {
         
         input.loadProfile.asObservable()
             .withLatestFrom(input.otherProfileId)
-            .flatMap { id in api.getNickname(id) }
+            .flatMap { id in api.getNickname(id: id) }
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -52,7 +52,7 @@ final class ProfileViewModel: ViewModelType {
         
         input.loadProfile.asObservable()
             .withLatestFrom(input.otherProfileId)
-            .flatMap { id in api.getUserPosts(id, 0)}
+            .flatMap { id in api.getUserPosts(id: id, 0)}
             .subscribe(onNext: { data, response in
                 switch response {
                 case .ok:
@@ -65,7 +65,7 @@ final class ProfileViewModel: ViewModelType {
         input.loadMoreProfile.asObservable()
             .map { pagination += 1}
             .withLatestFrom(input.otherProfileId)
-            .flatMap { id in api.getUserPosts(id, pagination)}
+            .flatMap { id in api.getUserPosts(id: id, pagination)}
             .subscribe(onNext: { data, response in
                 print(response)
                 switch response {
@@ -90,7 +90,7 @@ final class ProfileViewModel: ViewModelType {
                 guard let self = self else { return }
                 let postId = data[row].id
                 if !data[row].isScrap {
-                    api.scrapPost(postId).subscribe(onNext: { response in
+                    api.scrapPost(id: postId).subscribe(onNext: { response in
                         switch response {
                          case .ok:
                             scrapResult.accept(())
@@ -101,7 +101,7 @@ final class ProfileViewModel: ViewModelType {
                         }
                     }).disposed(by: self.disposeBag)
                 } else {
-                    api.scrapDelete(postId).subscribe(onNext: { response in
+                    api.scrapDelete(id: postId).subscribe(onNext: { response in
                         switch response {
                         case .ok:
                             scrapResult.accept(())

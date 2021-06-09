@@ -32,7 +32,7 @@ final class FindAuthViewModel: ViewModelType {
         
         input.phoneRequest.asObservable()
             .withLatestFrom(input.phoneNum)
-            .flatMap { phone in api.certifyPassword(phone)}
+            .flatMap { phone in api.passwordCertify(phone: phone)}
             .subscribe(onNext: { response in
                 switch response {
                 case .ok:
@@ -46,7 +46,7 @@ final class FindAuthViewModel: ViewModelType {
         
         input.certifyButton.asObservable()
             .withLatestFrom(info)
-            .flatMap { code, phone in api.checkCode(phone: phone, code)}
+            .flatMap { code, phone in api.checkCode(phone, code: code)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {

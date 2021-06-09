@@ -67,7 +67,6 @@ final class SignUpViewController: UIViewController {
         }).disposed(by: disposeBag)
         
         output.errorIsHidden.drive(errorLabel.rx.isHidden).disposed(by: disposeBag)
-        
     }
     
     //MARK: Rx Action

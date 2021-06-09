@@ -35,9 +35,12 @@ final class SignInViewController: UIViewController {
         managerTrait()
     }
     
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        if #available(iOS 13, *) {
+            return .darkContent
+        } else {
+            return .lightContent
+        }
     }
     
     //MARK: Bind

@@ -32,7 +32,7 @@ final class CertifyViewModel: ViewModelType {
 
         input.phoneRequest.asObservable()
             .withLatestFrom(input.phoneNum)
-            .flatMap { phone in api.phoneCertify(phone)}
+            .flatMap { phone in api.phoneCertify(phone: phone)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {
@@ -47,7 +47,7 @@ final class CertifyViewModel: ViewModelType {
 
         input.certifyButton.asObservable()
             .withLatestFrom(info)
-            .flatMap { code, phone in api.checkCode(phone: phone, code)}
+            .flatMap { code, phone in api.checkCode(phone, code: code)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {

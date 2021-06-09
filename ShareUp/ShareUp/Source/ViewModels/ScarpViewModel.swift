@@ -71,7 +71,7 @@ final class ScarpViewModel: ViewModelType {
         
         input.deleteScarp.asObservable()
             .withLatestFrom(scrapInfo)
-            .flatMap { row, data in api.scrapDelete(data[row].id)}
+            .flatMap { row, data in api.scrapDelete(id: data[row].id)}
             .subscribe(onNext: { response in
                 print(response)
                 switch response {
